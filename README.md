@@ -46,7 +46,37 @@ Sem conexão, credenciais ou objetos corretos, a aplicação pode falhar na inic
 
 ### Login institucional
 
-Configure também `SADGEO_LDAP_URL` (por exemplo, `ldaps://SERVIDOR_AD:636`) e `SADGEO_LDAP_DOMAIN` com os dados fornecidos pela instituição. O JDK precisa confiar no certificado do AD; use o truststore institucional, sem desabilitar TLS. O login faz bind do próprio usuário por Spring Security, sem credenciais fixas. Sem configuração, o formulário fica desabilitado e o backend recusa o login. A integração ainda precisa ser validada com o AD real.
+Toda a conexão AD/LDAPS é configurada por variáveis de ambiente, assim como o Oracle:
+
+| ENVVAR | Uso | Padrão |
+|---|---|---|
+| `SADGEO_LDAP_HOST` | Servidor/FQDN, sem protocolo ou porta | vazio |
+| `SADGEO_LDAP_PORT` | Porta LDAPS | `636` |
+| `SADGEO_LDAP_DOMAIN` | Domínio AD/UPN, por exemplo `example.org` | vazio |
+| `SADGEO_LDAP_BASE_DN` | Base de busca, por exemplo `DC=example,DC=org` | derivada do domínio quando vazia |
+| `SADGEO_LDAP_CONNECT_TIMEOUT_MS` | Timeout de conexão, em milissegundos | `5000` |
+| `SADGEO_LDAP_READ_TIMEOUT_MS` | Timeout de leitura, em milissegundos | `10000` |
+| `SADGEO_LDAP_URL` | Override opcional `ldaps://servidor:porta`, compatível com a configuração anterior | vazio |
+
+```sh
+export SADGEO_LDAP_HOST='ad.example.org'
+export SADGEO_LDAP_PORT='636'
+export SADGEO_LDAP_DOMAIN='example.org'
+export SADGEO_LDAP_BASE_DN='DC=example,DC=org'
+export SADGEO_LDAP_CONNECT_TIMEOUT_MS='5000'
+export SADGEO_LDAP_READ_TIMEOUT_MS='10000'
+# Deixe SADGEO_LDAP_URL sem valor para usar HOST + PORT:
+unset SADGEO_LDAP_URL
+java -jar target/sadgeo-0.1.0.jar --spring.profiles.active=prod
+```
+
+No Eclipse: **Run Configurations → Environment**. No VS Code: seção `env`/`envFile` da configuração de execução Java. No OpenShift: variáveis do deployment/ConfigMap; credenciais Oracle devem ficar em Secret. `sadgeoweb/.env.example` lista as variáveis, mas o Spring Boot não carrega `.env` automaticamente; configure a IDE ou exporte-as antes de iniciar.
+
+`SADGEO_LDAP_DOMAIN` é o domínio do usuário AD, não o endereço de um servidor DNS. O hostname é resolvido pelo DNS do sistema operacional/cluster; se ele não resolver, ajuste a configuração de rede/DNS da máquina ou do pod. A aplicação não altera o resolver do host. Use um FQDN compatível com o certificado TLS do AD.
+
+`SADGEO_LDAP_URL`, quando preenchida, tem prioridade sobre HOST/PORT. Apenas `ldaps://` é aceito; não inclua usuário, senha ou Base DN na URL. Configuração parcial, porta inválida ou timeouts não positivos geram erro claro na inicialização. Sem nenhuma configuração, o formulário fica desabilitado e o backend recusa o login.
+
+O JDK precisa confiar no certificado do AD. É possível selecionar o truststore institucional pela ENVVAR padrão da JVM `JAVA_TOOL_OPTIONS`, por exemplo `-Djavax.net.ssl.trustStore=/caminho/truststore.p12 -Djavax.net.ssl.trustStoreType=PKCS12`. Não desabilite TLS nem validação de hostname. O bind usa o usuário e a senha digitados no login; não há credenciais fixas de administrador. A conexão com AD real ainda precisa ser validada na instituição.
 
 Consultas exigem sessão no servidor. O cliente obtém CSRF em `GET /api/auth/csrf`, envia credenciais por `POST /api/auth/login` (formulário URL-encoded), consulta `GET /api/auth/me` e encerra em `POST /api/auth/logout`. Respostas são JSON; logout retorna 204. A entrada `POST /api/auth/demo` só funciona no perfil demo. Senhas e tokens não são salvos em localStorage. Use HTTPS em produção. A autorização por módulo ainda não foi implementada; usuários autenticados têm acesso de consulta.
 
@@ -140,3 +170,9 @@ sadgeoweb/
   src/test/                       Testes de integração HTTP
   pom.xml                         Build integrado React + Java
 ```
+
+## Validação Oracle Spatial: coluna GEOM
+
+O driver Oracle pode informar `SDO_GEOMETRY` com tipo JDBC `STRUCT`, enquanto o Hibernate Spatial usa o código interno `GEOMETRY`. O campo JTS `Point` permanece espacial; a declaração `columnDefinition = "SDO_GEOMETRY"` usa o mesmo nome não qualificado retornado pelo driver. Isso permite a comparação de tipos do Hibernate sem desativar `ddl-auto=validate`, sem converter a coluna para texto e sem alterar o banco.
+
+Um teste de regressão executa a rotina real de comparação de tipos do Hibernate com esse metadado e também rejeita uma coluna `VARCHAR2`. Isso valida o cenário informado, mas não substitui a inicialização contra o Oracle real. Após atualizar, execute novamente com as ENVVARs Oracle; se outra coluna apresentar divergência, preserve o diagnóstico completo.

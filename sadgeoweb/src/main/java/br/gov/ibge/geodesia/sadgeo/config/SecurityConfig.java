@@ -1,7 +1,8 @@
 package br.gov.ibge.geodesia.sadgeo.config;
 
 import org.springframework.context.annotation.*;
-import org.springframework.core.env.Environment;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import java.util.Map;
 import org.springframework.security.authentication.*;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,14 +11,20 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
+@EnableConfigurationProperties(LdapProperties.class)
 public class SecurityConfig {
     @Bean
-    AuthenticationManager authenticationManager(Environment env) {
-        String domain = env.getProperty("sadgeo.auth.ldap-domain", "");
-        String url = env.getProperty("sadgeo.auth.ldap-url", "");
-        if (!domain.isBlank() && url.startsWith("ldaps://")) {
-            var provider = new ActiveDirectoryLdapAuthenticationProvider(domain, url);
+    AuthenticationManager authenticationManager(LdapProperties settings) {
+        settings.validate();
+        if (settings.isConfigured()) {
+            var provider = new ActiveDirectoryLdapAuthenticationProvider(
+                settings.getDomain(), settings.effectiveUrl(),
+                settings.getBaseDn().isBlank() ? null : settings.getBaseDn());
             provider.setConvertSubErrorCodesToExceptions(true);
+            provider.setContextEnvironmentProperties(Map.of(
+                "com.sun.jndi.ldap.connect.timeout", String.valueOf(settings.getConnectTimeoutMs()),
+                "com.sun.jndi.ldap.read.timeout", String.valueOf(settings.getReadTimeoutMs()),
+                "java.naming.referral", "ignore"));
             return new ProviderManager(provider);
         }
         return authentication -> { throw new AuthenticationServiceException("Autenticação institucional não configurada"); };

@@ -276,6 +276,8 @@ public class ItemEstacaoCampanhaEntity {
     @Column(name = "ETAPA_PTA", length = 8)
     private String etapaPta;
     
-    @Column(name = "GEOM", columnDefinition = "MDSYS.SDO_GEOMETRY")
+    // Oracle JDBC reports the unqualified UDT name in DatabaseMetaData.
+    // Keep Hibernate Spatial/JTS binding; match that name during schema validation.
+    @Column(name = "GEOM", columnDefinition = "SDO_GEOMETRY")
     private Point geometria;
 }
