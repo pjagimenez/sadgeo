@@ -1,6 +1,6 @@
 # SADGEO — versão 0.1.0
 
-Dashboard React + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. Java 17 ou 21, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
+Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. Java 17 ou 21, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
 
 ## 1. Executar sem Oracle (demonstração)
 
@@ -12,13 +12,16 @@ mvn clean verify
 java -jar target/sadgeo-0.1.0.jar --spring.profiles.active=demo
 ```
 
-O Maven executa `npm ci`, compila o React e copia o resultado para o JAR. Abra o endereço da aplicação na porta **8080** em sua máquina. O perfil `demo` não conecta ao banco e exibe um aviso permanente de **dados fictícios**. Não use esse perfil para conferir indicadores reais.
+O Maven executa `npm ci`, compila o React e copia o resultado para o JAR. Abra o endereço da aplicação na porta **8080** em sua máquina. O perfil `demo` não conecta ao banco e exibe um aviso permanente de **dados fictícios**. Não use esse perfil para conferir indicadores reais. Na página de login, clique em **Entrar na demonstração**; não informe credenciais.
+
+O portal incorpora o layout de `sadgeo-react-web.7z`: login pêssego/violeta, cabeçalho, menu lateral, ajuda, tema/projeto, rodapé e grade Material UI com seleção e detalhes. Rotas: `/login`, `/index` e `/registros`. O tema filtra os registros; o dashboard apresenta os totais gerais. A grade consulta os fatos analíticos, não edita estações.
 
 Verificação por terminal:
 
 ```sh
 curl --fail http://127.0.0.1:8080/api/dashboard/config
-curl --fail http://127.0.0.1:8080/api/dashboard/resumo
+# Sem sessão, esta consulta retorna HTTP 401:
+curl -i http://127.0.0.1:8080/api/dashboard/resumo
 curl --fail http://127.0.0.1:8080/actuator/health
 ```
 
@@ -40,6 +43,12 @@ No PowerShell, use `$env:SADGEO_DB_URL = '...'` e defina as demais variáveis pe
 É necessário alcançar o Oracle pela rede e ter permissão de leitura nas tabelas/views já mapeadas em `dominio`. O Hibernate usa `ddl-auto=validate`: **não cria nem migra o banco**. Os mapeamentos existentes fixam o schema `BDG_VALIDA`; mudar apenas `SADGEO_DB_SCHEMA` não remapeia entidades que declaram esse schema explicitamente.
 
 Sem conexão, credenciais ou objetos corretos, a aplicação pode falhar na inicialização. Nenhum erro do Oracle ativa dados demonstrativos automaticamente.
+
+### Login institucional
+
+Configure também `SADGEO_LDAP_URL` (por exemplo, `ldaps://SERVIDOR_AD:636`) e `SADGEO_LDAP_DOMAIN` com os dados fornecidos pela instituição. O JDK precisa confiar no certificado do AD; use o truststore institucional, sem desabilitar TLS. O login faz bind do próprio usuário por Spring Security, sem credenciais fixas. Sem configuração, o formulário fica desabilitado e o backend recusa o login. A integração ainda precisa ser validada com o AD real.
+
+Consultas exigem sessão no servidor. O cliente obtém CSRF em `GET /api/auth/csrf`, envia credenciais por `POST /api/auth/login` (formulário URL-encoded), consulta `GET /api/auth/me` e encerra em `POST /api/auth/logout`. Respostas são JSON; logout retorna 204. A entrada `POST /api/auth/demo` só funciona no perfil demo. Senhas e tokens não são salvos em localStorage. Use HTTPS em produção. A autorização por módulo ainda não foi implementada; usuários autenticados têm acesso de consulta.
 
 ## 3. Desenvolver com atualização automática do React
 
@@ -77,7 +86,7 @@ Em `sadgeoweb`:
 mvn clean verify
 ```
 
-Os testes Java usam `demo` e não exigem Oracle. Eles verificam contratos JSON e restrição de escrita. Os testes React verificam carregamento, erro/repetição, busca e paginação. A validação com Oracle real deve ser feita no ambiente da instituição; os testes demonstrativos não a substituem.
+Os testes Java usam fixtures ou mocks, sem Oracle/AD. Verificam contratos JSON, proteção de consultas, sessão, CSRF, logout, rotas SPA e bloqueio de demo fora desse perfil. Os testes React verificam login, configuração ausente, carregamento, erro/repetição, busca e paginação. A validação com Oracle real deve ser feita no ambiente da instituição; os testes demonstrativos não a substituem.
 
 ## 5. Implantar no OpenShift
 
@@ -92,11 +101,12 @@ oc start-build sadgeo --from-dir=target/ocp --follow
 
 Isso pressupõe um BuildConfig `sadgeo` existente, login no cluster e acesso à imagem interna Java 17. Configure `SADGEO_DB_*` por Secret/configuração do deployment. O processo é `java -jar /deployments/app.jar`, porta 8080. Processos locais de desenvolvimento não são necessários em produção.
 
-**A versão 0.1 é uma base interna de leitura e ainda não possui autenticação institucional.** Os endpoints de dashboard estão acessíveis sem login; as demais rotas e escritas estão bloqueadas, com CSRF preservado. Restrinja o acesso ao ambiente até implementar autenticação e autorização. Credenciais presentes no histórico antigo do Git devem ser rotacionadas pelos responsáveis.
+**A versão 0.1 é uma base interna de leitura.** Consultas exigem sessão e CSRF permanece ativo. O login LDAPS depende da configuração e validação institucional; a autorização detalhada por módulo precisa ser definida antes de ampliar o acesso. Credenciais presentes no histórico antigo do Git devem ser rotacionadas pelos responsáveis.
 
 ## Escopo da migração
 
 - Vaadin, seus plugins, bundles e classes de interface foram removidos.
+- O template anterior foi adaptado à API 0.1. Componentes/contextos ausentes foram reconstruídos. A imagem `back7.jpg` não estava no arquivo original; usa-se fundo CSS. Nenhum mock antigo autentica usuários em produção.
 - React preserva indicadores de situação, evolução anual, gráfico ano/campanha, resumo analítico e fatos, com busca e paginação local.
 - Serviços, DTOs, entidades, repositórios Oracle e estrutura OLAP Java foram mantidos.
 - Esta versão cobre o **dashboard**. As páginas de levantamento, análise, homologação, relatórios e administração do Vaadin eram esboços e não viraram módulos funcionais. O esboço de cadastro/edição de estação também não está disponível na interface 0.1; seus serviços e entidades foram preservados para a próxima etapa.
@@ -106,7 +116,7 @@ Isso pressupõe um BuildConfig `sadgeo` existente, login no cluster e acesso à 
 
 ## Endpoints
 
-Todos são GET, sob `/api/dashboard`:
+Todos são GET, sob `/api/dashboard`. Apenas `/config` é público; os demais exigem sessão:
 
 | Rota | Resposta |
 |---|---|

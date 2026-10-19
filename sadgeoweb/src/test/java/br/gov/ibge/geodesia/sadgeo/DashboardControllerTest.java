@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(DashboardController.class)
 @Import(SecurityConfig.class)
+@org.springframework.security.test.context.support.WithMockUser
 class DashboardControllerTest {
     @Autowired MockMvc mvc;
     @MockitoBean DashboardService service;

@@ -22,3 +22,8 @@ management:
     web:
       exposure:
         include: health,info
+
+sadgeo:
+  auth:
+    ldap-url: ${SADGEO_LDAP_URL:}
+    ldap-domain: ${SADGEO_LDAP_DOMAIN:}

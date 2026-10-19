@@ -8,6 +8,7 @@ public class DashboardModeController {
     private final Environment environment;
     public DashboardModeController(Environment environment) { this.environment = environment; }
     @GetMapping("/api/dashboard/config") public Map<String, Object> config() {
-        return Map.of("demo", environment.acceptsProfiles(Profiles.of("demo")), "version", "0.1.0");
+        return Map.of("demo", environment.acceptsProfiles(Profiles.of("demo")), "version", "0.1.0",
+            "authConfigured", environment.getProperty("sadgeo.auth.ldap-url", "").startsWith("ldaps://") && !environment.getProperty("sadgeo.auth.ldap-domain", "").isBlank());
     }
 }

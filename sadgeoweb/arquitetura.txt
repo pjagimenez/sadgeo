@@ -1,6 +1,6 @@
 SADGEO 0.1.0
 
-React 19 + TypeScript + Vite + ECharts
+React 19 + Material UI 7 + Data Grid Community 8 + TypeScript + Vite + ECharts
     -> HTTP GET /api/dashboard/* (JSON)
 Spring Boot 3.5 / Java 17+
     -> DashboardService / CubeProvider
@@ -11,3 +11,7 @@ Desenvolvimento: Vite :5173, proxy /api para Spring Boot :8080.
 Produção: build React servido pelo Spring Boot, um JAR e um contêiner.
 Perfil demo: fixtures explícitas, sem datasource/JPA; não valida Oracle.
 Execução e limitações: consulte ../README.md.
+
+Portal: login, menu, temas, ajuda, registros e rodapé adaptados de sadgeo-react-web.7z.
+Spring Security: sessão HTTP + CSRF, login AD via LDAPS configurável.
+Entrada explícita demo somente no perfil demo. Consultas exigem sessão.

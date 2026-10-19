@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("demo")
+@org.springframework.security.test.context.support.WithMockUser
 class DashboardApiTest {
     @Autowired MockMvc mvc;
     @Test void demoStartsWithoutOracleAndReturnsDashboardContracts() throws Exception {

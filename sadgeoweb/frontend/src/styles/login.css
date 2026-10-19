@@ -1,0 +1,48 @@
+/* Paleta e composição adaptadas do login de sadgeo-react-web.7z.
+   O arquivo back7.jpg não foi incluído no arquivo original; usa fundo CSS. */
+.login-body {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 15% 20%, #929abf 0, transparent 45%),
+    linear-gradient(135deg, #28365b, #586b87 60%, #bcc7ce);
+}
+.login-container {
+  background: #f7be81;
+  border-radius: 10px;
+  box-shadow: 0 20px 80px #101c3c55;
+  padding: 32px;
+  width: min(100%, 440px);
+  text-align: center;
+}
+.login-title {
+  color: #4a568c;
+  font-weight: 800 !important;
+  letter-spacing: 3px;
+}
+.login-subtitle {
+  color: #343e68;
+  font-size: 14px !important;
+  margin: 8px 0 24px !important;
+}
+.login-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 24px;
+}
+.login-panel .MuiTextField-root {
+  background: #fff8f0;
+  border-radius: 5px;
+}
+.login-container .portal-footer {
+  flex-direction: column;
+  background: transparent;
+  border: 0;
+  margin-top: 24px;
+  padding: 0;
+  gap: 4px;
+}
