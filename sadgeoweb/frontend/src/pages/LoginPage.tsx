@@ -119,9 +119,9 @@ export default function LoginPage() {
               )}
             </Box>
           )}
-          <RodapeView demo={config?.demo} />
         </Box>
       </Box>
+      <RodapeView config={config} />
     </Box>
   );
 }

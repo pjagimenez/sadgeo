@@ -15,6 +15,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HelpIcon from "@mui/icons-material/Help";
 import PersonIcon from "@mui/icons-material/Person";
@@ -44,11 +45,6 @@ export default function MenuAcaoView({
   }
   return (
     <Box component="aside" className="portal-menu">
-      <Box>
-        <PersonIcon />
-        <Typography fontWeight={700}>{user?.nome}</Typography>
-        <Typography variant="caption">Perfil: {user?.perfil}</Typography>
-      </Box>
       <nav aria-label="Navegação principal">
         <NavLink to="/index">Painel resumo</NavLink>
         <NavLink to="/registros">Registros</NavLink>
@@ -74,13 +70,35 @@ export default function MenuAcaoView({
         gerais.
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}
-      <Box className="portal-actions">
+      <Box className="portal-account">
         <Button startIcon={<HelpIcon />} onClick={() => setHelp(true)}>
           Ajuda
         </Button>
-        <Button startIcon={<LogoutIcon />} disabled={busy} onClick={exit}>
-          Sair
-        </Button>
+        <Box className="portal-user" aria-label="Identificação do usuário">
+          <PersonIcon />
+          <Box sx={{ minWidth: 0 }}>
+            <Typography fontWeight={700}>
+              {user?.nome ?? "Visitante"}
+            </Typography>
+            {user && (
+              <Typography variant="caption" component="div">
+                Identificador: {user.login}
+              </Typography>
+            )}
+            <Typography variant="caption" component="div">
+              Perfil: {user?.perfil ?? "Não autenticado"}
+            </Typography>
+          </Box>
+        </Box>
+        {user ? (
+          <Button startIcon={<LogoutIcon />} disabled={busy} onClick={exit}>
+            Sair
+          </Button>
+        ) : (
+          <Button component={NavLink} to="/login" startIcon={<LoginIcon />}>
+            Fazer login
+          </Button>
+        )}
       </Box>
       <Dialog open={help} onClose={() => setHelp(false)}>
         <DialogTitle>Ajuda do SADGEO</DialogTitle>

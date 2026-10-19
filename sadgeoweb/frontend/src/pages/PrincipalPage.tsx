@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Navigate, Outlet, useOutletContext } from "react-router-dom";
+import { Link, Outlet, useOutletContext } from "react-router-dom";
 import { Alert, Box, Button, Typography } from "@mui/material";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth, type Config } from "../auth/AuthContext";
 import MenuAcaoView from "../components/layout/MenuAcaoView";
 import RodapeView from "../components/layout/RodapeView";
 import RegistroView from "../components/layout/RegistroView";
@@ -31,13 +31,28 @@ export function RegistrosPage() {
 }
 export default function PrincipalPage() {
   const { user, loading } = useAuth();
+  const [config, setConfig] = useState<Config>();
+  useEffect(() => {
+    const c = new AbortController();
+    fetch("/api/dashboard/config", { signal: c.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error("Ambiente indisponível");
+        return r.json();
+      })
+      .then(setConfig)
+      .catch(() => {});
+    return () => c.abort();
+  }, []);
   const [rows, setRows] = useState<Row[]>([]);
   const [tema, setTema] = useState("");
   const [error, setError] = useState("");
   const [fetching, setFetching] = useState(true);
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setRows([]);
+      return;
+    }
     const c = new AbortController();
     setFetching(true);
     setError("");
@@ -57,10 +72,9 @@ export default function PrincipalPage() {
     return () => c.abort();
   }, [user, attempt]);
   if (loading) return <p role="status">Verificando sessão…</p>;
-  if (!user) return <Navigate to="/login" replace />;
   const temas = [
     ...new Set(
-      rows
+      (user ? rows : [])
         .map((r) => r.projeto)
         .filter((p): p is string => typeof p === "string" && !!p),
     ),
@@ -76,11 +90,8 @@ export default function PrincipalPage() {
             Sistema de acompanhamento de dados geodésicos
           </Typography>
         </div>
-        <Typography variant="caption">
-          {user.demo ? "DEMONSTRAÇÃO" : "PORTAL INSTITUCIONAL"} • 0.1
-        </Typography>
       </Box>
-      {user.demo && (
+      {user?.demo && (
         <Alert severity="info">
           Modo demonstração — dados fictícios. Nenhuma conexão com o Oracle.
         </Alert>
@@ -88,20 +99,34 @@ export default function PrincipalPage() {
       <Box className="portal-body">
         <MenuAcaoView tema={tema} setTema={setTema} temas={temas} />
         <Box className="portal-workspace">
-          <Outlet
-            context={
-              {
-                rows,
-                tema,
-                error,
-                loading: fetching,
-                retry: () => setAttempt((a) => a + 1),
-              } satisfies PortalContext
-            }
-          />
+          {!user ? (
+            <Box component="main" className="portal-content">
+              <Typography component="h1" variant="h4">
+                Bem-vindo ao SADGEO
+              </Typography>
+              <Alert severity="info" sx={{ my: 2 }}>
+                Faça login para consultar os indicadores e registros.
+              </Alert>
+              <Button component={Link} to="/login" variant="contained">
+                Fazer login
+              </Button>
+            </Box>
+          ) : (
+            <Outlet
+              context={
+                {
+                  rows,
+                  tema,
+                  error,
+                  loading: fetching,
+                  retry: () => setAttempt((a) => a + 1),
+                } satisfies PortalContext
+              }
+            />
+          )}
         </Box>
       </Box>
-      <RodapeView demo={user.demo} />
+      <RodapeView config={config} />
     </Box>
   );
 }

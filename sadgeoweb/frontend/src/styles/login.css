@@ -1,7 +1,13 @@
+.login-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
 /* Paleta e composição adaptadas do login de sadgeo-react-web.7z.
    O arquivo back7.jpg não foi incluído no arquivo original; usa fundo CSS. */
 .login-body {
-  min-height: 100dvh;
+  min-height: 0;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,12 +43,4 @@
 .login-panel .MuiTextField-root {
   background: #fff8f0;
   border-radius: 5px;
-}
-.login-container .portal-footer {
-  flex-direction: column;
-  background: transparent;
-  border: 0;
-  margin-top: 24px;
-  padding: 0;
-  gap: 4px;
 }

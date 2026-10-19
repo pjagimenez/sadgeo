@@ -15,6 +15,9 @@ export type Config = {
   demo: boolean;
   version: string;
   authConfigured: boolean;
+  profile: string;
+  profileLabel: string;
+  hostname: string;
 };
 export async function authRequest(path: string, data?: URLSearchParams) {
   const csrf = await fetch("/api/auth/csrf", { credentials: "same-origin" });

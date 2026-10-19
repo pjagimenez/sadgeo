@@ -176,3 +176,11 @@ sadgeoweb/
 O driver Oracle pode informar `SDO_GEOMETRY` com tipo JDBC `STRUCT`, enquanto o Hibernate Spatial usa o código interno `GEOMETRY`. O campo JTS `Point` permanece espacial; a declaração `columnDefinition = "SDO_GEOMETRY"` usa o mesmo nome não qualificado retornado pelo driver. Isso permite a comparação de tipos do Hibernate sem desativar `ddl-auto=validate`, sem converter a coluna para texto e sem alterar o banco.
 
 Um teste de regressão executa a rotina real de comparação de tipos do Hibernate com esse metadado e também rejeita uma coluna `VARCHAR2`. Isso valida o cenário informado, mas não substitui a inicialização contra o Oracle real. Após atualizar, execute novamente com as ENVVARs Oracle; se outra coluna apresentar divergência, preserve o diagnóstico completo.
+
+## Rodapé, versão e identificação
+
+O rodapé exibe copyright `IBGE-DGC/CGED/GSD` à esquerda, rótulo/profile e hostname do servidor ao centro, e `Versão 0.1.YYYYMMDD-HH` à direita. A data/hora vem do build Maven, no fuso `America/Sao_Paulo`, e permanece igual após reiniciar o mesmo JAR. O artefato Maven continua se chamando `sadgeo-0.1.0.jar`.
+
+O rótulo padrão acompanha o profile (`demo`: Demonstração; `dev`: Desenvolvimento; `prod`: Produção). Para personalizá-lo, defina `SADGEO_PROFILE_LABEL`, por exemplo `Homologação`. Hostname vem da máquina que executa o backend (`HOSTNAME`/`COMPUTERNAME`, com fallback à consulta local); em contêineres, normalmente identifica o pod, não o computador do navegador.
+
+No menu lateral, nome, identificador, perfil e botão Sair ficam no bloco inferior. Sem sessão, o portal mostra Visitante e Fazer login; consultas continuam exigindo autenticação. Em telas pequenas, o rodapé distribui os três blocos em linhas para preservar a leitura.

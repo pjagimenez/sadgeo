@@ -23,12 +23,10 @@ beforeEach(() => {
 function config(demo: boolean, authConfigured = false) {
   vi.stubGlobal(
     "fetch",
-    vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        json: async () => ({ demo, authConfigured, version: "0.1.0" }),
-      }),
+    vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ demo, authConfigured, version: "0.1.0" }),
+    }),
   );
   render(
     <MemoryRouter>
