@@ -1,0 +1,548 @@
+Atue como um Arquiteto de Soluções Senior, Especialista UX Corporativa, Java 21, Spring Boot 3.x, Vaadin Flow 24.8, Oracle Database 19c/21c e sistemas geoespaciais corporativos de grande porte.
+
+Você está projetando uma nova tela para o sistema SADGEO (Sistema de Administração de Dados Geodésicos), substituindo uma antiga tela ASP SPA extremamente carregada, com milhares de registros, muitos campos simultâneos e baixa usabilidade.
+
+Seu papel é propor uma solução moderna, performática, escalável, intuitiva e aderente às melhores práticas de UX corporativa e Vaadin Flow.
+
+O sistema possui milhares de estações geodésicas, campanhas históricas, grande volume de fotos, documentos e histórico de alterações.
+
+A solução deve privilegiar:
+
+- Performance
+- Produtividade operacional
+- Facilidade de manutenção
+- Auditabilidade
+- Boa experiência do usuário
+- Escalabilidade
+- Carregamento sob demanda (Lazy Loading)
+- Oracle Database
+- Componentes nativos Vaadin
+
+---
+
+# CONTEXTO DO NEGÓCIO
+
+A estação geodésica é um ativo que pode possuir:
+
+- Dados cadastrais
+- Coordenadas
+- Múltiplas campanhas
+- Fotos
+- Croquis
+- Documentos
+- Histórico de alterações
+- Histórico de coordenadas
+- Histórico de situação operacional
+
+O sistema é utilizado por:
+
+- Gestores
+- Técnicos de geodésia
+- Equipes de campo
+- Equipes de cadastro
+- Auditores
+- Administradores
+
+Os usuários consultam estações constantemente e realizam poucas alterações comparativamente ao volume de consultas.
+
+Portanto a experiência deve ser otimizada para CONSULTA PRIMEIRO e EDIÇÃO DEPOIS.
+
+---
+
+# FILOSOFIA UX
+
+NÃO reproduzir a tela ASP antiga.
+
+NÃO exibir tudo simultaneamente.
+
+NÃO abrir formulário completo abaixo da Grid.
+
+NÃO carregar milhares de registros.
+
+A solução deve seguir o conceito:
+
+Pesquisar → Analisar → Selecionar → Editar → Salvar
+
+O usuário deve sempre manter contexto da consulta.
+
+---
+
+# TELA PRINCIPAL
+
+Ao acessar a tela:
+
+Nenhum registro deve ser carregado.
+
+Exibir mensagem:
+
+"Selecione os filtros mínimos para iniciar uma pesquisa."
+
+---
+
+# ÁREA DE FILTROS
+
+Organizar como card superior.
+
+Filtros obrigatórios:
+
+- Campanha
+- Situação
+
+Filtros opcionais:
+
+- Projeto
+- UF
+- Município
+- Responsável
+- UORG
+- Tipo de Estação
+
+Comportamentos UX:
+
+- Município dependente da UF.
+- Busca incremental nos combos.
+- Pesquisa por digitação.
+- AutoComplete.
+- Chips exibindo filtros ativos.
+- Selos indicando quantidade de filtros aplicados.
+
+Botões:
+
+- Pesquisar
+- Limpar
+- Nova Estação
+
+Ao clicar em Pesquisar:
+
+Executar consulta paginada no banco Oracle.
+
+Nunca permitir consultas sem filtro mínimo.
+
+---
+
+# RESULTADO DA PESQUISA
+
+Exibir Grid Vaadin.
+
+Características:
+
+- Lazy Loading
+- Paginação server side
+- 25 registros por página
+- Ordenação
+- Grid responsiva
+
+Colunas sugeridas:
+
+- Estação
+- Situação
+- Projeto
+- Município
+- UF
+- Tipo
+- Responsável
+- Última Campanha
+- Atualizado em
+
+Última coluna:
+
+Ações
+
+Ícones:
+
+- Visualizar
+- Editar
+- Histórico Rápido
+
+Experiência desejada:
+
+Clique simples:
+seleciona registro.
+
+Duplo clique:
+abre edição.
+
+Botão Editar:
+abre edição.
+
+Botão Histórico:
+abre painel rápido.
+
+---
+
+# NOVA ESTAÇÃO
+
+Botão:
+
+"+ Nova Estação"
+
+Ao clicar:
+
+Abrir a mesma interface utilizada para edição.
+
+Não criar tela separada.
+
+O usuário deve permanecer no contexto da consulta.
+
+---
+
+# EDIÇÃO
+
+Utilizar Drawer Lateral.
+
+Não utilizar navegação para outra View.
+
+Não utilizar popup modal para edição completa.
+
+O Drawer deve ocupar:
+
+Entre 65% e 75% da largura da tela.
+
+O Grid permanece visível ao fundo.
+
+Objetivos UX:
+
+- Preservar contexto
+- Comparar registros facilmente
+- Evitar múltiplas navegações
+- Aumentar produtividade
+
+---
+
+# ESTRUTURA INTERNA DO DRAWER
+
+Utilizar Tabs.
+
+Carregamento sob demanda.
+
+Cada Tab só consulta dados quando aberta.
+
+Exemplo:
+
+Selecionou Fotos:
+
+Somente nesse momento carregar fotos.
+
+Selecionou Histórico:
+
+Somente nesse momento carregar histórico.
+
+---
+
+# TAB 1 - DADOS GERAIS
+
+Exibir:
+
+- Código da Estação
+- Projeto
+- Campanha
+- Situação
+- Tipo
+- Município
+- UF
+- Responsável
+- UORG
+- Data da Visita
+- Arquivo Origem
+
+Campos descritivos:
+
+- Descrição
+- Observações
+- Comentários
+
+UX:
+
+Campos agrupados logicamente.
+
+Layout em cards.
+
+Seções recolhíveis.
+
+Validação visual imediata.
+
+Indicadores de obrigatoriedade.
+
+---
+
+# TAB 2 - COORDENADAS
+
+Objetivo:
+
+Permitir comparação entre coordenadas atuais e coordenadas oficiais vigentes.
+
+Dividir a tela em dois painéis.
+
+Painel esquerdo:
+
+COORDENADA SADGEO
+
+Mostrar:
+
+- Latitude
+- Longitude
+- Altitude
+- Precisão
+- Sistema de Referência
+
+Painel direito:
+
+COORDENADA BDG VIGENTE
+
+Mostrar:
+
+- Latitude
+- Longitude
+- Altitude
+- Precisão
+- Sistema
+- Data Homologação
+
+---
+
+# EXPERIÊNCIA DE COMPARAÇÃO
+
+Exibir indicadores visuais:
+
+VERDE
+
+Sem divergência.
+
+AMARELO
+
+Pequena divergência.
+
+VERMELHO
+
+Divergência crítica.
+
+Exibir:
+
+Diferença calculada em metros.
+
+Exemplo:
+
+Diferença:
+0,12 m
+
+Diferença:
+2,84 m
+
+Ações:
+
+- Comparar Coordenadas
+- Importar Coordenada Vigente
+- Solicitar Revisão Técnica
+
+---
+
+# TAB 3 - FOTOS
+
+Exibir somente registros vigentes.
+
+Separar por categorias.
+
+Categorias:
+
+- Panorâmica
+- Croqui
+- Chapa
+- Situação
+
+UX:
+
+Visualização em galeria.
+
+Miniaturas grandes.
+
+Zoom.
+
+Visualização full screen.
+
+Download.
+
+Cada foto deve exibir:
+
+- Data
+- Campanha
+- Autor
+- Tipo
+- Situação
+
+Uploads organizados por categoria.
+
+Drag and Drop.
+
+Preview antes do envio.
+
+---
+
+# TAB 4 - DOCUMENTOS
+
+Exibir documentos vinculados.
+
+Tipos:
+
+- Relatórios
+- PDFs
+- ART
+- Memorial
+- Croquis
+- Arquivos Técnicos
+- Anexos
+
+Grid de documentos.
+
+Colunas:
+
+- Nome
+- Tipo
+- Versão
+- Data
+- Situação
+- Responsável
+
+Ações:
+
+- Visualizar
+- Download
+- Histórico de versões
+- Nova versão
+
+Preview integrado.
+
+---
+
+# TAB 5 - HISTÓRICO
+
+Esta deve ser a área mais rica visualmente.
+
+Não utilizar apenas Grid.
+
+---
+
+# TIMELINE
+
+Mostrar linha do tempo vertical.
+
+Exemplo:
+
+2026
+
+MAR/2026
+Atualização de Coordenadas
+
+FEV/2026
+Nova Campanha
+
+JAN/2026
+Mudança de Situação
+
+2025
+
+NOV/2025
+Recuperação do Marco
+
+OUT/2025
+Inspeção
+
+---
+
+# DETALHAMENTO HISTÓRICO
+
+Ao selecionar evento da timeline:
+
+Abrir painel lateral interno.
+
+Exibir:
+
+- Dados vigentes da época
+- Coordenadas históricas
+- Situação histórica
+- Usuário responsável
+- Data alteração
+- Justificativa da alteração
+
+---
+
+# CARROSSEL HISTÓRICO
+
+Quando houver mídias:
+
+Apresentar carrossel contendo:
+
+- Fotos da campanha
+- Croquis
+- Evidências
+- Documentos associados
+
+Navegação:
+
+Anterior
+Próximo
+
+Indicadores visuais.
+
+---
+
+# DESEMPENHO
+
+Considerar base superior a:
+
+100.000 estações
+
+1.000.000 fotos
+
+500.000 documentos
+
+Múltiplas campanhas históricas.
+
+Definir:
+
+- Estratégias Oracle
+- Índices
+- Paginação
+- Busca performática
+- Lazy Loading
+- Cache
+- Queries otimizadas
+
+---
+
+# ARQUITETURA
+
+Produza:
+
+1. Arquitetura completa.
+2. Modelo de navegação.
+3. Fluxo UX.
+4. Wireframes textuais.
+5. Componentes Vaadin recomendados.
+6. Estrutura Java.
+7. Estrutura Spring Boot.
+8. Estrutura Oracle.
+9. DTOs.
+10. Entidades.
+11. Services.
+12. Repositories.
+13. Eventos.
+14. Casos de uso.
+15. Estratégia de segurança.
+16. Estratégia de auditoria.
+17. Estratégia de observabilidade.
+18. Estratégia de permissões por perfil.
+19. Estratégia de upload de documentos.
+20. Estratégia de visualização de fotos e histórico.
+21. Mockups textuais de todas as telas.
+
+Tecnologias obrigatórias:
+
+- Java 21
+- Spring Boot 3.x
+- Vaadin Flow 24.8
+- Oracle Database 19c/21c
+- JPA/Hibernate
+- Oracle Spatial (quando aplicável)
+- Maven
+
+Gerar a proposta como se fosse um documento de arquitetura funcional e técnica pronto para apresentação a analistas, arquitetos e desenvolvedores do SADGEO.

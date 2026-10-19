@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<project name="SADGEO-API" basedir="." default="deploy-des-openshift">
+	<description>SADGEO-API</description>
+
+	<property name="oc.client" value="oc.exe" />
+
+	<target name="root-war">
+		<delete includeemptydirs="true" failonerror="true">
+			<fileset dir="openshift/deployments" includes="**/*" />
+		</delete>
+		<copy file="target/sadgeo-api.war" tofile="openshift/deployments/ROOT.war" />
+	</target>
+
+	<target name="deploy-des-openshift" depends="root-war">
+		<exec executable="${oc.client}" dir="openshift">
+			<arg line="start-build sadgeo-api --from-dir=. -n dgc-cged-gsd-des" />
+		</exec>
+	</target>
+
+	<target name="deploy-hom-openshift" >
+		<exec executable="${oc.client}" dir="openshift">
+			<arg line="start-build sda-procaut-des-hom -n dgc-cged-gsd-hom" />
+		</exec>
+	</target>
+
+	<!--<target name="deploy-prd-openshift">
+		<exec executable="${oc.client}" dir="openshift">
+			<arg line="start-build sda-procaut-des-prd -n pipeline-prd" />
+		</exec>
+	</target>-->
+
+</project>

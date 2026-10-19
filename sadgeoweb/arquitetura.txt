@@ -1,0 +1,108 @@
+Java 21
+Spring Boot 3.x
+Vaadin 24
+Spring Security
+Spring Data JPA
+Oracle 19c
+Maven
+
++ Dashboard
++ Levantamento de Campo
+   + Altimetria
+   + Planimetria
+   + Gravimetria
+   + VRF
+   + OGR
+
++ Homologação de Marco
+
++ Análise
+   + Altimetria
+   + Planimetria
+   + Gravimetria
+   + VRF
+   + OGR
+
++ Relatórios
+
++ Administração
+
+br.gov.ibge.geodesia.sadgeo
+
+├── config
+├── security
+├── common
+│   ├── exception
+│   ├── util
+│   └── component
+│
+├── dashboard
+│   ├── view
+│   │   └── DashboardView.java
+│   │
+│   ├── service
+│   │   └── DashboardService.java
+│   │
+│   ├── repository
+│   │   ├── PainelResumoAnualRepository.java
+│   │   ├── PainelResumoConsolidadoRepository.java
+│   │   └── FatoPainelRepository.java
+│   │
+│   ├── entity
+│   │   ├── PainelResumoAnual.java
+│   │   ├── PainelResumoConsolidado.java
+│   │   └── FatoPainel.java
+│   │
+│   ├── dto
+│   │   ├── DashboardDTO.java
+│   │   ├── EvolucaoAnualDTO.java
+│   │   └── ResumoAnaliticoDTO.java
+│   │
+│   └── component
+│       ├── StatusCard.java
+│       └── StatusPainel.java
+│
+├── levantamento
+│   ├── altimetria
+│   │   ├── view
+│   │   ├── service
+│   │   ├── repository
+│   │   └── entity
+│   │
+│   ├── gravimetria
+│   ├── planimetria
+│   └── vrf
+│
+├── homologacao
+│
+├── relatorio
+│
+├── administracao
+│
+├── view
+│   └── MainLayout.java
+│
+└── SadgeoApplication.java
+
+
+T_SADGEO
+  ↓
+V_FATO_SADGEO_PAINEL
+  ↓
+V_SADGEO_PAINEL_RESUMO_CAMPANHA_ANUAL
+  ↓
+V_SADGEO_PAINEL_RESUMO_ANUAL
+  ↓
+V_SADGEO_PAINEL_RESUMO_CONSOLIDADO
+
+DashboardView
+      ↓
+DashboardService
+      ↓
+Repository
+      ↓
+Entity
+      ↓
+toDTO()
+      ↓
+DTO

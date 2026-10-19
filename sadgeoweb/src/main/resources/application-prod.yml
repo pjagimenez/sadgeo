@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: ${BDG_JDBC_URL}
+    username: ${bd_sadgeo_username}
+    password: ${bd_sadgeo_password}
+
+  jpa:
+    show-sql: false
