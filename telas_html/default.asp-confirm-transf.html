@@ -1,0 +1,104 @@
+ <!-- inicio Tranforma��o -->
+    <div id="confirm-transf" class="modal fade modalteste"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            
+            <form id="formTrans" role="form" class="form-horizontal">
+                
+              <div class="modal-header" >
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title"  id="myModalLabelClonar"></h4>
+              </div>
+          
+              <div class="modal-body">
+                
+                <div class="container">
+                  <input type="hidden" id="seqTrans" name="seqTrans" />	
+                  <input type="hidden" id="loginTrans" name="loginTrans" />
+                  <input type="hidden" id="temaTrans" name="temaTrans" /> 
+                  <input type="hidden" id="SitTrans" name="SitTrans" />
+                  <input type="hidden" id="transProjHidd" name="transProjHidd" />
+                  <input type="hidden" id="transGerenciaHidd" name="transGerenciaHidd" />
+            
+                  <div class="form-group">
+                    <div class="col-sm-2">  
+                      <label>Esta��o</label>
+                        <input required type="text" name="transEst" id="transEst" style="text-transform:uppercase;" inputonchange="this.value = this.value.toUpperCase();" class="form-control" placeholder="Esta��o" />
+                    </div>
+                    <div class="col-sm-2">
+                      <label class="control-label" for="transProj">Projeto</label>
+                      <select  class="form-control input-sm" data-live-search="true" size="8"  data-style="btn-default input-sm" id="transProj" name="transProj" ></select>
+                    </div>
+                    <div class="col-sm-2">
+                      <label>N� �nico de Execu��o</label>
+                      <input required type="text" name="transNumUnico" id="transNumUnico" maxlength="8" size="8" class="form-control" placeholder="20180001" />
+                    </div>	              
+                  </div>
+          
+                  <div class="form-group">
+                    <div class="col-sm-2"><label>Levantamento</label>
+                      <select id="transTema" class="form-control"   >
+                          <option class="clev" value="A" title="Altimetria">Altimetria</option>
+                          <option class="clev" value="P" title="Planimetria">Planimetria</option>
+                          <option class="clev" value="G" title="Gravimetria">Gravimetria</option>
+                          <option class="cvrf" value="V" title="VRF">VRF</option>
+                          <option class="cons"  value="C" title="Constru��o">Constru��o</option>
+                      </select>	
+                    </div>
+                    <div class="col-sm-2">
+                      <label>Data Levantamento</label>
+                      <input required autocomplete="off" type="text" name="transData" id="transData"  class="form-control" placeholder="Data Lev" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-4">
+                        <label>Situa��o do Marco</label>
+                        <select id="transSit" class="form-control" >
+                          <option value="10" title="10">10 - BOM</option>
+                          <option value="20" title="20">20 - DESTRU�DO</option>
+                          <option value="21" title="21">21 - DESTRU�DO(SEM CHAPA)</option>
+                          <option value="22" title="22">22 - DESTRU�DO(CHAPA DANIFICADA)</option>
+                          <option value="30" title="30">30 - N�O ENCONTRADO</option>
+                          <option value="40" title="40">40 - N�O VISITADO</option>
+                          <option value="50" title="50">50 - N�O CONSTRU�DO</option>
+                        </select>
+                    </div>
+                  </div>		
+                  <div class="form-group medAlt">
+                    <div class="col-sm-2"><label>Linha</label><input type="text" class="form-control" placeholder="Linha" id="transLinha" name="transLinha"></div>
+                    <div class="col-sm-2"><label>Caderneta</label><input type="text" class="form-control" placeholder="Caderneta" id="transCaderneta" name="transCaderneta"></div>
+                    <div class="col-sm-2 noGrav"><label>RN Anterior</label><input type="text" class="form-control" placeholder="RN Anterior" id="transRNAnt" name="transRNAnt"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-12" for="transComent">Coment�rios</label>
+                    <div class="col-sm-4"><textarea class="form-control" id="transComent" name="transComent"></textarea></div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-4">
+                      <label>Nome Arquivo Sugerido</label> 
+                      <input type="input" class="form-control"  maxlength="50" id="transArq" name="transArq"/>
+                    </div>
+                  </div>
+          
+                </div>
+
+              </div>
+
+              <div class="modal-footer">
+                <div class="form-group">
+                  <div class="col-sm-8">
+                  </div>
+                  <div class="col-sm-2">
+                      <button type="submit"   class="btn btn-info btn-sm pull-right">&nbsp;&nbsp;Clonar&nbsp;&nbsp;</button>
+                  </div>
+                  <div class="col-sm-2">
+                    <button type="button" data-dismiss="modal" class="btn btn-default btn-sm">&nbsp;&nbsp;Sair&nbsp;&nbsp;</button>
+                  </div>
+                </div>
+              </div>
+            </form>				
+          </div>
+      </div>
+    </div>
+    <!-- fim Tranforma��o -->	

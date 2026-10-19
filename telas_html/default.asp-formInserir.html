@@ -1,0 +1,400 @@
+
+    <div id="tallModal" class="modal modal-wide fade" data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-body">
+            <div id="divInsert1" style="margin-right: 1%; margin-left: 1%; border: 0;background: #2C7AA5;background: rgba(40, 118, 160, 0.3);">
+              <div id="insert-ct1">
+
+                  <form id="ajaxform" class="formInserir"  method="POST" >
+                      <!-- inicio --> 
+                      <div id="wrapper1" class="wrapper1">
+                        <input type="hidden" id="InsPrima" name="InsPrima"/>
+                        <input type="hidden" id="InsUEAnotador" name="InsUEAnotador"/>  <!-- identifica a UF do Anotador  -->
+                        <input type="hidden" id="InsUnidAnotador" name="InsUnidAnotador"/> <!-- identifica a Unidade do Anotador  -->
+                        <input type="hidden" id="InsUFHidd" name="InsUFHidd"/>
+                        <input type="hidden" id="InsMunicHidd" name="InsMunicHidd"/>
+                        <input type="hidden" id="InsDatum" name="InsDatum" value="06"/>
+                        <input type="hidden" id="InsCampanha" name="InsCampanha" />
+                        <input type="hidden" id="InsSiapeHidd" name="InsSiapeHidd"/>
+                        <input type="hidden" id="InsInfomHidd" name="InsInfomHidd"/>
+                        <input type="hidden" id="InsloginOculto" name="InsloginOculto" />
+                        <input type="hidden" id="InsLocacao" name="InsLocacao" />
+                        <input type="hidden" id="InsProjetoHidd" name="InsProjetoHidd" />
+
+                        <div class="row">
+                          <div id="DivLev" class="col-md-2">
+                            <label class="control-label" for="idTema">Levantamento</label>
+                            <select id="idTema" class="form-control input-sm selectpicker" data-style="btn-default input-sm"  name ="idTema">
+                                <option class="clev" value="A" title="Altimetria">Altimetria</option>
+                                <option class="clev" value="P" title="Planimetria">Planimetria</option>
+                                <option class="clev" value="G" title="Gravimetria">Gravimetria</option>
+                                <option class="cvrf" value="V" title="VRF">VRF</option>
+                                <option class="cons"  value="C" title="Constru��o">Constru��o</option>
+                            </select>
+                          </div>
+
+                          <div class="col-md-3">
+                            <label class="control-label" style=" width: 95%;">A��o</label>                          
+                            <label id="labelAcao">Medi��o de uma Referencia de N�vel (RN)</label>                          
+                          </div>
+
+                          <div id="DivInf" class="col-md-4">
+                            <label class="control-label" for="InsInform">SIAPE - Informante</label>
+                            <select class="form-control input-sm" data-live-search="true"  data-style="btn-default input-sm" id="InsInform" name="InsInform" ></select>
+                          </div>
+    
+                          <div id="DivUndade" class="col-md-2">
+                            <label class="control-label" for="InsUnidade">Unidade</label>
+                            <select class="form-control input-sm" name="InsUnidade" data-style="btn-default input-sm" id="InsUnidade" style=" width: 95%;" >	
+                                <option lot = "-1"  value=""></option>
+                                <option lot = "0" value="CGED-GISD">CGED-GISD</option>
+                                <option lot = "2" value="CGED-GRRV">CGED-GRRV</option>
+                                <option lot = "3" value="CGED-GRRP">CGED-GRRP</option>
+                                <option lot = "4" value="CGED-GRGG">CGED-GRGG</option> 
+                                <option lot = "1" value="CGED-GPRO">CGED-GPRO</option> 
+                                <option lot = "15" value="CGED-GAB">CGED-GAB</option> 	  
+                                <option lot = "8"  value="GGC-BA">GGC-BA</option>
+                                <option lot = "6"  value="GGC-CE">GGC-CE</option>
+                                <option lot = "10" value="GGC-DF">GGC-DF</option>
+                                <option lot = "9"  value="GGC-GO">GGC-GO</option>
+                                <option lot = "7"  value="GGC-PA">GGC-PA</option>
+                                <option lot = "5" value="GGC-SC">GGC-SC</option>		
+                                <option lot = "11" value="GLGC">GLGC</option>			  
+                            </select>
+                          </div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+
+                          <div id="DivProj" class="col-md-2">
+                            <label class="control-label" for="InsProjeto">Projeto</label>
+                            <select class="form-control input-sm" data-live-search="true" size="8"  data-style="btn-default input-sm" id="InsProjeto" name="InsProjeto" ></select>
+                          </div>
+
+                          <div id="DivNUE" class="col-md-2">
+                            <label class="control-label" for="InsControlePTA">N�mero �nico de Execu��o</label>
+                            <input type="text" required class="form-control input-sm"  autocomplete="off"  maxlength="8" size="8" data-style="btn-default input-sm" id="InsControlePTA"  name="InsControlePTA"  value="" placeholder="20180001" />
+                          </div>
+
+                          <div id="DivData" class="col-md-1">
+                            <label class="control-label" for="InsData">Data</label>
+                            <input type="text" required class="form-control input-sm"   autocomplete="off"  data-style="btn-default input-sm" id="InsData"  name="InsData"  value=""  />
+                          </div>
+
+                          <div class="col-md-2">
+                            <label class="control-label" for="InsEquipe">Equipe</label>
+                            <select class="form-control input-sm selectpicker" data-style="btn-default input-sm" name="InsEquipe" id="InsEquipe" style=" width: 95%;" >	
+                                <option value=""></option>
+                                <option value="EQ1" title="EQ1">EQUIPE 1</option>
+                                <option value="EQ2" title="EQ2">EQUIPE 2</option>
+                                <option value="EQ3" title="EQ3">EQUIPE 3</option>
+                                <option value="EQ4" title="EQ4">EQUIPE 4</option>                        
+                          </select>
+                          </div>		
+
+                          <div class="col-md-4">
+                            <label class="control-label" for="InsNomArq">Nome do Arquivo (sugerido)</label>
+                            <input type="text" class="form-control input-sm" id="InsNomArq"  name="InsNomArq"  value="" />
+                          </div>
+                        </div>
+                        <br/>
+
+                        <div id="divInsArq3" class="row">
+                          <div class="col-md-4">
+                            <div class="col-lg-6" style ="padding:0;">
+                              <label class="control-label" for="InsEst">Esta��o</label>
+                              <div class="input-group">
+                                <input type="text"  required class="form-control input-sm" id="InsEst" data-style="btn-default input-sm" style="text-transform:uppercase;" name="InsEst" placeholder="Procurar por...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default input-sm" type="button" id="btnPegarBanco"  onclick="PegadoBanco();">Buscar</button> <!-- onclick="PegadoBanco()"  -->
+                                  </span>
+                              </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                          </div>
+
+                          <div class="col-md-2">
+                              <label class="control-label" for="InsCod_uf">UF</label>
+                              <select name="InsCod_uf" class="form-control input-sm" id="InsCod_uf" onchange="selectUFINS();" >
+                              <option value="">--</option>
+                                <option meuatributo ="AC" value="12">AC</option>
+                                <option meuatributo ="AL" value="27">AL</option>
+                                <option meuatributo ="AM" value="13">AM</option>
+                                <option meuatributo ="AP" value="16">AP</option>
+                                <option meuatributo ="BA" value="29">BA</option>
+                                <option meuatributo ="CE" value="23">CE</option>
+                                <option meuatributo ="DF" value="53">DF</option>
+                                <option meuatributo ="ES" value="32">ES</option>
+                                <option meuatributo ="GO" value="52">GO</option>
+                                <option meuatributo ="MA" value="21">MA</option>
+                                <option meuatributo ="MG" value="31">MG</option>
+                                <option meuatributo ="MT" value="51">MT</option>
+                                <option meuatributo ="MS" value="50">MS</option>
+                                <option meuatributo ="PA" value="15">PA</option>
+                                <option meuatributo ="PB" value="25">PB</option>
+                                <option meuatributo ="PR" value="41">PR</option>
+                                <option meuatributo ="PE" value="26">PE</option>
+                                <option meuatributo ="PI" value="22">PI</option>
+                                <option meuatributo ="RJ" value="33">RJ</option>
+                                <option meuatributo ="RN" value="24">RN</option>
+                                <option meuatributo ="RS" value="43">RS</option>
+                                <option meuatributo ="RO" value="11">RO</option>
+                                <option meuatributo ="RR" value="14">RR</option>
+                                <option meuatributo ="SC" value="42">SC</option>
+                                <option meuatributo ="SP" value="35">SP</option>
+                                <option meuatributo ="SE" value="28">SE</option>
+                                <option meuatributo ="TO" value="17">TO</option>
+                              </select>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="control-label" for="InsSelectMunic">Municipio</label>
+                          <select class="form-control input-sm"  id="InsSelectMunic" name="InsSelectMunic"></select>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-2">
+                              <label class="control-label" for="InsSit">Situa��o</label>
+                              <select id="InsSit" class="form-control input-sm selectpicker" data-style="btn-default input-sm" name="InsSit">
+                                <option value=""></option>
+                                <option value="10" title="10">10 - BOM</option>
+                                <option value="20" title="20">20 - DESTRU�DO</option>
+                                <option value="21" title="21">21 - DESTRU�DO(SEM CHAPA)</option>
+                                <option value="22" title="22">22 - DESTRU�DO(CHAPA DANIFICADA)</option>
+                                <option value="30" title="30">30 - N�O ENCONTRADO</option>
+                                <option value="40" title="40">40 - N�O VISITADO</option>
+                                <option value="50" title="50">50 - N�O CONSTRU�DO</option>
+                              </select>
+                          </div>
+                          <div class="col-md-2">
+                              <label class="control-label" for="InsMonum">Monumento</label>
+                              <select id="InsMonum" class="form-control input-sm selectpicker" data-style="btn-default input-sm" name="InsMonum">
+                                <option value=""></option>
+                                <option title="M" value="M">M - MARCO</option>
+                                <option title="C" value="C">C - CHAPA</option>
+                                <option title="P" value="P">P - PINO</option>
+                                <option title="S" value="S">S - SEM MONUMENTO</option>
+                              </select>                        
+                          </div>
+                          <div class="col-md-2">
+                              <label class="control-label" for="InsTipoLocal">Tipo Local</label>
+                              <select class="form-control input-sm selectpicker" data-style="btn-default input-sm" data-live-search="true"  name="InsTipoLocal" id="InsTipoLocal"  data-size="12" style=" width: 95%;" >
+                                <option value=""></option>		  
+                                <option value="AC" title="AC">AC - A�ude, sangradouro, represa, vertedouro, barragem</option>                                                     
+                                <option value="AE" title="AE">AE - Aeroporto, Aer�dromo ou campo de pouso</option>                                                                
+                                <option value="AT" title="AT">AT - Linha de alta tens�o</option>                                                                                  
+                                <option value="BU" title="BU">BU - Bueiro</option>                                                                                               
+                                <option value="CE" title="CE">CE - Cemit�rio</option>                                                                                             
+                                <option value="CM" title="CM">CM - Com�rcio (loja, armazem, hotel, posto de gasolina, etc.)</option>                                             
+                                <option value="CP" title="CP">CP - Capela</option>                                                                                                
+                                <option value="EE" title="EE">EE - Esta��o Ecol�gica, Parque Nacional</option>                                                                    
+                                <option value="EF" title="EF">EF - Esta��o de estrada de ferro</option>                                                                           
+                                <option value="EL" title="EL">EL - Eleva��o, morro, chapada</option>                                                                              
+                                <option value="EM" title="EM">EM - Esta��o meteorol�gica</option>                                                                                 
+                                <option value="ES" title="ES">ES - Escola, Grupo escolar, faculdade, Centros Sociais, etc</option>                                                
+                                <option value="ET" title="ET">ET - Entroncamento, bifurca��o</option>                                                                             
+                                <option value="FZ" title="FZ">FZ - S�tio, Fazenda</option>                                                                                        
+                                <option value="HO" title="HO">HO - Hospital, maternidade, posto de sa�de e de vacina��o</option>                                                  
+                                <option value="ID" title="ID">ID - Ind�stria ( olaria, serraria, engenho, usina de leite)</option>                                                
+                                <option value="IG" title="IG">IG - Igreja</option>                                                                                                
+                                <option value="IM" title="IM">IM - Igreja Matriz</option>                                                                                         
+                                <option value="LF" title="LF">LF - Linha f�rrea</option>                                                                                          
+                                <option value="LG" title="LG">LG - L�mina d'�gua</option>                                                                                         
+                                <option value="OU" title="OU">OU - Outros</option>                                                                                                
+                                <option value="PC" title="PC">PC - Pra�a</option>                                                                                                 
+                                <option value="PF" title="PF">PF - Prefeitura , C�mara Municipal</option>                                                                         
+                                <option value="PN" title="PN">PN - Passagem de n�vel</option>                                                                                     
+                                <option value="PO" title="PO">PO - Porto</option>                                                                                                 
+                                <option value="PP" title="PP">PP - Pr�dio P�blico ( DNER, Pol�cia Rodovi�ria, Posto fiscal)</option>                                              
+                                <option value="PT" title="PT">PT - Ponte</option>                                                                                                 
+                                <option value="PU" title="PU">PU - Per�metro urbano PU</option>                                                                                  
+                                <option value="QT" title="QT">QT - Quartel</option>                                                                                               
+                                <option value="RC" title="RC">RC - Rede de comunica��o (telegrafia, telefonia,etc...)</option>                                                    
+                                <option value="RI" title="RI">RI - Reserva ind�gena</option>                                                                                      
+                                <option value="RO" title="RO">RO - Rodovias e estradas vicinais</option>                                                                          
+                                <option value="TU" title="TU">TU - T�nel</option>                                                                                                 
+                                <option value="TV" title="TV">TV - Trevo</option>                                                                                                 
+                                <option value="US" title="US">US - Usina Hidrel�trica, Termoel�trica, nuclear, subesta��o de energia</option>                                     
+                                <option value="VT" title="VT">VT - Viaduto</option> 
+                              </select>   
+                          </div>
+                          <div id="divInsArq4" class="col-md-2">
+                            <label class="control-label" for="InsInscChapa">Inscri��o Chapa</label>
+                            <input type="text" id="InsInscChapa" class="form-control input-sm"  name="InsInscChapa" size="15px"/>
+                          </div>
+                          <div id="divInsArq5" class="col-md-4" >
+                            <label class="control-label">Possibilidade de Ocupa��o</label>
+                            <div style ="align:left; padding:0; margin-left:0;">
+                              <div class="btn-group">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                  <input id="InsPossGPS" class="styled" name="InsPossGPS" value="S" type="checkbox">
+                                  <label for="InsPossGPS">GPS</label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                  <input id="InsPossGRAV" class="styled" name="InsPossGRAV"  value="S" type="checkbox">
+                                  <label for="InsPossGRAV">Gravimetro</label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                  <input id="InsPossMIRA" class="styled" name="InsPossMIRA"  value="S" type="checkbox">
+                                  <label for="InsPossMIRA">Mira</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> <!-- row -->
+                        <br/>
+
+                        <div id="divInsArq6" class="row">
+                          <div class="col-md-3">
+                            <label class="control-label" for="InsDsc">Descri��o</label>
+                          <textarea rows="3"  id="InsDsc" name="InsDsc" class="form-control input-sm"   ></textarea>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="control-label" for="InsLocaliza">Localiza��o</label>
+                            <textarea rows="3"  id="InsLocaliza" name="InsLocaliza" class="form-control input-sm"   ></textarea>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="control-label" for="InsIti">Itiner�rio</label>
+                            <textarea rows="3" id="InsIti" name="InsIti" class="form-control input-sm" readonly="true"  ></textarea>
+                          </div>
+                          <div class="col-md-3">
+                          <label class="control-label" for="InsObs">Observa��o</label>
+                            <textarea rows="3"  id="InsObs" name="InsObs" class="form-control input-sm"   ></textarea>
+                          </div>
+                        </div>
+                        <br/>
+
+                        <div class="row" id="LinhaNaoVRF">
+                          <div class="col-md-2">
+                              <label class="control-label" for="InsCx">Tipo de Conex�o</label>
+                              <select class="form-control input-sm" id="InsCx" name="InsCx">
+                                <option value="X"></option>
+                                <option value="D">DOPPLER</option>
+                                <option value="E">EG</option>
+                                <option value="P">EP</option>
+                                <option value="G">GPS</option>
+                                <option value="R">RN</option>
+                                <option value="V">VT</option> 
+                              </select>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="control-label" for="InsNomen">Nomenclatura</label>
+                            <input type="text" class="form-control input-sm" id="InsNomen" name="InsNomen" size="10px" />
+                          </div>
+                          <div class="col-md-2">
+                            <label class="control-label" for="InsLinha">Linha</label>
+                            <input type="text" class="form-control input-sm" id="InsLinha" name="InsLinha" size="10px" />
+                          </div>
+                          <div class="col-md-2">
+                            <label class="control-label" for="InsCad">Caderneta</label>
+                            <input type="text" class="form-control input-sm" id="InsCad" name="InsCad" size="10px" />
+                          </div>
+                          <div class="col-md-2">
+                            <label class="control-label" for="InsRNANterior">RN Anterior</label>
+                            <input type="text" class="form-control input-sm" id="InsRNANterior" name="InsRNANterior" size="10px" />
+                          </div>
+                        </div>
+
+                        <div id="divInsArq7" class="row">
+                          <div class="input-group">
+                            <div class="col-md-1">
+                              <label class="control-label">Latitude</label>  
+                              <span class="input-group-addon input-sm">Sinal</span>
+                              <input type="text" class="form-control input-sm clearcoord" maxlength="1" id="InsSinalLat" name="InsSinalLat"  placeholder="Sinal" />	
+                            </div>
+                            <div class="col-md-1">
+                              <label class="control-label" for="InsGrauLat"  > SIRGAS2000</label> 
+                              <span class="input-group-addon input-sm">G</span>
+                              <input type="text" class="form-control input-sm clearcoord" maxlength="2" id="InsGrauLat" name="InsGrauLat"  placeholder="Grau" />
+                            </div>
+                            <div class="col-md-1">
+                              <label class="control-label" for="InsMinLat">&nbsp;</label> 
+                              <span class="input-group-addon input-sm">M</span>
+                              <input type="text" class="form-control input-sm clearcoord" maxlength="2" id="InsMinLat" name="InsMinLat"  placeholder="Minuto" />
+                            </div>
+                            <div class="col-md-2">
+                              <label class="control-label" for="InsSegLat"  >&nbsp;</label> 
+                              <span class="input-group-addon input-sm">S</span>
+                              <input type="text" class="form-control input-sm clearcoord" id="InsSegLat" name="InsSegLat" placeholder="Segundo" />	
+                            </div> 		
+                            <div class="col-md-1">
+                              <label class="control-label" >Longitude</label>
+                              <span class="input-group-addon input-sm">Sinal</span>
+                              <input type="text" class="form-control input-sm clearcoord" maxlength="1" id="InsSinalLon" name="InsSinalLon"  text="-" placeholder="Sinal" />	
+                            </div>
+                            <div class="col-md-1">
+                              <label class="control-label" for="InsGrauLon"  > SIRGAS2000</label>
+                              <span class="input-group-addon input-sm">G</span>
+                              <input type="text" class="form-control input-sm clearcoord" maxlength="2"  id="InsGrauLon" name="InsGrauLon"  placeholder="Grau" />
+                            </div>
+                            <div class="col-md-1">
+                              <label class="control-label" for="InsMinLon"  >&nbsp;</label>
+                              <span class="input-group-addon input-sm">M</span>
+                              <input type="text" class="form-control input-sm clearcoord" maxlength="2" id="InsMinLon" name="InsMinLon"  placeholder="Minuto" />
+                            </div>
+                            <div class="col-md-2">
+                              <label class="control-label" for="InsSegLon"  >&nbsp;</label>
+                              <span class="input-group-addon input-sm">S</span>
+                              <input type="text" class="form-control input-sm clearcoord" id="InsSegLon" name="InsSegLon" placeholder="Segundo"  />	
+                            </div>                                                    
+                            <div class="col-md-2">
+                                <label class="control-label" for="InsFonte"  >Fonte</label>
+                                <select id="InsFonte"   name="InsFonte" class="form-control input-sm selectpicker" data-style="btn-default input-sm">
+                                  <option value=""></option>
+                                  <option value="24" title="24 - Poligona��o">24 - Poligona��o</option>
+                                  <option value="21" title="21 - Triangula��o">21 - Triangula��o</option>
+                                  <option value="22" title="22 - GPS Geod�sico">22 - GPS Geod�sico</option>
+                                  <option value="23" title="23 - DOPPLER">23 - DOPPLER</option>
+                                  <option value="25" title="25 - GPS Topogr�fico">25 - GPS Topogr�fico</option>
+                                  <option value="26" title="26 - GPS Navega��o">26 - GPS Navega��o</option>
+                                  <option value="27" title="27 - Imagem">27 - Imagem</option>
+                                  <option value="31" title="31 - Carta 1:25000">31 - Carta 1:25000</option>
+                                  <option value="32" title="32 - Carta 1:50000">32 - Carta 1:50000</option>
+                                  <option value="33" title="33 - Carta 1:100000">33 - Carta 1:100000</option>
+                                  <option value="34" title="34 - Carta 1:250000">34 - Carta 1:250000</option>
+                                  <option value="35" title="35 - Carta 1:500000">35 - Carta 1:500000</option>
+                                  <option value="36" title="36 - Carta 1:1000000">36 - Carta 1:1000000</option>
+                                  <option value="37" title="37 - Carta n�o especificada">37 - Carta n�o especificada</option>
+                                  <option value="40" title="40 - Interpola��o">40 - Interpola��o</option>
+                                  <option value="99" title="99 - M�todo n�o especificado">99 - M�todo n�o especificado</option>
+                                </select>                      
+                            </div> 
+                        </div>
+
+
+
+                        </div> 
+
+                        <div class="row">
+                          <div class="col-md-3">
+                            <label class="control-label" for="InsComent">Coment�rios</label>
+                            <textarea rows="2"  id="InsComent" name="InsComent"  class="form-control input-sm"   ></textarea>
+                          </div>
+                        </div>
+
+                      </div>
+                      <!-- final -->
+
+                      <div id="DivFooter1" class="modal-footer">
+                        <input type="button" class="btn btn-primary btn-xs" value="Limpar" id="LimparInserts" onclick="LimparGrid();"/> 
+                        <input type="button" class="btn btn-primary btn-xs" value="Template Descritivo" id="InsTempButton" data-toggle="modal" type="button" href="#divTemplateDesc"/>
+                        <input data-toggle="modal" type="button" href="#divFuncionario" id="showCadFunc"   class="btn btn-primary btn-xs" value="Cadastrar Informante" />
+                        <input type="submit" class="btn btn-success btn-xs" value="Salvar Registro" id="InsInserir" />
+                        <input type="button" class="btn btn-primary btn-xs" value="Fechar" data-dismiss="modal" id="FecharModIns"  />
+                      </div>
+
+                      <div id="DivFooter2" class="modal-footer">
+                        <input type="file" id="btnPegarArq" class="btn btn-primary btn-xs" value =""   />
+                        <input type="button" class="btn btn-primary btn-xs" id="ProcessaArquivo" value="Processar" onclick="Submitjson();"/> 
+                        <input type="button" class="btn btn-primary btn-xs" value="Fechar" data-dismiss="modal" id="FecharModInsArq"  />
+                      </div>
+
+                  </form>
+              </div>     
+            </div> <!-- Final div id=divInsert1 -->
+          </div><!-- /.modal-body -->
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>	<!-- Final div id=tallmodal -->
+

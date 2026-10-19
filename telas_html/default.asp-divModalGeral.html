@@ -1,0 +1,77 @@
+
+    <div id="divModalGeral" class="modal" >
+      <div class="modal-dialog"  style="width:800px">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4></h4>
+          </div>
+
+          <div class="modal-body">
+            <input type="hidden" id="ModalID" name="ModalID"/>
+            <div style="margin :0px 5px 0px 10px;">
+
+              <div id="divGeralPrinc1" class="row">
+                <div class="col-md-5">
+                  <label class="control-label" style=" width: 95%;" for="fullName">Tipo de Entrada</label>	  
+                  <div class="btn-group">
+                    <div class="radio radio-primary radio-inline">
+                      <input type="radio" id="radio_ARQLINHA" value="4" name="radio_ARQLINHA" checked>
+                      <label for="radio_ARQLINHA">Arquivo</label>
+                    </div>
+                    <div class="radio radio-primary radio-inline">
+                      <input type="radio" id="radio_ARQLINHA" value="5" name="radio_ARQLINHA">
+                      <label for="radio_ARQLINHA">Linha</label>
+                    </div>			
+                  </div>
+                </div>
+              </div>
+              <br/>
+
+              <div class="row">
+                <div class="col-md-12" id="selectArq">
+                  <label class="control-label" id="lbInpModalGeral" for="SelecExportArq">Nome do Arquivo</label>
+                  <select class="form-control input-sm" data-live-search="true" multiple id="SelecExportArq" name="SelecExportArq" ></select>
+                </div>
+                <div class="col-md-12" id="selectLin" style="display:none;">
+                  <label class="control-label" id="lbInpModalGeral2" for="SelecExportLinha">Nome da Linha</label>
+                  <select class="form-control input-sm" data-live-search="true" multiple id="SelecExportLinha" name="SelecExportLinha" ></select>
+                </div>  
+              </div>
+              <br/>
+
+              <div id="divGeralPrinc2" class="row">
+                <div class="col-md-8">
+                  <label class="control-label" style=" width: 95%;" for="fullName">Tipo de Sa�da</label>
+                  <div class="btn-group">
+                    <div class="radio radio-primary radio-inline">
+                      <input type="radio" id="radio_AKMZ" value="0" name="radio_AKMZ" checked>
+                      <label for="radio_AKMZ">Arquivo Texto</label>
+                    </div>
+                    <div class="radio radio-primary radio-inline">
+                      <input type="radio" id="radio_AKMZ" value="1" name="radio_AKMZ">
+                      <label for="radio_AKMZ">KMZ</label>
+                    </div>
+                    <div id="divRelatSimples" class="radio radio-primary radio-inline" >
+                      <input type="radio" id="radio_AKMZ" value="2" name="radio_AKMZ">
+                      <label for="radio_AKMZ">Relat�rio Simplificado</label>
+                    </div>					
+                    <div id="divCoordDalti" class="radio radio-primary radio-inline" style="visibility:hidden;">
+                      <input type="radio" id="radio_AKMZ" value="3" name="radio_AKMZ">
+                      <label for="radio_AKMZ">CoordDalti</label>
+                    </div>				
+                  </div>
+                </div>
+	
+            </div>
+          </div>
+          </div>
+      
+          <!-- dialog buttons -->
+          <div class="modal-footer"> 
+            <input type="button" class="btn btn-primary btn-xs"  value="Exportar" data-dismiss="modal" onclick="ExportArq();"/>
+            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" >Fechar</button></div>
+        </div>		
+      </div>
+    </div>

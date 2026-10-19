@@ -1,0 +1,63 @@
+        
+    <div id="divModalSIR" class="modal" >
+      <div class="modal-dialog"  style="width:920px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4></h4>
+          </div>
+          <div class="modal-body">
+            <table id="tabArqSIR" style="border:none;" cellspacing="0">
+              <tr style="font-weight: bold">
+                <td >Latitude</td>
+              </tr>  
+              <tr>
+                <td>Sinal</td><td>Grau</td><td>Minuto</td><td>Segundo</td><td>Sigma</td>
+              </tr>
+              <tr>	
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SinalLatSIR" name="SinalLatSIR"  placeholder="Sinal" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="GrauLatSIR" name="GrauLatSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="MinLatSIR" name="MinLatSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SegLatSIR" name="SegLatSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SigmaLatSIR" name="SigmaLatSIR"  placeholder="GrauLat" />	</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold">Longitude</td>
+              </tr>
+              <tr>
+                <td>Sinal</td><td>Grau</td><td>Minuto</td><td>Segundo</td><td>Sigma</td>
+              </tr>
+              <tr>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SinalLonSIR" name="SinalLonSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="GrauLonSIR" name="GrauLonSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="MinLonSIR" name="MinLonSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SegLonSIR" name="SegLonSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SigmaLonSIR" name="SigmaLonSIR"  placeholder="GrauLat" />	</td>
+              </tr>
+            </table>
+            <br/>
+            <br/>
+            <table id="tabArqSIR2" style="border:none;" cellspacing="0">
+              <tr>
+                <td>Altitude Geom�trica</td><td>Sigma Altitude</td><td>Data C�lculo</td>
+              </tr>
+              <tr>	
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="AltGeoSIR" name="AltGeoSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="SigmaAltSIR" name="SigmaAltSIR"  placeholder="GrauLat" />	</td>
+                <td><input type="text" class="form-control input-sm clearcoord" maxlength="1" id="DataCalcSIR" name="DataCalcSIR"  placeholder="GrauLat" />	</td>
+                <input type="hidden" id="StatusCargaHidd" name="StatusCargaHidd" />                
+              </tr> 
+            </table>
+            <br/>
+            <br/>
+            <label>Observa��es</label>
+            <ul id="contextSIR"></ul>
+          </div>	        
+          <!-- dialog buttons -->
+          <div class="modal-footer"> 
+            <button type="button" id="btnRecargaSIR"class="btn btn-primary btn-xs" >Recarregar arquivo .sir</button>	  	  
+            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" >Fechar</button>
+          </div>
+        </div>		
+      </div>
+    </div>

@@ -1,0 +1,38 @@
+
+    <div id="divModalAdmin" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+            <h4 class="modal-title">Selecione o Tema</h4>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="GISDoculto" id="GISDoculto"/>	
+            <p>Funcion�rio inserido com sucesso !!!</p>
+            <div class="row">
+              <div class="col-sm-4">
+                <label class="control-label" for="fullName">Tema</label>
+                <select class="form-control input-sm" name="temaGISD" id="temaGISD" style=" width: 95%;" >	
+                  <option value=""></option>
+                  <option value="1">VRF</option>
+                  <option value="2">ALTIMETRIA</option>
+                  <option value="3">PLANIMETRIA</option>
+                  <option value="4">GRAVIMTRIA</option>
+                  <option value="8">GGC-BA</option>
+                  <option value="6">GGC-CE</option>
+                  <option value="10">GGC-DF</option>
+                  <option value="9">GGC-GO</option>
+                  <option value="7">GGC-PA</option>
+                  <option value="5">GGC-SC</option>		
+                  <option value="11">GLGC</option>			  
+                  </select>
+              </div>	
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            <a class="btn btn-danger"    data-dismiss="modal" onclick="RegistraTipo();">Confirma</a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.divModalAdmin -->

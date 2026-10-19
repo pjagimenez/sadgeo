@@ -1,0 +1,162 @@
+ <!-- inicio modal Fotos -->
+    <div id="UploadFoto" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">SADGeo - Tratamento de Fotos</h4>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="SeqFoto" name="SeqFoto"/>
+            <ul class="nav nav-tabs" id="tabContent">
+              <li class="active"><a href="#tabPan" data-toggle="tab">Panor�mica</a></li>
+              <li><a href="#tabChapa" data-toggle="tab">Chapa</a></li>
+              <li id="liSit"><a href="#tabFotoSit" data-toggle="tab">Situa��o</a></li>	  
+              <li><a href="#tabBDG" data-toggle="tab">BDG</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tabPan">
+                <div id="divPan" class="tudo"> <!-- tudo -->
+                  <div id="PanFileUpload">Carregar FOTO Panor�mica</div>
+                  <br/>
+                  <div class="esquerda"><!-- esquerda -->
+                    <div id="PanoFoto" >Foto Panor�mica</div> 
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div id="divFotoBDG">
+                          <div id="Pano1BDG" class="ajax-file-upload-statusbar" style="width:280px">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- esquerda -->
+                  <div class="direita">  <!-- direita -->
+                    <br/>
+                    <br/>
+
+                    <form action="php_foto/uploadFoto.php" encType="multipart/form-data" method="post" id="upload"> 
+                        <label class="btn btn-primary" for="my-file-selector0">
+                        <input id="my-file-selector0" type="file" name="file1"   accept="image/jpeg" style="display:none" onchange="$('#upload-file-info0').html(this.files[0].name);">
+                            Escolha a Foto
+                        </label>
+                        <INPUT type="hidden" name="FileName1" id="FileName1" >
+                        <INPUT type="hidden" name="tipo" id="tipo" value="1">
+                        <span class='label label-info' id="upload-file-info0"></span>
+                        <br/><br/>
+                        <INPUT type="button" value="Iniciar Upload" class="ajax-file-upload-green" onclick="Upload_2('1');">
+                        <INPUT type="button" value="Excluir" class="ajax-file-upload-red" onclick="Deletar()">
+                    </form>
+                    <span style="color: #0000ff;">
+
+                    <div id="preview"></div>
+                    <br/>
+                    <div id="downloadLinkPan"></div></span><br>
+                  </div> <!-- direita -->
+                </div> <!-- tudo -->
+              </div>  <!-- tabPan -->
+
+              <div class="tab-pane" id="tabChapa">
+                <div id="divChapa" class="tudo">  <!-- tudo -->
+                  <div id="ChapaFileUpload">Carregar FOTO da Chapa</div>
+                  <br/> 
+                  <div class="esquerda"><!-- esquerda -->
+                    <div id="BDGFoto" >Foto da Chapa</div> 
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div id="divFotoChapa">
+                          <div id="ChapBDG" class="ajax-file-upload-statusbar" style="width:280px">                    
+                          </div>
+                        </div>
+                      </div>
+                    </div>		  
+                  </div>   <!-- esquerda -->
+                  <div class="direita">  <!-- direita -->
+                    <br/><br/>            
+                    <form action="php_foto/uploadFoto.php" encType="multipart/form-data" method="post" id="upload1">
+                        <label class="btn btn-primary" for="my-file-selector1">
+                        <input id="my-file-selector1" type="file" name="file2"   accept="image/jpeg" style="display:none" onchange="$('#upload-file-info1').html(this.files[0].name);">
+                            Escolha a Foto
+                        </label>
+                        <INPUT type="hidden" name="FileName2" id="FileName2">
+                        <INPUT type="hidden" name="tipo" id="tipo" value="2">
+                        <span class='label label-info' id="upload-file-info1"></span>
+                        <br/><br/>
+                        <INPUT type="button" value="Iniciar Upload" class="ajax-file-upload-green" onclick="Upload_2('2');">
+                        <INPUT type="button" value="Excluir" class="ajax-file-upload-red" onclick="Deletar()">
+                    </form>	
+                    <span style="color: #0000ff;">
+                      <div id="preview0"></div>
+                      <br/>
+                      <div id="downloadLinkChapa"></div>
+                    </span>
+                    <br>	
+                  </div>	<!-- direita -->                 
+                </div>  <!--  tudo -->
+              </div> 
+        
+              <div class="tab-pane" id="tabFotoSit">
+                <div id="divFotoSit" class="tudo"> <!-- tudo -->
+                  <div id="SitFileUpload">Carregar FOTO Situa��o</div>
+                  <br/>
+                  <div class="esquerda"><!-- esquerda -->
+                    <div id="SitFoto" >Foto Situa��o</div> 
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div id="divSitFoto">
+                          <div id="FotoSitBDG" class="ajax-file-upload-statusbar" style="width:280px">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- esquerda -->
+                  <div class="direita">  <!-- direita -->
+                    <br/><br/>
+                    <form action="php_foto/uploadFoto.php" encType="multipart/form-data" method="post" id="upload_sit"> 
+                      <label class="btn btn-primary" for="my-file-selector3">
+                        <input id="my-file-selector3" type="file" name="file3"   accept="image/jpeg" style="display:none" onchange="$('#upload-file-info3').html(this.files[0].name);">
+                        <INPUT type="hidden" name="tipo" id="tipo" value="3">
+                        Escolha a Foto
+                      </label>
+                      <INPUT type="hidden" name="FileName3" id="FileName3">
+                      <span class='label label-info' id="upload-file-info3"></span>
+                      <br/><br/>
+                      <INPUT type="button" value="Iniciar Upload" class="ajax-file-upload-green" onclick="Upload_2('3');">
+                      <INPUT type="button" value="Excluir" class="ajax-file-upload-red" onclick="Deletar()">
+                      <INPUT type="button" value="Calcular" class="ajax-file-upload-green" onclick="Upload_2('3');">
+                    </form>
+                    <span style="color: #0000ff;">
+                      <div id="preview2"></div>
+                      <br/>
+                      <div id="downloadLinkSit"></div>
+                    </span><br>
+                  </div> <!-- direita -->
+                </div> <!-- tudo -->          
+              </div>  <!-- tabFotoSit -->	   
+        
+              <div class="tab-pane" id="tabBDG" class="tudo">
+                  <div class="esquerda"> <!-- esquerda --> 
+                    <br/><br/>       	  
+                    <div id="BDGFotoDiv">FOTO do BDG</div>
+                    <div id="FotoBDG" class="ajax-file-upload-statusbar" style="width:280px">
+                      <img id="imgBDG" height="auto" width="90%" src=""/>
+                    </div> 
+                  </div>	<!-- esquerda --> 
+              </div>   <!--  tudo -->
+            </div> <!-- tab-content -->
+
+            <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-4">
+                <div></div>
+              </div>
+            </div>
+              
+          </div>
+          <hr>
+          <div class="modal-footer">
+            <button type="button"  class="btn btn-default btnCancelar"  data-dismiss="modal">Sair</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <!-- final modal Fotos -->

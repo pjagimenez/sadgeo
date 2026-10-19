@@ -1,0 +1,41 @@
+
+    <div id="divPegarArquivo" class="modal modal-wide fade" >
+      <div class="modal-dialog"  style="width:1000px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Inserir Arquivo</h4>
+          </div>
+          <div class="modal-body"> 
+            <div id="cloneDiv">
+              <label for="CloneLev">Levantamento</label>
+              <select id="CloneLev"></select><br/>
+              <label  for="CloneInf">Informante</label>
+              <select id="CloneInf"  onchange="BuscaLotacaoCloneIns(this);" ></select>
+              <label class="control-label" for="CloneUnid">Unidade</label>			
+              <select id="CloneUnid"></select><br/>
+              <label class="control-label" for="CloneProj">Projeto</label>	
+              <select id="CloneProj"></select>
+            </div>
+            <div id="cloneDiv2">
+              <label class="control-label" for="CloneNue">NUE</label>	
+              <input id="CloneNue" type="text" placeholder="20180001" maxlength="8" size="8"/>
+              <label class="control-label" for="CloneData">Data</label>
+              <input id="CloneData" type="text"/>
+              <label class="control-label" for="CloneEquipe">Equipe</label>
+              <select id="CloneEquipe"></select>
+              <label class="control-label" for="CloneNomArq">Arquivo</label>
+              <input id="CloneNomArq"type="text"/><br/>
+              <textarea name="CloneDscObs" class="clsminusc" rows="5" id="CloneDscObs" style="border: 1px solid gray ;"></textarea>
+            </div> 
+            <div id="divPegaArq" class="divscroll" >
+            </div>	
+          </div>	
+          <br/>
+          <br/>	
+          <div class="modal-footer">           
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >Fechar</button>
+          </div>	 
+        </div>
+      </div>
+    </div>

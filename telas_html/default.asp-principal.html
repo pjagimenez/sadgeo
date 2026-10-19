@@ -1,0 +1,597 @@
+<% @LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+<%
+  if Session("username")="" then
+    Response.Redirect("login.asp")
+  end if
+  
+  Response.CharSet = "ISO-8859-1"
+  Response.CodePage = 28591
+
+  Function Abandona()
+    Session.Abandon()
+    Response.Redirect("default.asp")  
+  end Function
+%>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SADGeoWeb</title>
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=11;IE=10;IE=9; IE=8; IE=7; IE=EDGE"/>	-->
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+    <style>
+      #tabArqSIR tr td {
+        border : none;
+      }
+      #tabArqSIR2 tr td {
+        border : none;
+      }
+      #divTab{   
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      input:read-only ,textarea:read-only     {
+        cursor: not-allowed;
+        background-color: #EBEBE4 !important;
+        color: #C6C6C6;
+      } 
+      .selectReadonly {
+        cursor:not-allowed;
+        background-color: #EBEBE4 !important;
+        pointer-events:none;
+      } 
+    </style>
+
+    <link rel="shortcut icon" href="#" />
+
+    <link rel="stylesheet" href="css/prima.css" type="text/css" />  
+    <link rel="stylesheet" href="css/cssbutton.css" type="text/css" />
+    <link rel="stylesheet" href="css/modal.css" type="text/css" />
+    <link rel="stylesheet" href="css/FormInsert.css" type="text/css" />
+    <link rel="stylesheet" href="css/Siteok.css" type="text/css" />
+    <link rel="stylesheet" href="css/uploadfile.min.css" type="text/css" >
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" >
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" media="screen" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.select.min.css"  type="text/css"/> 
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap-dialog.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap-glyphicons.css" type="text/css"/>
+
+    <link rel="stylesheet" href="skins/line/meublue.css" type="text/css" />
+	
+    <link rel="stylesheet" href="css/Font-Awesome/css/font-awesome.css" type="text/css"/>
+    <link rel="stylesheet" href="css/build.css" type="text/css"/>
+    <link rel="stylesheet" href="css/jquery-confirm.css" type="text/css"/>
+
+    <link rel="stylesheet" href="notify/css/notify.css" type="text/css"/>
+
+    <link rel="stylesheet" href="media/css/demo_page.css" type="text/css"/>
+    <link rel="stylesheet" href="media/css/demo_table.css" type="text/css"/>
+    <link rel="stylesheet" href="media/css/demo_table_jui.css" type="text/css"/>
+    <link rel="stylesheet" href="media/themes/smoothness/jquery-ui-1.8.4.custom.css" type="text/css"/>	
+   
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="js/javascript.js?<%=now()%>"></script>
+	  <script type="text/javascript" src="js/minhasFuncoes.js?<%=now()%>" charset="utf-8"></script>
+    <script type="text/javascript" src="js/inserirArq.js?<%=now()%>" charset="utf-8"></script>
+    <script type="text/javascript" src="media/js/jquery.dataTables.1.10.10.js" charset="ISO-8859-1"></script>
+	  <script type="text/javascript" src="media/js/jquery.dataTables.columnFilter.js"> </script>
+	  <script type="text/javascript" src="js/fnReloadAjax.js"> </script>
+	  <script type="text/javascript" src="js/fnStandingRedraw.js"> </script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script> 
+
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	  <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.pt-BR.js"></script>
+    <script type="text/javascript" src="js/jquery.uploadfile.js"></script>
+	  <script type="text/javascript" src="js/bootbox.js"   ></script> 
+    <script type="text/javascript" src="js/icheck.js"></script>
+	  <script type="text/javascript" src="bootstrap-check/js/bootstrap-checkbox.js"> </script> 
+    <script type="text/javascript" src="js/jquery-confirm.js"></script> <!-- COMPLETELY OPTIONAL -->
+	  <script type="text/javascript" src="notify/js/notify.js"></script>
+	  <script type="text/javascript" src="js/bootstrap-dialog.js"></script>	
+	  <script type="text/javascript" src="js/resize.js"></script>
+	  <script type="text/javascript" src="js/cargaSIR.js"></script>	
+    <script type="text/javascript" src="js/scriptSIR.js"></script>		
+
+   <script type="text/javascript" charset="iso-8859-1"  >
+      var user = '<%=Session("username")%>';
+      var resize = new window.resize();
+      resize.init();
+   </script>
+  </head>
+  <body>
+
+    <div class="page" style="margin-right: 5%; margin-left: 5%" >
+
+      <div class="header">
+
+        <div class="title">
+          <div>
+            <h1 style="margin: 0 auto;"><div class="navbar-collapse collapse">SADGeo Web</div>	</h1>
+          </div>
+          <div id="divEspacoVago"> </div> 
+        </div>
+        
+        <div class="loginDisplay">
+          <span id="idButTotal" class="label label-info btn-xs cursorP" style="background-color:black;">Total <span id="idbadTotal" class="badge" style="width:40px;background:white;color:black;font-weight: normal;"></span></span>
+          <span id="idButNCrit" class="label label-info btn-xs cursorP" style="background-color:red;">N�o Criticado <span id="idbadNCrit" class="badge" style="width:40px;background:white;color:red;font-weight: normal;"></span></span>
+          <span id="idButCritGGC" class="label label-info btn-xs cursorP" style="background-color:purple;">Criticado GGC <span id="idbadCritGGC" class="badge" style="width:40px;background:white;color:purple;font-weight: normal;"></span></span>           
+          <span id="idButCritPROJ" class="label label-info btn-xs cursorP" style="background-color:green;">Criticado PROJ <span id="idbadCritPROJ" class="badge" style="width:40px;background:white;color:green;font-weight: normal;"></span></span>
+          <span id="idButAtualiz" class="label label-info btn-xs cursorP" style="background-color:blue;">Atualizados <span id="idbadAtual" class="badge" style="width:40px;background:white;color:blue;font-weight: normal;"></span></span>
+        </div>
+		    <div class="loginDisplay">
+          <span id="pesquisaGeral" class="label label-success btn-lg cursorP" onclick="">Aplicar Filtros</span>
+          <span id="LimparFiltros" class="label label-warning btn-xs cursorP" onclick="fnResetAllFilters();" >Limpar Filtros</span> 
+          <label id="ckAcomp" style="display:none" for="default" class="btn btn-default">Acompanhamento <input type="checkbox" id="default" class="badgebox"><span class="badge">&check;</span></label>			
+			    <span id="idButRetGGC" class="label label-info btn-xs cursorP" style="background-color:purple;">Retido GGC <span id="idbadRetGGC" class="badge" style="width:40px;background:white;color:red;font-weight: normal;"></span></span>	
+			    <span id="idButLibGGC" class="label label-info btn-xs cursorP" style="background-color:purple;">Liberado GGC <span id="idbadLibGGC" class="badge" style="width:40px;background:white;color:blue;font-weight: normal;"></span></span>	
+          <span id="idButRetPROJ" class="label label-info btn-xs cursorP" style="background-color:green;">Retido PROJ <span id="idbadRetPROJ" class="badge" style="width:40px;background:white;color:red;font-weight: normal;"></span></span>
+   		    <span id="idButLibPROJ" class="label label-info btn-xs cursorP" style="background-color:green;">Liberado PROJ <span id="idbadLibPROJ" class="badge" style="width:40px;background:white;color:blue;font-weight: normal;"></span></span>
+		    </div>
+			
+			  <div class="loginDisplay">			
+		    	<span class="label label-info btn-xs" style="background-color:#999999;top:0;" id="spanRegistro"></span>
+			  </div>
+			  <div class="loginDisplay" >	
+			    <div id="barraLeft" style="border:0px solid black;position: relative;float:left;"></div>	
+			  </div>				
+      </div>
+      
+      <div class="main"  style="display:inline-block;" >	
+        <table id="tbSadgeo" class="MinhaTabela" style="display:inline-block;float:left; width:100%; cursor:pointer;" > 
+         	<thead>	
+            <tr>			
+              <th>SEQ</th>
+              <th>ESTACAO</th>
+              <th>SITUACAO</th>
+              <th>MUNICIPIO</th>
+              <th>UF</th>
+              <th>TIPO</th>
+              <th>CR�TICO</th>
+              <th>DT CR�TICA</th>
+              <th>ARQUIVO</th>
+              <th>VISITA</th>
+              <th>STATUS</th>  
+              <th>ENTRADA</th>
+              <th>DISPO_GGC</th>
+              <th>DISPO_PRO</th>	
+              <th>PROJETO</th>			
+              <th>LINHA</th>
+              <th>N� UNICO</th>
+            </tr>			
+          </thead>
+          <tfoot>
+            <tr>
+              <th>SEQ</th>
+              <th>ESTACAO</th>
+              <th>TODOS</th>
+              <th>MUNICIPIO</th>
+              <th>UF</th>
+              <th>TIPO</th>
+              <th>CR�TICO</th>
+              <th>DT CR�TICA</th>
+              <th>ARQUIVO</th>    
+              <th>VISITA</th>
+              <th>TODOS</th>
+              <th>ENTRADA</th>
+              <th>DISPO_GGC</th>
+              <th>DISPO_PRO</th>
+              <th>PROJETO</th>
+              <th>LINHA</th>
+              <th>N� UNICO</th>
+            </tr>
+          </tfoot>			
+          <tbody>
+          </tbody>			
+		    </table>
+
+        <div id="divform" style="background-color:#D3D3D3;">		
+          <form id="FormEdit" method="post"  style="display: inline; margin: 0px; padding: 0px;" >	
+            <input type="hidden" name="seqOculto" id="seqOculto"/>	
+            <input type="hidden" name="latSOculto" id="latSOculto"/>	
+            <input type="hidden" name="lonSOculto" id="lonSOculto"/>	
+            <input type="hidden" name="latBOculto" id="latBOculto"/>	
+            <input type="hidden" name="lonBOculto" id="lonBOculto"/>	
+            <input type="hidden" name="fonteOculto" id="fonteOculto"/>	
+            <input type="hidden" name="tipoOculto" id="tipoOculto"/>	
+            <input type="hidden" name="loginOculto" id="loginOculto"/>
+            <input type="hidden" name="nomeFotoP" id="nomeFotoP"/>
+            <input type="hidden" name="DispGGCOculto" id="DispGGCOculto"/>
+            <input type="hidden" name="DispProjOculto" id="DispProjOculto"/>
+            <input type="hidden" name="EmailCritGGCOculto" id="EmailCritGGCOculto"/>
+            <input type="hidden" name="idTratarCoordOculto" id="idTratarCoordOculto"/>
+            <input type="hidden" name="idMunicOculto" id="idMunicOculto"/>
+            <input type="hidden" name="idUFOculto" id="idUFOculto"/>
+            <input type="hidden" name="idStatusVRF" id="idStatusVRF"/>
+            <input type="hidden" name="idAtividadeOculto" id="idAtividadeOculto"/>
+            <input type="hidden" name="subtipoOculto" id="subtipoOculto"/>
+            <input type="hidden" name="idAprovacaoOculto" id="idAprovacaoOculto"/>
+            <input type="hidden" name="idObsRejeicaoOculto" id="idObsRejeicaoOculto"/>
+            <input type="hidden" name="iddthr_imeiOculto" id="iddthr_imeiOculto"/>
+            <input type="hidden" name="idRespostaOculto" id="idRespostaOculto"/>
+
+            <!-- mudan�a carga GPS em 28/11/2023 -->
+            <input type="hidden" name="idArqSirCarregOculto" id="idArqSirCarregOculto"/>
+            <input type="hidden" name="idSigmaLatOculto" id="idSigmaLatOculto"/>
+            <input type="hidden" name="idSigmaLonOculto" id="idSigmaLonOculto"/>
+            <input type="hidden" name="idValAltGeoOculto" id="idValAltGeoOculto"/>
+            <input type="hidden" name="idSigmaAltGeoOculto" id="idSigmaAltGeoOculto"/>
+            <input type="hidden" name="idDatCalcOculto" id="idDatCalcOculto"/>
+            <input type="hidden" name="idNomeArqSirOculto" id="idNomeArqSirOculto"/>
+            <!-- fim mudan�a carga GPS em 28/11/2023 -->
+
+            <table id="tbIdent"  width="100%" cellspacing="1" cellpadding="2" >
+              <tr>
+                <td class="bb3"><label id="Label5">Esta��o</label></td>
+                <td class="bb3"><label id="Label6">Monum</label></td>
+                <td class="bb3"><label id="Label7">Tipo Local</label></td>
+                <td class="bb3" ><label id="Label8">Inscri��o Chapa</label></td>
+                <td class="bb3" ><label id="Label9">Situa��o</label></td>
+                <td class="bb3" ><label id="Label10">Conex�o</label></td>
+                <td class="bb3" ><label id="Label11">Tipo de Conex�o</label></td>
+                <td class="bb3" colspan="3"><label id="Label12">Possibilidade Ocupa��o</label></td>
+                <td  class="bb3"><label id="Label32">Protocolo Homologa��o</label></td>
+                <td class="bb3" style="align:left;border : none"><label  id="LbEtapaPTA">Etapa PTA : 01/2018</label></td>	
+              </tr>
+              <tr>
+                <td class="bb3" width="8%" ><input  name="ipEst" id="ipEst" type="text" style="width: 80%;border: 1px solid gray;padding-left:5px;color:red;" readonly="true" /></td>
+                <td class="bb3" width="5%" ><input  name="ipMonum" id="ipMonum" autocomplete="off"  type="text"  style="padding-left:5px;width: 80%;border: 1px solid gray;" /></td>
+                <td class="bb3" width="5%" ><input  name="ipTipoLocal" maxlength="2" id="ipTipoLocal" type="text" autocomplete="off"  style="padding-left:5px;width: 80%; border: 1px solid gray;" /></td>
+                <td class="bb3" width="12%" ><input name="ipInscChapa" id="ipInscChapa" type="text" autocomplete="off"  style="padding-left:5px;width: 80%;border: 1px solid gray;"  /></td>
+                <td class="bb3" width="5%"  ><input name="ipSit" maxlength="2" id="ipSit" type="text" autocomplete="off"   style="width: 80%;padding-left:5px;border: 1px solid gray;"  /></td>
+                <td class="bb3" width="8%"  ><input name="ipConexao" id="ipConexao" autocomplete="off"  type="text" style="padding-left:5px;width: 80%;border: 1px solid gray;"  /></td>
+                <td class="bb3" width="10%" >
+                    <select id="oTipoCx" name="oTipoCx" autocomplete="off"  style=" width: 80%;border:1px solid gray;" >
+                      <option value=""></option>
+                      <option value="DOPPLER">DOPPLER</option>
+                      <option value="EG">EG</option>
+                      <option value="EP">EP</option>
+                      <option value="GPS">GPS</option>
+                      <option value="RN">RN</option>
+                      <option value="VT">VT</option>
+                    </select></td>
+                <td class="bb3" colspan="3"  width="24%">
+                    <div class="btn-group">
+                      <div class="checkbox checkbox-primary checkbox-inline">
+                        <input id="ipPossGPS" class="styled" name="ipPossGPS"  type="checkbox">
+                        <label for="ipPossGPS">GPS</label>
+                      </div>
+                      <div class="checkbox checkbox-primary checkbox-inline">
+                        <input id="ipPossGrav" class="styled" name="ipPossGrav"  type="checkbox">
+                          <label for="ipPossGrav">Grav�metro</label>
+                      </div>
+                      <div class="checkbox checkbox-primary checkbox-inline">
+                        <input id="ipPossMira" class="styled" name="ipPossMira"  type="checkbox">
+                        <label for="ipPossMira">Mira</label>
+                      </div>
+                    </div>  
+                </td>
+                <td class="bb3" width="14%"><input name="ipProtocolo" id="ipProtocolo" autocomplete="off"  type="text" style="padding-left:5px;width: 80%;border: 1px solid gray;"/></td>
+              </tr>
+            </table>  
+
+            <table id="tbDesc"  width="100%" cellspacing="1" cellpadding="2">
+              <tr>
+                <td  class="bb3"><label id="Label1">Descri��o</label></td>
+                <td  class="bb3"><label id="Label2">Localiza��o</label></td>
+                <td  class="bb3"><label id="Label3">Itiner�rio</label></td>
+                <td  class="bb3"><label id="Label4">Observa��o</label></td>
+              </tr>
+              <tr>
+                <td width="25%" class="bb3"><textarea name="ipDscEst" class="clsminusc" rows="5" id="ipDscEst" style="border: 1px solid gray ;"></textarea></td>
+                <td width="25%" class="bb3"><textarea name="ipDscLoc" class="clsminusc" rows="5" id="ipDscLoc" style="border: 1px solid gray ;"></textarea></td>
+                <td width="25%" class="bb3"><textarea name="ipDscIti"  class="clsminusc" rows="5" id="ipDscIti" style="border: 1px solid gray;" readonly="true"></textarea></td>
+                <td width="25%" class="bb3"><textarea name="ipDscObs" class="clsminusc" rows="5" id="ipDscObs" style="border: 1px solid gray ;"></textarea></td>
+              </tr>
+            </table>
+
+            <a href="#divModalMemo" id="triger_memoBootEst"     data-toggle="modal" data-id="ipDscEst"      customerId="1"   style="display:none;" ></a>
+            <a href="#divModalMemo" id="triger_memoBootLoc"     data-toggle="modal" data-id="ipDscLoc"      customerId="2"   style="display:none;" ></a>
+            <a href="#divModalMemo" id="triger_memoBootIti"     data-toggle="modal" data-id="ipDscIti"      customerId="3"   style="display:none;" ></a>
+            <a href="#divModalMemo" id="triger_memoBootObs"     data-toggle="modal" data-id="ipDscObs"      customerId="4"   style="display:none;" ></a>  
+            <a href="#divModalMemo" id="triger_memoBootMonum"   data-toggle="modal" data-id="ipMonum"       customerId="5"   style="display:none;" ></a>
+            <a href="#divModalMemo" id="triger_memoBootTipoLoc" data-toggle="modal" data-id="ipTipoLocal"   customerId="6"   style="display:none;" ></a>
+            <a href="#divModalMemo" id="triger_memoBootInsc"    data-toggle="modal" data-id="ipInscChapa"   customerId="7"   style="display:none;" ></a>
+            <a href="#divModalMemo" id="triger_memoBootSit"     data-toggle="modal" data-id="ipSit"         customerId="8"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_ErroMonum"       data-toggle="modal" customerId="9"    style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_ErroTipoLocal"   data-toggle="modal" customerId="10"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_ErroSit"         data-toggle="modal" customerId="11"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_ErroConex"       data-toggle="modal" customerId="12"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_ErroLiberacao"   data-toggle="modal" customerId="13"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_SalvarSucess"    data-toggle="modal" customerId="14"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_selecaoFoto"     data-toggle="modal" customerId="19"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_selecaoGoogle"   data-toggle="modal" customerId="20"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_ErroFoto"        data-toggle="modal" customerId="22"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_InserirSucess"   data-toggle="modal" customerId="16"   style="display:none;" ></a>
+            <a href="#divModalErro" id="triger_InserirErro"     data-toggle="modal" customerId="17"   style="display:none;" ></a>
+              
+            <table id="tbCoord" width="100%" cellspacing="1" cellpadding="2" >
+              <tr>
+                <td class="bb3" colspan="4" ><label id="Label13">Latitude</label></td>
+                <td class="bb3" colspan="4" ><label id="Label24">Longitude</label></td>
+                <td class="bb3"  style="border : none">
+                    <label id="Label25">Diferen�a : </label>
+                    <label class="bb3" id="ipDiferenca" style="font-size:0.9em;"></label>
+                </td>
+              <td  style="border : none"></td>	
+                <td class="bb3" style="align:right;border : none"><label id="labelTrocarCoord2">Tratar Coordenadas :</label></td>
+                <td class="bb3" style="align:left;border : none"><label  id="labelTrocarCoord"></label></td>
+              </tr>
+              <tr>
+                <td class="bb3" width="5%" ><label id="Label23">Sinal</label></td>
+                <td class="bb3" width="5%" ><label id="Label14">G</label></td>
+                <td class="bb3" width="5%" ><label id="Label15">M</label></td>
+                <td class="bb3" width="10%" ><label id="Label16">S</label></td>
+                <td class="bb3" width="5%" ><label id="Label17">Sinal</label></td>
+                <td class="bb3" width="5%" ><label id="Label18">G</label></td>
+                <td class="bb3" width="5%" ><label id="Label19">M</label></td>
+                <td class="bb3" width="10%" ><label id="Label21">S</label></td>
+                <td class="bb3" width="17%" ><label id="Label20">Fonte</label></td>
+                <td class="bb3" width="8%" ><label id="LabelerSir"></label></td>
+                <td class="bb3"  colspan="2"><label id="Label22">Sistema de Refer�ncia</label></td>
+              </tr>
+              <tr>
+                <td class="bb3" ><input id="ipSinalLat" name="ipSinalLat" autocomplete="off"  type="text" maxLength ="1" style="padding-left:5px;border: 1px solid gray;" /></td>
+                <td class="bb3" ><input id="ipGLat"  name="ipGLat"  autocomplete="off"  type="text" maxLength ="2" style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" ><input id="ipMLat"  name="ipMLat" autocomplete="off"  type="text" maxLength ="2" style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" ><input id="ipSLat"  name="ipSLat" autocomplete="off"  type="text" maxLength="9" style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" ><input id="ipSinalLon" name="ipSinalLon" readonly="true" autocomplete="off"  value="-" type="text" style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" ><input id="ipGLon" name="ipGLon" autocomplete="off"  type="text" maxLength ="2"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" ><input id="ipMLon" name="ipMLon" autocomplete="off"  type="text" maxLength ="2"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" ><input id="ipSLon" name="ipSLon" autocomplete="off" type="text" maxLength="9"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                <td class="bb3" >
+                    <select id="ipFonte"  name="ipFonte" autocomplete="off"  style=" width: 80%;border: 1px solid gray;" >
+                        <option value=""></option>
+                        <option value="24">Poligona��o</option>
+                        <option value="21">Triangula��o</option>
+                        <option value="22">GPS Geod�sico</option>
+                        <option value="23">DOPPLER</option>
+                        <option value="25">GPS Topogr�fico</option>
+                        <option value="26">GPS Navega��o</option>
+                        <option value="27">Imagem</option>
+                        <option value="31">Carta 1:25000</option>
+                        <option value="32">Carta 1:50000</option>
+                        <option value="33">Carta 1:100000</option>
+                        <option value="34">Carta 1:250000</option>
+                        <option value="35">Carta 1:500000</option>
+                        <option value="36">Carta 1:1000000</option>
+                        <option value="37">Carta n�o especificada</option>
+                        <option value="40">Interpola��o</option>
+                        <option value="99">M�todo n�o especificado</option>
+                    </select>
+                </td>
+                <td style="border:0px;" >
+                  <button type="button" class="btn btn-primary btn-xs"id="lerSir"  style="visibility:hidden;  name="lerSir">
+                      <span id="spanbtLer" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Arquivo .sir&nbsp;</button>
+                  </button>
+                </td>
+                <td class="bb3" colspan="2">
+                    <div class="btn-group">
+                        <div class="radio radio-primary radio-inline">
+                            <input type="radio" id="radioSisRefSir" value="06" name="radioSisRef"><label for="radioSisRefSir">SIRGAS2000</label>
+                        </div>
+                    </div>
+                </td>
+                <td style="border:0px;"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#CoordComparaModal">Comparar Coordenadas</button></td>
+              </tr>  
+            </table>
+
+            <table id="tbOutrasInf"  width="100%" cellspacing="1" cellpadding="2">
+              <tr>
+                <td  width="15%" class="bb3"><label id="Label27">Projeto</label></td>
+                <td  width="15%" class="bb3"><label id="Label28">Linha</label></td>
+                <td  width="15%" class="bb3"><label id="Label29">Caderneta</label></td>
+                <td  width="15%" class="bb3"><label id="Label30">RN Anterior</label></td>
+                <td  class="bb3"><label id="Label31">Coment�rios</label></td>
+              </tr>
+              <tr>
+                <td valign="top" class="bb3"><input id="ipProjeto" autocomplete="off"  name="ipProjeto" type="text"  style="padding-left:5px;border: 1px solid gray;" /></td>
+                <td valign="top" class="bb3"><input id="ipLinha" autocomplete="off"  name="ipLinha"   type="text"  style="padding-left:5px;border: 1px solid gray;" /></td>
+                <td valign="top" class="bb3"><input id="ipCaderneta" autocomplete="off"  name="ipCaderneta"  type="text" style="padding-left:5px;border: 1px solid gray;" /></td>
+                <td valign="top" class="bb3"><input id="ipRNAnterior" autocomplete="off"   name="ipRNAnterior"  type="text" style="padding-left:5px;border: 1px solid gray;" /></td>
+                <td  rowspan="2" class="bb3"><textarea rows="3"  id="ipDscComent" name="ipDscComent" style="border: 1px solid gray;" ></textarea></td></tr>
+                <tr><td colspan="3"  class="bb3">Informante/Siape : <label style="color: #696969;" id="idLabelInfor"></label></td>
+                <td class="bb3">Unidade : <label style="color: #696969;" id="idLabelUnidade"></label></td>
+              </tr> 
+            </table>
+            
+            <br/>
+            <div id="divbotoes"  style="width:98%;display:inline-block;">
+                <input type="file" id="btnUp" class="btn btn-primary"  value ="" style="display:none;"  />
+
+                <!-- mudan�a Aislan -->
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" id="ddInserir" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false" title="Inserir">
+                    <span class="glyphicon glyphicon-plus"  aria-hidden="true"></span>&nbsp;&nbsp;Inserir&nbsp;
+                    <span class="caret"></span></button>                
+                    <ul class="dropdown-menu">
+                      <li id="liRegistro"><a href="#" id="actionRegistro">Registro</a></li>
+                      <li id="liArquivo" ><a href="#" id="actionArquivo" >Arquivo</a></li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" id="ddHist" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false" title="Visualizar REG">
+                      <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>&nbsp;&nbsp;Documentos&nbsp;
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li id="liREG"><a href="#" id="actionREG">REG</a></li>
+                      <li id="liRO"  style="display:none;"><a href="#" id="actionRO" >Relat�rio Ocupa��o</a></li>
+                      <li id="liFic" style="display:none;"><a href="#" id="actionFic">Ficha</a></li>
+                      <li id="liCad" style="display:none;"><a href="#" id="actionCad">Caderneta</a></li>
+                    </ul>
+                </div>
+
+                <button type="button" id="btnGoogle"   class="btn btn-primary btn-xs mesmo-tamanho"   value ="" title="Plotar esta��o no Mapa">
+                  <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;&nbsp;Mapa
+                </button>
+                <button type="button" id="btnExportArq" href="#divModalGeral" data-toggle="modal" customerId="18" value="" class="btn btn-primary btn-xs mesmo-tamanho" title="Exportar Coordenadas">
+                  <span class="glyphicon glyphicon-export" aria-hidden="true"></span>&nbsp;&nbsp;Exportar
+                </button>
+                <button type="button" id="btnfoto" name="btnfoto" class="btn btn-primary btn-xs mesmo-tamanho"  value="Foto" title="Enviar Foto Panor�mica e Foto da Chapa">
+                  <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>&nbsp;&nbsp;Foto
+                </button> 
+                <button type="button" id="btnDelete" class="btn btn-primary btn-xs mesmo-tamanho" data-target="#confirm-delete" data-toggle="modal"  value ="" title="Excluir registro selecionado">
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>&nbsp;&nbsp;Excluir
+                </button> 
+                <div id="DivdosLiberados"  style="display:inline-block;">
+                  <div  id="idLiberaGGC" class="[ btn-group ]" title="Liberar registro pela GGC">
+                    <input tabindex="1" type="checkbox"  id="checkLiberadoGGC" name="checkLiberadoGGC" class="btn-primary btn-xs mesmo-tamanho" />                   
+                    <label class="mylabel">Liberado GGC</label>
+                  </div>	
+                  <div  id="idLiberaProj" class="[ btn-group ]" title="Liberar registro pelo Projeto" >
+                    <input tabindex="1" type="checkbox"  id="checkLiberadoProj" name="checkLiberadoProj" class="btn-primary btn-xs mesmo-tamanho"  />                   
+                    <label class="mylabel">Liberado PROJ</label>
+                  </div>	
+                </div>
+                <button type="submit" id="btnSalvarEdicao" name="enviar" class="btn btn-primary btn-xs mesmo-tamanho"   value="" title="Salvar cr�ticas">
+                  <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;Salvar
+                </button>
+                <button type="button" id="btnTransform" name="enviar" class="btn btn-primary btn-xs mesmo-tamanho" style="display:none;"  value="" title="Clonar registro para outro levantamento">
+                  <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>&nbsp;&nbsp;Clonar
+                </button>
+                <button type="button" id="btnEnviarBDG" name="enviar" class="btn btn-primary btn-xs mesmo-tamanho" style="visibility:hidden"  value="" title="Enviar BDG">
+                  <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>&nbsp;&nbsp;Enviar BDG
+                </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    
+    </div>
+
+    <a href="#signup" id="triger_memo"  rel="leanModal" style="display:none;" ></a>
+    <a href="#idTabelaAuxSit" id="triger_sit"  rel="leanModal" style="display:none;" ></a>
+    <a href="#idTipoLocalBD" id="triger_loc"  rel="leanModal" style="display:none;" ></a>
+    <a href="#idMonumBD" id="triger_monum"  rel="leanModal" style="display:none;" ></a>
+    <a href="#idChamaUpload" id="triger_upload"  rel="leanModal" style="display:none;" ></a>
+    <a href="#tallModal" id="triger_insert"  rel="leanModalRoger" style="display:none;" ></a>
+
+    <!-- quando passar para modal bootstrap retirar esse modal -->
+    <div id="signup" >
+      <div id="signup-ct">
+        <div id="signup-header">
+          <h2>Compara Descritivos</h2>
+          <a class="modal_close" href="#"></a>
+        </div> 
+        <div style="margin :0px 5px 0px 10px;">
+          <label for="idValorBDG1">BDG</label>
+          <br/>
+          <div id="primeiraDiv1"></div>
+          <br/>
+          <label  for="idValorSADGeo1">SADGeo</label>
+          <br/>
+          <div id="segundaDiv1"></div>
+          <br/>
+        </div>
+     
+        <ul id="trigger-list" >
+          <li><a href="#" class="trigger Loc-trigger" onclick="abrirLoc();" style="display:none;" >Abrir Tipo Local</a></li>
+          <li><a href="#" class="trigger Monum-trigger" onclick="abrirMonum();" style="display:none;">Abrir Monumentaliza��o</a></li>
+        </ul> 	  
+      </div>
+    </div>
+
+    <div id="idTabelaAuxSit">
+      <div id="sit-ct">
+        <div id="sit-header">
+          <h2>Selecionar Situa��o</h2>
+          <a class="modal_close" href="#"></a>
+        </div> 
+        <div style="margin :0px 5px 0px 10px;">
+          <table id="idTbSituacao" class="paginated"  border="1"  charset="UTF-8" >
+            <thead>
+              <tr>
+                <td>COD</td>
+                <td>DESCRI��O</td>
+              </tr>
+            </thead>
+            <tbody>			   
+            </tbody>
+          </table>
+        </div>  
+      </div>  
+    </div>
+  
+    <div id="idTipoLocalBD" style="overflow:auto;overflow-x:hidden;" >
+      <div id="loc-ct"> 	
+	      <div id="loc-header">
+          <h2>Selecionar Tipo Local</h2>
+          <a class="modal_close" href="#"></a>
+        </div>  
+        <div style="margin :0px 5px 0px 10px;">
+          <table id="idTbTipoLocal" class="paginated" charset="UTF-8" >
+            <thead>
+              <tr>
+                <th>COD</th>
+                <th>DESCRI��O</th>
+              </tr>  
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+	    </div>
+	  </div>
+	
+    <div id="idMonumBD" style="overflow:auto;overflow-x:hidden;" >
+      <div id="monum-ct"> 	
+        <div id="monum-header">
+          <h2>Selecionar Monumentaliza��o</h2>
+          <a class="modal_close" href="#"></a>
+        </div>  
+        <div style="margin :0px 5px 0px 10px;">
+          <table id="idTbMonum" class="paginated" charset="UTF-8" >
+            <thead>
+              <tr>
+                <th>COD</th>
+                <th>DESCRI��O</th>
+              </tr>  
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="idChamaUpload"  >
+      <div id="loc-header">
+        <h2>Carregar Arquivo Sidgeo</h2>
+        <a class="modal_close" href="#"></a>
+      </div>  
+      <div id="PageUpload" style="margin :0px 5px 0px 10px;">
+      </div>
+    </div>	
+
+ <select id="selMudaTema" style="visibility: hidden;" class="label label-default btn-xs" data-style="btn-default btn-xs" style=" width: 50%;" >
+      <option value="0">Selecione o Tema</option>
+      <option  value="1">VRF</option>
+      <option value="2">Altimetria</option>
+      <option value="3">Planimetria</option>
+      <option value="4">Gravimetria</option>
+      <option class="tGGC" value="5">GGC-SC</option>
+      <option class="tGGC" value="6">GGC-CE</option>
+      <option class="tGGC" value="7">GGC-PA</option>
+      <option class="tGGC" value="8">GGC-BA</option>
+      <option class="tGGC" value="9">GGC-GO</option>
+      <option class="tGGC" value="10">GGC-DF</option>
+      <option class="tGGC" value="11">GLGC</option>	 
+      <option class="tGGC" value="12">Todos</option>	
+    </select>	
+
+    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none" >
+        <li><a tabindex="-1" href="#">Min�sculo</a></li>
+        <li class="divider"></li>
+        <li><a tabindex="-1" href="#"></a></li>
+    </ul>
+
+    <a name="final" id="final"></a>
+
+  </body>
+</html>

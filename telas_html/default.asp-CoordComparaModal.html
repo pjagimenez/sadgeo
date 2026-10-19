@@ -1,0 +1,189 @@
+
+    <!-- in�cio modal compara��o Coordenadas -->
+    <div class="modal fade" id="CoordComparaModal" style="width:98%;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Compara��o de Coordenadas</h4>
+          </div>
+          <div class="modal-body">
+              <input type="hidden" id="SinallatComp_B" />	 
+              <input type="hidden" id="GlatComp_B" />
+              <input type="hidden" id="MlatComp_B" />
+              <input type="hidden" id="GlatComp_B" />
+              <input type="hidden" id="SlatComp_B" />
+              <input type="hidden" id="SinallonComp_B" />
+              <input type="hidden" id="GlonComp_B" />
+              <input type="hidden" id="MlonComp_B" /> 
+              <input type="hidden" id="SlonComp_B" />
+              <input type="hidden" id="fonteComp_B" />   
+              <input type="hidden" id="DifComp_B" />
+              <input type="hidden" id="datCalculoBDGhidd" />
+              <input type="hidden" id="datLevSadgeohidd" />                  
+
+              <label style="color:blue;">BDG</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Data da Coordenada :</label>&nbsp;&nbsp;<label id="dataCoordBDG"></label>&nbsp;&nbsp;<label style="font-size:0.7em;" id="dataCoordOBS"></label>
+              <table id="tbCoordComparaB" width="100%" cellspacing="1" cellpadding="2">
+                <tr>
+                  <td class="bb3" colspan="4" ><label id="Label13">Latitude</label></td>
+                  <td class="bb3" colspan="4" ><label id="Label24">Longitude</label></td>
+                  <td class="bb3"  style="border : none"></td>
+                </tr>
+                <tr>
+                  <td class="bb3" width="8%" ><label id="LabelSinalLat">Sinal</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelGrauLat">G</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelMinLat">M</label></td>
+                  <td class="bb3" width="14%" ><label id="LabelSegLat">S</label></td>
+                  <td class="bb3" width="8%" ><label id="LabelSinalLon">Sinal</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelGrauLon">G</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelMinLon">M</label></td>
+                  <td class="bb3" width="14%" ><label id="LabelSegLOn">S</label></td>
+                  <td class="bb3" width="25%" ><label id="LabelFontComp">Fonte</label></td>
+                  <td class="bb3"  colspan="2"><!-- espa�o vago no lugar do Datum --></td>
+                </tr>
+                <tr>
+                  <td class="bb3" ><input id="ipSinalLat_CB" readonly="true" name="ipSinalLat_CB" autocomplete="off"  type="text" maxLength ="1" style="padding-left:5px;border: 1px solid gray;" /></td>
+                  <td class="bb3" ><input id="ipGLat_CB" readonly="true"  name="ipGLat_CB"  autocomplete="off"  type="text" maxLength ="2" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipMLat_CB" readonly="true" name="ipMLat_CB" autocomplete="off"  type="text" maxLength ="2" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipSLat_CB" readonly="true" name="ipSLat_CB" autocomplete="off"  type="text" maxLength="9" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipSinalLon_CB" name="ipSinalLon_CB" readonly="true" autocomplete="off"  value="-" type="text" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipGLon_CB" readonly="true" name="ipGLon_CB" autocomplete="off"  type="text" maxLength ="2"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipMLon_CB" readonly="true" name="ipMLon_CB" autocomplete="off"  type="text" maxLength ="2"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipSLon_CB" readonly="true"name="ipSLon_CB" autocomplete="off" type="text" maxLength="9"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" >
+                      <select id="ipFonte_CB" disabled="disabled" name="ipFonte_CB" autocomplete="off"  style=" width: 98%;border: 1px solid gray;" >
+                          <option value=""></option>
+                          <option value="24">Poligona��o</option>
+                          <option value="21">Triangula��o</option>
+                          <option value="22">GPS Geod�sico</option>
+                          <option value="23">DOPPLER</option>
+                          <option value="25">GPS Topogr�fico</option>
+                          <option value="26">GPS Navega��o</option>
+                          <option value="27">Imagem</option>
+                          <option value="31">Carta 1:25000</option>
+                          <option value="32">Carta 1:50000</option>
+                          <option value="33">Carta 1:100000</option>
+                          <option value="34">Carta 1:250000</option>
+                          <option value="35">Carta 1:500000</option>
+                          <option value="36">Carta 1:1000000</option>
+                          <option value="37">Carta n�o especificada</option>
+                          <option value="40">Interpola��o</option>
+                          <option value="99">M�todo n�o especificado</option>
+                      </select>
+                  </td>
+                  <td class="bb3" colspan="2">
+                    <div class="btn-group"><!-- espa�o vago no lugar do Datum -->
+                    </div>
+                  </td>
+                </tr>  
+              </table>
+              <hr>
+
+              <label style="color:red;">SADGeo</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Data da Coordenada :</label>&nbsp;&nbsp;<label id="dataCoordSADGeo"></label>
+              <table id="tbCoordComparaS" width="100%" cellspacing="1" cellpadding="2">
+                <tr>
+                  <td class="bb3" colspan="4" ><label id="Label13">Latitude</label></td>
+                  <td class="bb3" colspan="4" ><label id="Label24">Longitude</label></td>
+                  <td class="bb3"  style="border : none"></td>
+                </tr>
+                <tr>
+                  <td class="bb3" width="8%" ><label id="LabelSinalLatS">Sinal</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelGrauLatS">G</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelMinLatS">M</label></td>
+                  <td class="bb3" width="14%" ><label id="LabelSegLatS">S</label></td>
+                  <td class="bb3" width="8%" ><label id="LabelSinalLonS">Sinal</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelGrauLonS">G</label></td>
+                  <td class="bb3" width="7%" ><label id="LabelMinLonS">M</label></td>
+                  <td class="bb3" width="14%" ><label id="LabelSegLonS">S</label></td>
+                  <td class="bb3" width="25%" ><label id="LabelFontCompS">Fonte</label></td>
+                  <td class="bb3"  colspan="2"><!-- espa�o vago no lugar do Datum --></td>
+                </tr>
+                <tr>
+                  <td class="bb3" ><input id="ipSinalLat_CS" readonly="true"  name="ipSinalLat_CS" autocomplete="off"  type="text" maxLength ="1" style="padding-left:5px;border: 1px solid gray;" /></td>
+                  <td class="bb3" ><input id="ipGLat_CS"  readonly="true"  name="ipGLat_CS"  autocomplete="off"  type="text" maxLength ="2" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipMLat_CS"  readonly="true"  name="ipMLat_CS" autocomplete="off"  type="text" maxLength ="2" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipSLat_CS"  name="ipSLat_CS" autocomplete="off"  type="text" maxLength="7" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipSinalLon_CS" name="ipSinalLon_CS" readonly="true" autocomplete="off"   type="text" style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipGLon_CS" readonly="true"  name="ipGLon_CS" autocomplete="off"  type="text" maxLength ="2"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipMLon_CS" readonly="true"  name="ipMLon_CS" autocomplete="off"  type="text" maxLength ="2"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" ><input id="ipSLon_CS" readonly="true"  name="ipSLon_CS" autocomplete="off" type="text" maxLength="7"  style="padding-left:5px;border: 1px solid gray;"/></td>
+                  <td class="bb3" >
+                      <select id="ipFonte_CS" disabled="disabled"  name="ipFonte_CS" autocomplete="off"  style=" width: 98%;border: 1px solid gray;" >
+                        <option value=""></option>
+                        <option value="24">Poligona��o</option>
+                        <option value="21">Triangula��o</option>
+                        <option value="22">GPS Geod�sico</option>
+                        <option value="23">DOPPLER</option>
+                        <option value="25">GPS Topogr�fico</option>
+                        <option value="26">GPS Navega��o</option>
+                        <option value="27">Imagem</option>
+                        <option value="31">Carta 1:25000</option>
+                        <option value="32">Carta 1:50000</option>
+                        <option value="33">Carta 1:100000</option>
+                        <option value="34">Carta 1:250000</option>
+                        <option value="35">Carta 1:500000</option>
+                        <option value="36">Carta 1:1000000</option>
+                        <option value="37">Carta n�o especificada</option>
+                        <option value="40">Interpola��o</option>
+                        <option value="99">M�todo n�o especificado</option>
+                      </select>
+                  </td>
+                  <td class="bb3" colspan="2">
+                    <div class="btn-group"><!-- espa�o vago no lugar do Datum -->
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <table>
+                <tr><td colspan="12"><hr></td> </tr>
+                <tr><td><label id="Label25">Diferen�a : </label>
+                    <label class="bb3" id="ipDiferencaComp" style="font-size:0.9em;"></label></td>
+                </tr> 
+                <tr><td>
+                    <br/>  
+                    <div class="btn-group" id="radioComparaCoord">
+                        <label id="idAct">A��es : </label>
+                        <div class="row">
+                          <div class="col-md-8">
+                              <fieldset class="scheduler-border">
+                                <legend class="scheduler-border">Prorrogar Cr�tica</legend>
+                                <div class="radio radio-primary radio-inline">
+                                    <input type="radio" id="idTratarCoordNCrit" value="0" name="idTratarCoord">
+                                    <label for="idTratarCoordNCrit">N�o criticada</label>
+                                </div> 
+                                <div class="radio radio-primary radio-inline">
+                                    <input type="radio" id="idTratarCoordAguard" value="3" name="idTratarCoord">
+                                    <label for="idTratarCoordAguard">Aguardando cr�tica</label>
+                                </div>
+                        
+                              </fieldset>
+                          </div>
+                          <div class="col-md-8">
+                            <fieldset class="scheduler-border">
+                              <legend class="scheduler-border">Solicitar Carga</legend>
+                              <div class="radio radio-primary radio-inline">
+                                  <input type="radio" id="idTratarCoordManter" value="1" name="idTratarCoord">
+                                  <label for="idTratarCoordManter">Manter antiga</label>
+                              </div>
+                              <div class="radio radio-primary radio-inline">
+                                  <input type="radio" id="idTratarCoordTrocar" value="2" name="idTratarCoord">
+                                  <label for="idTratarCoordTrocar">Atualizar com nova</label>
+                              </div>
+                            </fieldset>
+                          </div>
+                        </div>                  
+                    </div>
+                  </td>
+                </tr>	
+              </table>
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btSalvarMudCoord" class="btn btn-primary">Salvar A��o</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- final modal compara��o Coordenadas -->

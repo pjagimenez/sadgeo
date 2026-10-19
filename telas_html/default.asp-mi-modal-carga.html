@@ -1,0 +1,56 @@
+ 
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal-carga">
+      <div class="modal-dialog" style="width:90%">>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" color="white" id="myModalLabel2">Carga da Planimetria</h4>
+          </div>
+          <div class="modal-body">
+            <div class="col-lg-12 col-sm-6 col-12">
+                <h4>Carga da Planimetria</h4>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">Buscar Arquivo .sir<input type="file"  accept=".sir" id="arquivo" onChange="handleFile(this.files);" onclick="this.value=null;"/>
+                    </span>
+                  </span>
+                  <input type="text" class="form-control" readonly />
+                </div>
+                <br/>
+                <span class="help-block">Tabela com arquivo de carga GPS</span>
+            </div>
+            <br/><br/>	
+            <div id="divTab" style="margin-left:0; margin-right:0; width:100%">
+            </div>
+            <br/><br/>	
+            <div>
+              <label id="GPSStatus" style="visibility:hidden"  >Teste</label>
+            </div>        
+            <div id="dvteste" style="display:none;margin-left:1; width:95%">
+              <table id="teste" class="tabelaGPS" cellspacing="0"  style="font-size:0.9em;">
+                <thead>
+                  <tr>
+                    <th>COD</th>
+                    <th>MATER</th>
+                    <th>TIPO_LOCAL</th>
+                    <th>CONEXAO</th>
+                    <th>GEOCODIGO</th>
+                    <th>OUTRO_LEV</th>
+                    <th>PROJETO</th>
+                    <th>MATER_BDG</th>
+                    <th>OUTRA_CX</th>
+                    <th>ATIVIDADE</th>            
+                  </tr>
+                </thead>
+              </table>
+            </div>	
+            <br/>
+          </div> 
+          <br/>
+          <br/>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" >Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>

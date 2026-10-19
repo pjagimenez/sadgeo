@@ -1,0 +1,71 @@
+ <!-- In�cio Modal Pesquisa Esta��es -->		
+    <div id="divModalPesqEst" class="modal" style="zoom:0.9;">
+      <div class="modal-dialog"  style="width:900px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="titleModal" class="modal-title">Filtros</h4>
+          </div>
+          <div class="modal-body">
+            <div style="margin :0px 5px 0px 10px;">            
+              <label for="idPesqEstac">Esta��es&nbsp;&nbsp;<font style="font-style:italic;">(separadas por v�rgula)</font></label><br/>
+              <div id="divPesqEst">
+                <input type="text" id="idPesqEstac" class="form-control input-sm"/>
+              </div>
+              <hr>
+              <div id="divselectArq">
+                <label class="control-label" id="lbSelecPesqArq" for="SelecPesqArq">Arquivos&nbsp;&nbsp;<font style="font-style:italic;">(selecione na caixa de sele��o os arquivos desejados)</font></</label>
+                <select class="form-control input-sm" data-live-search="true" multiple  id="SelecPesqArq" name="SelecPesqArq" ></select>
+              </div>
+              <hr>
+              <div id="divselectMu">
+                <label class="control-label" id="lbSelecPesqMu" for="SelecPesqMu">Munic�pios&nbsp;&nbsp;<font style="font-style:italic;">(selecione na caixa de sele��o os munic�pios desejados)</font></label>
+                <select class="form-control input-sm" data-live-search="true" multiple id="SelecPesqMu" name="SelecPesqMu" ></select>
+              </div>
+              <hr>
+              <div id="divselectCrit">
+                <label class="control-label" id="lbSelecCritico" for="selectCritico">Cr�ticos&nbsp;&nbsp;<font style="font-style:italic;">(selecione na caixa de sele��o os cr�ticos desejados)</font></label>
+                <select class="form-control input-sm" data-live-search="true" multiple id="selectCritico" name="selectCritico" ></select>
+              </div>
+              <hr>		   	   
+              <div id="divselectCodProj">
+                <label class="control-label" id="lbSelectCodProj" for="selectCodProj">Projetos&nbsp;&nbsp;<font style="font-style:italic;">(selecione na caixa de sele��o os projetos desejados)</font></label>
+                <select class="form-control input-sm" data-live-search="true" multiple id="selectCodProj" name="selectCodProj" ></select>
+              </div>
+              <hr>
+              <div id="divselectLinha">
+                <label class="control-label" id="lbSelectLinha" for="selectPesqLinha">Linhas&nbsp;&nbsp;<font style="font-style:italic;">(selecione na caixa de sele��o as linhas desejadas)</font></label>
+                <select class="form-control input-sm" data-live-search="true" multiple id="selectPesqLinha" name="selectPesqLinha" ></select>
+              </div>		   
+              <hr>
+              <div id="divselectLiber">
+                <label class="control-label" id="lbselectLiber" for="selLiberRet">Por Libera��o</label>
+                <select class="form-control input-sm selectpicker" data-live-search="true"  id="selLiberRet" name="selLiberRet" >
+                    <option value=""></option>
+                    <option value="0">Todos</option>
+                    <option value="1">Liberado GGC</option>
+                    <option value="2">Retido GGC</option>
+                    <option value="3">Liberado PROJ</option>
+                    <option value="4">Retido PROJ</option>	
+                </select> 
+              </div>
+              <hr>	
+              <div id="divcodUnico">
+                <label class="control-label" id="lbSelectCodUnico" for="selectPesqCodUnico">N�mero �nico de Execu��o&nbsp;&nbsp;<font style="font-style:italic;">(selecione na caixa de selec�o ao N� Unicos desejados</font></label>
+                <select class="form-control input-sm" data-live-search="true" multiple id="selectPesqCodUnico" name="selectPesqCodUnico" ></select>
+              </div>		   
+              <hr>			   
+            </div>
+          </div>
+          <br/>
+          <br/>	
+          <div class="modal-footer"> 
+            <input type="button" class="btn btn-success btn-sm" value="Pesquisar" data-dismiss="modal" onclick="PesqEstac();"/>
+            <input type="button" class="btn btn-warning btn-sm" value="Limpar filtros" data-dismiss="modal" onclick="fnResetAllFilters();"/>
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >Fechar</button>
+          </div>
+        </div>		
+      </div>
+    </div>
+    <!-- Fim Modal Pesquisa Esta��es -->	    
+   

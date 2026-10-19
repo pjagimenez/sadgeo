@@ -1,0 +1,54 @@
+
+    <div id="divFuncionario" class="modal modal-wide fade" >
+      <div class="modal-dialog"  style="width:900px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Inserir Informante</h4>
+          </div>
+          <div class="modal-body">
+              <form id="formInsFunc" class="formInserir"  method="POST" >	  
+                <div class="row">
+                  <div class="col-md-2">
+                      <label class="control-label" for="InsFuncSiape">SIAPE</label>
+                      <input type="text" class="form-control input-sm" id="InsFuncSiape" name="InsFuncSiape" />
+                  </div>
+                </div>	  
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="control-label" for="InsFuncNome">Nome</label>
+                    <input type="text" class="form-control input-sm" id="InsFuncNome" name="InsFuncNome" />
+                  </div>
+                </div>
+                  
+                <div class="row">
+                  <div class="col-md-3">
+                      <label class="control-label" for="InsFuncLotacao">Lota��o</label>
+                      <select class="form-control input-sm" name="InsFuncLotacao" id="InsFuncLotacao" style=" width: 95%;" >	
+                        <option value=""></option>
+                        <option lot = "-1"  value=""></option>
+                        <option lot = "0" value="CGED-GISD">CGED-GISD</option>
+                        <option lot = "2" value="CGED-GRRV">CGED-GRRV</option>
+                        <option lot = "3" value="CGED-GRRP">CGED-GRRP</option>
+                        <option lot = "4" value="CGED-GRGG">CGED-GRGG</option> 
+                        <option lot = "1" value="CGED-GPRO">CGED-GPRO</option> 
+                        <option lot = "15" value="CGED-GAB">CGED-GAB</option> 	  
+                        <option lot = "8"  value="GGC-BA">GGC-BA</option>
+                        <option lot = "6"  value="GGC-CE">GGC-CE</option>
+                        <option lot = "10" value="GGC-DF">GGC-DF</option>
+                        <option lot = "9"  value="GGC-GO">GGC-GO</option>
+                        <option lot = "7"  value="GGC-PA">GGC-PA</option>
+                        <option lot = "5" value="GGC-SC">GGC-SC</option>		
+                        <option lot = "11" value="GLGC">GLGC</option>				  
+                    </select>
+                  </div>	
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-primary btn-xs" value="Inserir" id="btnInsFunc" />
+                  <input type="button" class="btn btn-primary btn-xs" value="Fechar" data-dismiss="modal"   onclick="MontarArquivo();"/>
+                </div>  
+              </form>	
+          </div>	
+       </div>		
+      </div>
+    </div>
