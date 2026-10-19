@@ -1,79 +1,24 @@
 spring:
-
   application:
     name: sadgeo
-
   datasource:
-    url: ${SDAGEO_ORACLE_URL}
-    username: ${SADGEO_ORACLE_USER}
-    password: ${SADGEO_ORACLE_PASSWORD}
+    url: ${SADGEO_DB_URL:}
+    username: ${SADGEO_DB_USERNAME:}
+    password: ${SADGEO_DB_PASSWORD:}
     driver-class-name: oracle.jdbc.OracleDriver
-
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      connection-timeout: 30000
-
   jpa:
-
     open-in-view: false
-
     hibernate:
       ddl-auto: validate
-
-    show-sql: true
-
     properties:
       hibernate:
-        format_sql: true
-        jdbc.fetch_size: 100
-        default_schema: BDG_VALIDA
-
+        default_schema: ${SADGEO_DB_SCHEMA:BDG_VALIDA}
   jackson:
     time-zone: America/Sao_Paulo
-    serialization:
-      write-dates-as-timestamps: false
-
-  servlet:
-    multipart:
-      enabled: true
-
-      # grava multipart em disco imediatamente,
-      # evitando manter arquivos grandes em memória
-      file-size-threshold: 0B
-
-      max-file-size: ${SADGEO_MULTIPART_MAX_FILE_SIZE:50MB}
-      max-request-size: ${SADGEO_MULTIPART_MAX_REQUEST_SIZE:50MB}
-      #location: ${MULTIPART_TEMP_DIR:/var/tmp/sadgeo-upload}
-
-vaadin:
-  launch-browser: true
-  allowed-packages: com.vaadin,br.gov.ibge.geodesia.sadgeo
-
+server:
+  port: ${PORT:8080}
 management:
   endpoints:
     web:
       exposure:
         include: health,info
-
-  endpoint:
-    health:
-      probes:
-        enabled: true
-
-  health:
-    livenessstate:
-      enabled: true
-
-    readinessstate:
-      enabled: true
-
-    db:
-      enabled: true
-
-server:
-  port: 8080
-
-logging:
-  level:
-    org.hibernate.SQL: DEBUG

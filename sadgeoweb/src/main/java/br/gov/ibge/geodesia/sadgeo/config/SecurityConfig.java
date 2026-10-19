@@ -7,12 +7,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
-	@Bean
-	SecurityFilterChain security(HttpSecurity http) throws Exception {
-
-		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-
-		return http.build();
-	}
+    @Bean
+    SecurityFilterChain security(HttpSecurity http) throws Exception {
+        // 0.1 exposes read-only dashboard data. Add institutional authentication before public deployment.
+        http.authorizeHttpRequests(auth -> auth
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/", "/index.html", "/assets/**", "/api/dashboard/**", "/actuator/health").permitAll()
+            .anyRequest().denyAll());
+        return http.build();
+    }
 }

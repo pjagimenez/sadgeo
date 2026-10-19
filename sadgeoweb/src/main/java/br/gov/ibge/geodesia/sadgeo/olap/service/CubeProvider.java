@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.gov.ibge.geodesia.sadgeo.dominio.dashboard.entity.FatoPainelEntity;
 import br.gov.ibge.geodesia.sadgeo.dominio.dashboard.repository.FatoPainelRepository;
 
+@org.springframework.context.annotation.Profile("!demo")
 @Service
 public class CubeProvider {
 

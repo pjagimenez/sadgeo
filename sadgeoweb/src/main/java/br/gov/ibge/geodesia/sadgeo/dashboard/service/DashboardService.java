@@ -20,6 +20,7 @@ import br.gov.ibge.geodesia.sadgeo.dominio.dashboard.repository.PainelResumoAnua
 import br.gov.ibge.geodesia.sadgeo.dominio.dashboard.repository.PainelResumoCampanhaAnualRepository;
 import br.gov.ibge.geodesia.sadgeo.dominio.dashboard.repository.PainelResumoConsolidadoRepository;
 
+@org.springframework.context.annotation.Profile("!demo")
 @Service
 
 public class DashboardService {

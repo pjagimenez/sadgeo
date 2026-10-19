@@ -21,7 +21,7 @@ public interface ItemEstacaoCampanhaRepository extends JpaRepository<ItemEstacao
 			    s.campanha as campanha,
 			    s.situacaoMarcoPrincipal as situacaoMarcoPrincipal,
 			    s.dataEntrada as dataEntrada
-			from SadgeoEntity s
+			from ItemEstacaoCampanhaEntity s
 			where s.campanha = :campanha
 			  and s.situacaoMarcoPrincipal = :situacao
 			""")

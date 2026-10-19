@@ -10,6 +10,7 @@ import br.gov.ibge.geodesia.sadgeo.dominio.registro.repository.ItemEstacaoCampan
 import br.gov.ibge.geodesia.sadgeo.registro.EstacaoGridProjection;
 import br.gov.ibge.geodesia.sadgeo.registro.dto.EstacaoGridDTO;
 
+@org.springframework.context.annotation.Profile("!demo")
 @Service
 public class EstacaoItemCampanhaService {
 

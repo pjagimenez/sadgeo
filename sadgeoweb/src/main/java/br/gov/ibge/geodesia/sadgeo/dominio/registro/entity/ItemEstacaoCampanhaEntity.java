@@ -1,5 +1,6 @@
 package br.gov.ibge.geodesia.sadgeo.dominio.registro.entity;
 
+import org.locationtech.jts.geom.Point;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;

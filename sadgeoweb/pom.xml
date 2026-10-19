@@ -1,218 +1,34 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0">
-
-	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
-	</parent>
-
-	<groupId>br.gov.ibge.geodesia</groupId>
-	<artifactId>sadgeo</artifactId>
-	<version>1.0.20261015f</version>
-
-	<properties>
-		<java.version>17</java.version>
-		<vaadin.version>24.8.8</vaadin.version>
-
-		<!--
-		<nexus.url.ibge>http://c</nexus.url.ibge> -->
-		<nexus.url.ibge>http://xaplprd14v.ibge.gov.br:8081</nexus.url.ibge>
-
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${vaadin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc11</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-spatial</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.locationtech.jts</groupId>
-			<artifactId>jts-core</artifactId>
-			<version>1.19.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>tech.tablesaw</groupId>
-			<artifactId>tablesaw-core</artifactId>
-			<version>0.43.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-	</dependencies>
-
-
-	<build>
-
-		<plugins>
-
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-
-					<execution>
-						<id>build-info</id>
-						<goals>
-							<goal>build-info</goal>
-						</goals>
-					</execution>
-
-					<execution>
-						<id>repackage</id>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>openshift-build</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<!-- limpa contexto temporário -->
-								<delete dir="${project.build.directory}/ocp" />
-								<!-- cria contexto -->
-								<mkdir dir="${project.build.directory}/ocp" />
-								<!-- copia Dockerfile -->
-								<copy
-									file="${basedir}/openshift/Dockerfile"
-									todir="${project.build.directory}/ocp" />
-								<!-- copia o jar gerado -->
-								<copy
-									file="${project.build.directory}/${project.build.finalName}.jar"
-									todir="${project.build.directory}/ocp" />
-								<!-- dispara build no OpenShift -->
-								<exec executable="oc">
-									<arg value="start-build" />
-									<arg value="sadgeo" />
-									<arg
-										value="--from-dir=${project.build.directory}/ocp" />
-									<arg value="--follow" />
-								</exec>
-
-							</target>
-						</configuration>
-
-					</execution>
-
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>${vaadin.version}</version>
-
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-frontend</goal>
-							<goal>build-frontend</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
-	</build>
-
-	<profiles>
-
-		<profile>
-
-			<id>production</id>
-
-			<properties>
-				<vaadin.productionMode>true</vaadin.productionMode>
-
-			</properties>
-
-		</profile>
-
-	</profiles>
-	<repositories>
-		<repository>
-			<id>nexus-IBGE</id>
-			<name>Repositorio do IBGE</name>
-			<url>${nexus.url.ibge}/repository/maven-public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<distributionManagement>
-		<!-- Mudanças realizadas por causa da migração do openshift -->
-		<repository>
-			<id>nexus-releases</id>
-			<uniqueVersion>true</uniqueVersion>
-			<url>${nexus.url.ibge}/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<uniqueVersion>true</uniqueVersion>
-			<url>${nexus.url.ibge}/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-parent</artifactId><version>3.5.0</version></parent>
+  <groupId>br.gov.ibge.geodesia</groupId><artifactId>sadgeo</artifactId><version>0.1.0</version>
+  <properties><java.version>17</java.version><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+  <dependencies>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-data-jpa</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-security</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-actuator</artifactId></dependency>
+    <dependency><groupId>com.oracle.database.jdbc</groupId><artifactId>ojdbc11</artifactId><scope>runtime</scope></dependency>
+    <dependency><groupId>org.hibernate.orm</groupId><artifactId>hibernate-spatial</artifactId></dependency>
+    <dependency><groupId>org.locationtech.jts</groupId><artifactId>jts-core</artifactId><version>1.19.0</version></dependency>
+    <dependency><groupId>tech.tablesaw</groupId><artifactId>tablesaw-core</artifactId><version>0.43.1</version></dependency>
+    <dependency><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><optional>true</optional></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+    <dependency><groupId>org.springframework.security</groupId><artifactId>spring-security-test</artifactId><scope>test</scope></dependency>
+  </dependencies>
+  <build><plugins>
+    <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId><executions><execution><goals><goal>build-info</goal></goals></execution></executions></plugin>
+    <plugin><groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId><version>3.5.0</version>
+      <configuration><workingDirectory>${project.basedir}/frontend</workingDirectory><executable>npm</executable></configuration>
+      <executions>
+        <execution><id>frontend-install</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><arguments><argument>ci</argument></arguments></configuration></execution>
+        <execution><id>frontend-build</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><arguments><argument>run</argument><argument>build</argument></arguments></configuration></execution>
+      </executions>
+    </plugin>
+    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><executions>
+      <execution><id>react-static</id><phase>process-resources</phase><goals><goal>copy-resources</goal></goals><configuration>
+        <outputDirectory>${project.build.outputDirectory}/static</outputDirectory><resources><resource><directory>${project.basedir}/frontend/dist</directory><filtering>false</filtering></resource></resources>
+      </configuration></execution>
+    </executions></plugin>
+  </plugins></build>
 </project>
