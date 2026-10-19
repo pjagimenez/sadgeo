@@ -1,4 +1,4 @@
-# SADGEO — versão 0.1.0
+# SADGEO — versão 0.2.0
 
 Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. Java 17 ou 21, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
 
@@ -9,20 +9,20 @@ Na raiz do repositório:
 ```sh
 cd sadgeoweb
 mvn clean verify
-java -jar target/sadgeo-0.1.0.jar --spring.profiles.active=demo
+java -jar target/sadgeo-0.2.0.jar --spring.profiles.active=demo
 ```
 
 O Maven executa `npm ci`, compila o React e copia o resultado para o JAR. Abra o endereço da aplicação na porta **8080** em sua máquina. O perfil `demo` não conecta ao banco e exibe um aviso permanente de **dados fictícios**. Não use esse perfil para conferir indicadores reais. Na página de login, clique em **Entrar na demonstração**; não informe credenciais.
 
-O portal incorpora o layout de `sadgeo-react-web.7z`: login pêssego/violeta, cabeçalho, menu lateral, ajuda, tema/projeto, rodapé e grade Material UI com seleção e detalhes. Rotas: `/login`, `/index` e `/registros`. O tema filtra os registros; o dashboard apresenta os totais gerais. A grade consulta os fatos analíticos, não edita estações.
+O portal incorpora o layout de `sadgeo-react-web.7z`: login pêssego/violeta, cabeçalho, menu lateral, ajuda, tema/projeto, rodapé e grade Material UI com seleção e detalhes. Rotas: `/login`, `/index` e `/registros`. Crítica de Dados e Análise usam o mesmo template de consulta, com filtros e paginação no servidor; o dashboard apresenta os totais gerais. A grade consulta os fatos analíticos, não edita estações.
 
 Verificação por terminal:
 
 ```sh
-curl --fail http://127.0.0.1:8080/api/dashboard/config
+curl --fail http://127.0.0.2:8080/api/dashboard/config
 # Sem sessão, esta consulta retorna HTTP 401:
-curl -i http://127.0.0.1:8080/api/dashboard/resumo
-curl --fail http://127.0.0.1:8080/actuator/health
+curl -i http://127.0.0.2:8080/api/dashboard/resumo
+curl --fail http://127.0.0.2:8080/actuator/health
 ```
 
 ## 2. Executar com o Oracle existente
@@ -35,7 +35,7 @@ export SADGEO_DB_USERNAME='seu_usuario'
 read -rsp 'Senha Oracle: ' SADGEO_DB_PASSWORD; echo
 export SADGEO_DB_PASSWORD
 export SADGEO_DB_SCHEMA='BDG_VALIDA'
-java -jar target/sadgeo-0.1.0.jar --spring.profiles.active=prod
+java -jar target/sadgeo-0.2.0.jar --spring.profiles.active=prod
 ```
 
 No PowerShell, use `$env:SADGEO_DB_URL = '...'` e defina as demais variáveis pelo mecanismo seguro da sua organização. Não coloque senhas em arquivos versionados nem em argumentos de execução.
@@ -67,7 +67,7 @@ export SADGEO_LDAP_CONNECT_TIMEOUT_MS='5000'
 export SADGEO_LDAP_READ_TIMEOUT_MS='10000'
 # Deixe SADGEO_LDAP_URL sem valor para usar HOST + PORT:
 unset SADGEO_LDAP_URL
-java -jar target/sadgeo-0.1.0.jar --spring.profiles.active=prod
+java -jar target/sadgeo-0.2.0.jar --spring.profiles.active=prod
 ```
 
 No Eclipse: **Run Configurations → Environment**. No VS Code: seção `env`/`envFile` da configuração de execução Java. No OpenShift: variáveis do deployment/ConfigMap; credenciais Oracle devem ficar em Secret. `sadgeoweb/.env.example` lista as variáveis, mas o Spring Boot não carrega `.env` automaticamente; configure a IDE ou exporte-as antes de iniciar.
@@ -78,7 +78,7 @@ No Eclipse: **Run Configurations → Environment**. No VS Code: seção `env`/`e
 
 O JDK precisa confiar no certificado do AD. É possível selecionar o truststore institucional pela ENVVAR padrão da JVM `JAVA_TOOL_OPTIONS`, por exemplo `-Djavax.net.ssl.trustStore=/caminho/truststore.p12 -Djavax.net.ssl.trustStoreType=PKCS12`. Não desabilite TLS nem validação de hostname. O bind usa o usuário e a senha digitados no login; não há credenciais fixas de administrador. A conexão com AD real ainda precisa ser validada na instituição.
 
-Consultas exigem sessão no servidor. O cliente obtém CSRF em `GET /api/auth/csrf`, envia credenciais por `POST /api/auth/login` (formulário URL-encoded), consulta `GET /api/auth/me` e encerra em `POST /api/auth/logout`. Respostas são JSON; logout retorna 204. A entrada `POST /api/auth/demo` só funciona no perfil demo. Senhas e tokens não são salvos em localStorage. Use HTTPS em produção. A autorização por módulo ainda não foi implementada; usuários autenticados têm acesso de consulta.
+Consultas exigem sessão no servidor. O cliente obtém CSRF em `GET /api/auth/csrf`, envia credenciais por `POST /api/auth/login` (formulário URL-encoded), consulta `GET /api/auth/me` e encerra em `POST /api/auth/logout`. Respostas são JSON; logout retorna 204. A entrada `POST /api/auth/demo` só funciona no perfil demo. Senhas e tokens não são salvos em localStorage. Use HTTPS em produção. A autorização por módulo ainda não foi implementada; usuários autenticados têm acesso de consulta. A manutenção dos cadastros Oracle exige também a lista `SADGEO_CATALOG_WRITERS`.
 
 ## 3. Desenvolver com atualização automática do React
 
@@ -125,21 +125,21 @@ Execute `mvn clean verify`. O Dockerfile existente em `sadgeoweb/openshift` acei
 ```sh
 mkdir -p target/ocp
 cp openshift/Dockerfile target/ocp/
-cp target/sadgeo-0.1.0.jar target/ocp/
+cp target/sadgeo-0.2.0.jar target/ocp/
 oc start-build sadgeo --from-dir=target/ocp --follow
 ```
 
 Isso pressupõe um BuildConfig `sadgeo` existente, login no cluster e acesso à imagem interna Java 17. Configure `SADGEO_DB_*` por Secret/configuração do deployment. O processo é `java -jar /deployments/app.jar`, porta 8080. Processos locais de desenvolvimento não são necessários em produção.
 
-**A versão 0.1 é uma base interna de leitura.** Consultas exigem sessão e CSRF permanece ativo. O login LDAPS depende da configuração e validação institucional; a autorização detalhada por módulo precisa ser definida antes de ampliar o acesso. Credenciais presentes no histórico antigo do Git devem ser rotacionadas pelos responsáveis.
+**A versão 0.2 inclui consultas e manutenção dos cadastros descritos.** Consultas exigem sessão e CSRF permanece ativo. O login LDAPS depende da configuração e validação institucional; a autorização detalhada por módulo precisa ser definida antes de ampliar o acesso. Credenciais presentes no histórico antigo do Git devem ser rotacionadas pelos responsáveis.
 
 ## Escopo da migração
 
 - Vaadin, seus plugins, bundles e classes de interface foram removidos.
-- O template anterior foi adaptado à API 0.1. Componentes/contextos ausentes foram reconstruídos. A imagem `back7.jpg` não estava no arquivo original; usa-se fundo CSS. Nenhum mock antigo autentica usuários em produção.
+- O template anterior foi adaptado à API 0.2. Componentes/contextos ausentes foram reconstruídos. A imagem `back7.jpg` não estava no arquivo original; usa-se fundo CSS. Nenhum mock antigo autentica usuários em produção.
 - React preserva indicadores de situação, evolução anual, gráfico ano/campanha, resumo analítico e fatos, com busca e paginação local.
 - Serviços, DTOs, entidades, repositórios Oracle e estrutura OLAP Java foram mantidos.
-- Esta versão cobre o **dashboard**. As páginas de levantamento, análise, homologação, relatórios e administração do Vaadin eram esboços e não viraram módulos funcionais. O esboço de cadastro/edição de estação também não está disponível na interface 0.1; seus serviços e entidades foram preservados para a próxima etapa.
+- A tela inicial é **Painel de Controle**. Crítica de Dados e as sete análises compartilham uma consulta paginada com filtro implícito por campanha. Planejamento/Campanha e 10 tabelas básicas têm CRUD. Importação, imagens, homologação e administração têm rotas/templates, com integração pendente. Edição de estações continua fora do escopo disponível.
 - Os endpoints `/fatos` e `/analitico` ainda carregam a coleção inteira, como a implementação anterior. Para volumes grandes, implementar filtros e paginação no servidor antes de ampliar o uso.
 - `CubeProvider` mantém o comportamento anterior de carregar o cubo na inicialização; atualizar a página não recarrega esse cubo do banco. A atualização dinâmica é uma evolução separada.
 - O deploy deixou de ser acionado automaticamente por `mvn deploy`; use a etapa explícita acima.
@@ -179,8 +179,38 @@ Um teste de regressão executa a rotina real de comparação de tipos do Hiberna
 
 ## Rodapé, versão e identificação
 
-O rodapé exibe copyright `IBGE-DGC/CGED/GSD` à esquerda, rótulo/profile e hostname do servidor ao centro, e `Versão 0.1.YYYYMMDD-HH` à direita. A data/hora vem do build Maven, no fuso `America/Sao_Paulo`, e permanece igual após reiniciar o mesmo JAR. O artefato Maven continua se chamando `sadgeo-0.1.0.jar`.
+O rodapé exibe copyright `IBGE-DGC/CGED/GSD` à esquerda, rótulo/profile e hostname do servidor ao centro, e `Versão 0.2.YYYYMMDD-HH` à direita. A data/hora vem do build Maven, no fuso `America/Sao_Paulo`, e permanece igual após reiniciar o mesmo JAR. O artefato Maven continua se chamando `sadgeo-0.2.0.jar`.
 
 O rótulo padrão acompanha o profile (`demo`: Demonstração; `dev`: Desenvolvimento; `prod`: Produção). Para personalizá-lo, defina `SADGEO_PROFILE_LABEL`, por exemplo `Homologação`. Hostname vem da máquina que executa o backend (`HOSTNAME`/`COMPUTERNAME`, com fallback à consulta local); em contêineres, normalmente identifica o pod, não o computador do navegador.
 
 No menu lateral, nome, identificador, perfil e botão Sair ficam no bloco inferior. Sem sessão, o portal mostra Visitante e Fazer login; consultas continuam exigindo autenticação. Em telas pequenas, o rodapé distribui os três blocos em linhas para preservar a leitura.
+
+## Menus, cadastros e testes curl/PowerShell
+
+O [guia de cadastros e testes](docs/CADASTROS-E-TESTES.md) descreve toda a hierarquia, os filtros `medA/medG/medP/vrf/veg/ogr/gab`, os 11 cadastros (incluindo Pendências), as chaves compostas e os contratos REST.
+
+Com o demo em execução, na raiz do checkout:
+
+```sh
+bash scripts/test-api.sh http://127.0.0.2:8080 --crud
+```
+
+Ou, com PowerShell 7+:
+
+```powershell
+pwsh -NoProfile -File scripts/Test-Api.ps1 -BaseUrl http://127.0.0.2:8080 -Crud
+```
+
+A opção de CRUD é restrita ao demo; os scripts não gravam no Oracle real. Para manutenção pela interface/API em produção, configure `SADGEO_CATALOG_WRITERS` com os logins autorizados e as permissões correspondentes no banco. NUE, Códigos de Estação e Tipo de Ocorrências aguardam a definição das tabelas e campos.
+
+## Evolução funcional e milestones
+
+- [TODO / milestones](TODO.md): incrementos, dependências, tarefas e critérios de aceite, da base 0.2 à operação de produção.
+- [Sugestões de telas e menus](docs/TELAS-E-MENUS.md): cobertura dos cinco estágios, template de estação e propostas que ainda não existem na 0.2.
+- [Rastreabilidade](docs/RASTREABILIDADE.md): requisitos/casos de uso dos documentos recebidos e decisões pendentes, incluindo duas versus três instâncias de crítica.
+
+As novas interfaces foram geradas na 0.2, com ações impactantes desabilitadas e identificadas por milestone. O planejamento de campo continua externo; Campanha é um cadastro de referência. Homologação precisa de especificação própria e não é sinônimo de carga no BDG.
+
+## Entrega 0.2
+
+A [nota de versão 0.2](docs/RELEASE-0.2.md) separa funcionalidades, prévias locais e integrações futuras. As novas telas de baixo impacto já foram geradas; mudanças que gravam estações, decidem críticas ou alteram sistemas externos permanecem nos milestones.

@@ -24,6 +24,8 @@ management:
         include: health,info
 
 sadgeo:
+  catalog:
+    writers: ${SADGEO_CATALOG_WRITERS:}
   auth:
     ldap:
       host: ${SADGEO_LDAP_HOST:}

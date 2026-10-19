@@ -15,7 +15,7 @@ const auth = vi.hoisted(() => ({
 vi.mock("../../auth/AuthContext", () => ({ useAuth: () => auth }));
 const config: Config = {
   demo: false,
-  version: "0.1.20261019-16",
+  version: "0.2.20261019-16",
   profile: "prod",
   profileLabel: "Produção",
   hostname: "sadgeo-pod-123",
@@ -39,7 +39,7 @@ it("places copyright, profile/hostname and version in their footer slots", () =>
     within(footer).getByText("Produção (prod) • sadgeo-pod-123").className,
   ).toContain("footer-environment");
   expect(
-    within(footer).getByText("Versão 0.1.20261019-16").className,
+    within(footer).getByText("Versão 0.2.20261019-16").className,
   ).toContain("footer-version");
 });
 it("keeps user identity, profile and logout together at the bottom of the menu", async () => {
@@ -51,7 +51,7 @@ it("keeps user identity, profile and logout together at the bottom of the menu",
   };
   render(
     <MemoryRouter>
-      <MenuAcaoView tema="" setTema={() => {}} temas={[]} />
+      <MenuAcaoView />
     </MemoryRouter>,
   );
   const account = screen.getByLabelText(

@@ -362,9 +362,66 @@ footer {
 }
 /* Keep the account block and footer visible while the desktop workspace scrolls. */
 @media (min-width: 851px) {
-  .portal-shell { height: 100dvh; min-height: 0; overflow: hidden; }
-  .portal-body { min-height: 0; }
-  .portal-workspace { overflow-y: auto; }
-  .portal-menu { min-height: 0; overflow-y: auto; }
-  .portal-footer { flex-shrink: 0; }
+  .portal-shell {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .portal-body {
+    min-height: 0;
+  }
+  .portal-workspace {
+    overflow-y: auto;
+  }
+  .portal-menu {
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .portal-footer {
+    flex-shrink: 0;
+  }
+}
+.menu-navigation {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.portal-menu {
+  gap: 14px;
+}
+.portal-menu nav > a {
+  font-weight: 600;
+}
+.menu-group summary {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 8px;
+  border-radius: 6px;
+}
+.menu-group summary:hover {
+  background: #eee9e3;
+}
+.menu-group > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.portal-menu nav .menu-group a {
+  font-size: 13px;
+  padding: 9px 12px 9px 20px;
+}
+.campaign-code {
+  font-family: ui-monospace, monospace;
+  opacity: 0.8;
+}
+.portal-account {
+  flex-shrink: 0;
+}
+@media (max-width: 850px) {
+  .menu-navigation {
+    max-height: 320px;
+  }
+}
+.portal-menu .menu-navigation {
+  flex-direction: column;
 }

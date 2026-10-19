@@ -1,6 +1,14 @@
 import { useState } from "react";
 export type Row = Record<string, string | number | null>;
-export default function Table({ title, rows }: { title: string; rows: Row[] }) {
+export default function Table({
+  title,
+  rows,
+  searchable = true,
+}: {
+  title: string;
+  rows: Row[];
+  searchable?: boolean;
+}) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(0);
   const columns = Object.keys(rows[0] ?? {});
@@ -16,17 +24,19 @@ export default function Table({ title, rows }: { title: string; rows: Row[] }) {
   return (
     <section className="panel">
       <h2>{title}</h2>
-      <label>
-        Buscar em {title}
-        <input
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setPage(0);
-          }}
-          placeholder="Campanha, UF, projeto…"
-        />
-      </label>
+      {searchable && (
+        <label>
+          Buscar em {title}
+          <input
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPage(0);
+            }}
+            placeholder="Campanha, UF, projeto…"
+          />
+        </label>
+      )}
       <p>{filtered.length.toLocaleString("pt-BR")} registros</p>
       <div className="table-scroll">
         <table>

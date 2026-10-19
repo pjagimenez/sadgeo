@@ -1,6 +1,6 @@
 // Adaptado do template em sadgeo-react-web.7z; sessão e ações integradas à API 0.1.
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   Alert,
   Box,
@@ -9,26 +9,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HelpIcon from "@mui/icons-material/Help";
 import PersonIcon from "@mui/icons-material/Person";
+import { menus } from "../../navigation";
 import { useAuth } from "../../auth/AuthContext";
-export default function MenuAcaoView({
-  tema,
-  setTema,
-  temas,
-}: {
-  tema: string;
-  setTema: (s: string) => void;
-  temas: string[];
-}) {
+export default function MenuAcaoView() {
+  const { pathname } = useLocation();
   const { user, logout } = useAuth();
   const [help, setHelp] = useState(false);
   const [error, setError] = useState("");
@@ -45,30 +35,28 @@ export default function MenuAcaoView({
   }
   return (
     <Box component="aside" className="portal-menu">
-      <nav aria-label="Navegação principal">
-        <NavLink to="/index">Painel resumo</NavLink>
-        <NavLink to="/registros">Registros</NavLink>
+      <nav aria-label="Navegação principal" className="menu-navigation">
+        <NavLink to="/index">Painel de Controle</NavLink>
+        {menus.map((group) => (
+          <details
+            className="menu-group"
+            key={group.label}
+            open={group.items.some((item) => item.path === pathname)}
+          >
+            <summary>{group.label}</summary>
+            <div>
+              {group.items.map((item) => (
+                <NavLink key={item.path} to={item.path}>
+                  {item.label}
+                  {item.campanha && (
+                    <span className="campaign-code"> ({item.campanha})</span>
+                  )}
+                </NavLink>
+              ))}
+            </div>
+          </details>
+        ))}
       </nav>
-      <FormControl fullWidth size="small">
-        <InputLabel id="tema-label">Tema / projeto</InputLabel>
-        <Select
-          labelId="tema-label"
-          label="Tema / projeto"
-          value={tema}
-          onChange={(e) => setTema(e.target.value)}
-        >
-          <MenuItem value="">Todos</MenuItem>
-          {temas.map((t) => (
-            <MenuItem key={t} value={t}>
-              {t}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Typography variant="caption">
-        O tema filtra a grade de registros. O painel resumo apresenta os totais
-        gerais.
-      </Typography>
       {error && <Alert severity="error">{error}</Alert>}
       <Box className="portal-account">
         <Button startIcon={<HelpIcon />} onClick={() => setHelp(true)}>
@@ -103,12 +91,19 @@ export default function MenuAcaoView({
       <Dialog open={help} onClose={() => setHelp(false)}>
         <DialogTitle>Ajuda do SADGEO</DialogTitle>
         <DialogContent>
-          Consulte os indicadores no Painel resumo. Em Registros, selecione um
-          tema, busque campanha, município ou UF e clique numa linha para
-          consultar seus detalhes. A versão 0.1 é de consulta; não altera dados
-          do Oracle.
+          O Painel de Controle apresenta os indicadores. Crítica de Dados e
+          Análise compartilham o template de consulta, com campanha definida
+          pelo menu. Tabelas básicas e Campanha têm manutenção para usuários
+          autorizados. Em demonstração, as alterações existem apenas em memória.
         </DialogContent>
         <DialogActions>
+          <Button
+            component={NavLink}
+            to="/ajuda/guia"
+            onClick={() => setHelp(false)}
+          >
+            Guia completo
+          </Button>
           <Button onClick={() => setHelp(false)}>Fechar</Button>
         </DialogActions>
       </Dialog>

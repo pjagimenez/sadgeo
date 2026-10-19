@@ -1,41 +1,34 @@
 // Grade e seleção adaptadas de RegistroView.tsx da versão anterior.
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
-  Alert,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { ptBR } from "@mui/x-data-grid/locales";
+import RecordDetails from "./RecordDetails";
 import type { Row } from "../../Table";
 export default function RegistroView({
   rows,
-  tema,
+  total,
+  page,
+  size,
+  loading,
+  onPageChange,
 }: {
   rows: Row[];
-  tema: string;
+  total: number;
+  page: number;
+  size: number;
+  loading: boolean;
+  onPageChange: (page: number, size: number) => void;
 }) {
-  const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Row | null>(null);
-  const filtered = useMemo(
-    () =>
-      rows.filter(
-        (r) =>
-          (!tema || r.projeto === tema) &&
-          Object.values(r).some((v) =>
-            String(v ?? "")
-              .toLocaleLowerCase("pt-BR")
-              .includes(query.toLocaleLowerCase("pt-BR")),
-          ),
-      ),
-    [rows, tema, query],
-  );
   const columns: GridColDef[] = [
     ["seq", "Sequência"],
     ["campanha", "Campanha"],
@@ -51,32 +44,19 @@ export default function RegistroView({
     width: field === "municipio" ? 190 : 150,
   }));
   return (
-    <Box component="main" className="portal-content">
-      <Typography component="h1" variant="h4">
-        Registros
-      </Typography>
-      <Alert severity="info" sx={{ my: 2 }}>
-        Consulta aos fatos do painel. Cadastro e edição de estações ainda não
-        estão disponíveis na API 0.1.
-      </Alert>
-      <TextField
-        label="Buscar registros"
-        placeholder="Campanha, município, UF…"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        size="small"
-        sx={{ my: 2, width: "min(100%,400px)" }}
-      />
+    <Box>
       <Box sx={{ height: 520, width: "100%", bgcolor: "background.paper" }}>
         <DataGrid
-          rows={filtered}
+          rows={rows}
           columns={columns}
           getRowId={(r) => String(r.seq)}
           localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
           pageSizeOptions={[10, 25, 50, 100]}
-          initialState={{
-            pagination: { paginationModel: { page: 0, pageSize: 25 } },
-          }}
+          paginationMode="server"
+          rowCount={total}
+          loading={loading}
+          paginationModel={{ page, pageSize: size }}
+          onPaginationModelChange={(m) => onPageChange(m.page, m.pageSize)}
           disableRowSelectionOnClick
           onRowClick={(p) => setSelected(p.row as Row)}
           onCellKeyDown={(p, e) => {
@@ -84,21 +64,17 @@ export default function RegistroView({
           }}
         />
       </Box>
-      <Dialog open={!!selected} onClose={() => setSelected(null)} fullWidth>
+      <Dialog
+        open={!!selected}
+        onClose={() => setSelected(null)}
+        fullWidth
+        maxWidth="lg"
+      >
         <DialogTitle>Detalhes do registro {selected?.seq}</DialogTitle>
         <DialogContent>
-          <Box component="dl">
-            {Object.entries(selected ?? {}).map(([k, v]) => (
-              <Box key={k} sx={{ mb: 1 }}>
-                <Typography component="dt" fontWeight={700}>
-                  {k}
-                </Typography>
-                <Typography component="dd" sx={{ m: 0 }}>
-                  {v ?? "—"}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+          {selected && (
+            <RecordDetails key={String(selected.seq)} row={selected} />
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setSelected(null)}>Fechar</Button>

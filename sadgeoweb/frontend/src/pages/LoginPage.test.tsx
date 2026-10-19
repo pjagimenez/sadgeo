@@ -25,7 +25,7 @@ function config(demo: boolean, authConfigured = false) {
     "fetch",
     vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ demo, authConfigured, version: "0.1.0" }),
+      json: async () => ({ demo, authConfigured, version: "0.2.0" }),
     }),
   );
   render(

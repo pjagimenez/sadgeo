@@ -21,7 +21,7 @@ it("reports API failures and retries without silently using demo data", async ()
 });
 it("renders dashboard totals from the API", async () => {
   const data: Record<string, unknown> = {
-    config: { demo: true, version: "0.1.0" },
+    config: { demo: true, version: "0.2.0" },
     resumo: { total: 123 },
     "evolucao-anual": [],
     analitico: [],

@@ -1,4 +1,4 @@
-SADGEO 0.1.0
+SADGEO 0.2.0
 
 React 19 + Material UI 7 + Data Grid Community 8 + TypeScript + Vite + ECharts
     -> HTTP GET /api/dashboard/* (JSON)
@@ -15,3 +15,10 @@ Execução e limitações: consulte ../README.md.
 Portal: login, menu, temas, ajuda, registros e rodapé adaptados de sadgeo-react-web.7z.
 Spring Security: sessão HTTP + CSRF, login AD via LDAPS configurável.
 Entrada explícita demo somente no perfil demo. Consultas exigem sessão.
+
+Menu hierárquico: Planejamento, Levantamento de Campo, Homologação, Análise, Administração e Tabelas básicas.
+Crítica/Análise -> /api/registros/{contexto}, consulta JPA paginada com campanha fixa.
+Cadastros -> /api/tabelas/{id}, serviço de validação/permissões e repository JDBC parametrizado.
+PK Oracle descoberta por metadados; Campanha exige COD_CAMPANHA + COD_PROJETO + COD_INSTITUICAO.
+CRUD demo em memória; Oracle exige SADGEO_CATALOG_WRITERS e permissões SQL.
+Scripts externos: ../scripts/test-api.sh e ../scripts/Test-Api.ps1 (PowerShell 7+).

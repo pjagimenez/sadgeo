@@ -1,0 +1,455 @@
+[
+  {
+    "id": "localizacao",
+    "title": "Localização",
+    "table": "T_LOCALIZACAO",
+    "demoKeys": [
+      "TIPO_LOCAL"
+    ],
+    "fields": [
+      {
+        "name": "TIPO_LOCAL",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false,
+        "fixed": true
+      },
+      {
+        "name": "DESCRICAO",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 100,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "tipo-projeto",
+    "title": "Tipo de Projeto",
+    "table": "T_TIPO_PROJETO",
+    "demoKeys": [
+      "TIPO_PROJETO"
+    ],
+    "fields": [
+      {
+        "name": "TIPO_PROJETO",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 1,
+        "nullable": false
+      },
+      {
+        "name": "DSC_TIPO_PROJETO",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 50,
+        "nullable": false
+      }
+    ]
+  },
+  {
+    "id": "situacao-marco",
+    "title": "Situação do Marco",
+    "table": "T_TIPO_SITUACAO_MARCO",
+    "demoKeys": [
+      "COD_SITUACAO_MARCO"
+    ],
+    "fields": [
+      {
+        "name": "COD_SITUACAO_MARCO",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false
+      },
+      {
+        "name": "DSC_SITUACAO_MARCO",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 50,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "metodo-calculo",
+    "title": "Método de Cálculo",
+    "table": "T_METODO_CALCULO",
+    "demoKeys": [
+      "COD_METODO_CALCULO"
+    ],
+    "fields": [
+      {
+        "name": "COD_METODO_CALCULO",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false
+      },
+      {
+        "name": "NOM_METODO_CALCULO",
+        "label": "Nome",
+        "type": "text",
+        "maxLength": 40,
+        "nullable": false
+      },
+      {
+        "name": "DSC_METODO_CALCULO",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 478,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "fonte-coordenada",
+    "title": "Fonte de Coordenada",
+    "table": "T_FONTE_COORDENADA",
+    "demoKeys": [
+      "CD_FONTE_COORDENADA"
+    ],
+    "fields": [
+      {
+        "name": "CD_FONTE_COORDENADA",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false
+      },
+      {
+        "name": "DS_FONTE_COORDENADA",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 32,
+        "nullable": false
+      },
+      {
+        "name": "RK_PRECISAO_TIPICA",
+        "label": "Precisão típica",
+        "type": "integer",
+        "maxLength": 38,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "equipamento",
+    "title": "Equipamento",
+    "table": "T_EQUIPAMENTO",
+    "demoKeys": [
+      "CODIGO"
+    ],
+    "fields": [
+      {
+        "name": "CODIGO",
+        "label": "Código",
+        "type": "number",
+        "maxLength": 0,
+        "nullable": false
+      },
+      {
+        "name": "COD_EQUIP",
+        "label": "Código equipamento",
+        "type": "text",
+        "maxLength": 4,
+        "nullable": true
+      },
+      {
+        "name": "DESC_EQUIP",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 100,
+        "nullable": true
+      },
+      {
+        "name": "FABRICANTE",
+        "label": "Fabricante",
+        "type": "text",
+        "maxLength": 15,
+        "nullable": true
+      },
+      {
+        "name": "MODELO",
+        "label": "Modelo",
+        "type": "text",
+        "maxLength": 30,
+        "nullable": true
+      },
+      {
+        "name": "NUM_SERIE",
+        "label": "Número de série",
+        "type": "text",
+        "maxLength": 15,
+        "nullable": true
+      },
+      {
+        "name": "OBS",
+        "label": "Observação",
+        "type": "text",
+        "maxLength": 50,
+        "nullable": true
+      },
+      {
+        "name": "PATRIMONIO",
+        "label": "Patrimônio",
+        "type": "text",
+        "maxLength": 30,
+        "nullable": true
+      },
+      {
+        "name": "STATUS_PERMANENCIA",
+        "label": "Permanência",
+        "type": "text",
+        "maxLength": 1,
+        "nullable": true,
+        "fixed": true
+      },
+      {
+        "name": "TIPO",
+        "label": "Tipo",
+        "type": "text",
+        "maxLength": 1,
+        "nullable": true,
+        "fixed": true
+      }
+    ]
+  },
+  {
+    "id": "campanha",
+    "title": "Campanha",
+    "table": "T_CAMPANHA",
+    "demoKeys": [
+      "COD_CAMPANHA",
+      "COD_PROJETO",
+      "COD_INSTITUICAO"
+    ],
+    "fields": [
+      {
+        "name": "COD_CAMPANHA",
+        "label": "Código campanha",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false
+      },
+      {
+        "name": "COD_PROJETO",
+        "label": "Código projeto",
+        "type": "text",
+        "maxLength": 8,
+        "nullable": false
+      },
+      {
+        "name": "COD_INSTITUICAO",
+        "label": "Código instituição",
+        "type": "text",
+        "maxLength": 4,
+        "nullable": false
+      },
+      {
+        "name": "DAT_INICIO_CAMPANHA",
+        "label": "Início",
+        "type": "date",
+        "maxLength": 0,
+        "nullable": true
+      },
+      {
+        "name": "DAT_FIM_CAMPANHA",
+        "label": "Fim",
+        "type": "date",
+        "maxLength": 0,
+        "nullable": true
+      },
+      {
+        "name": "DSC_CAMPANHA",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 478,
+        "nullable": true
+      },
+      {
+        "name": "U_ALOCADA",
+        "label": "Unidade alocada",
+        "type": "text",
+        "maxLength": 20,
+        "nullable": true
+      },
+      {
+        "name": "VAL_DIARIA",
+        "label": "Diária",
+        "type": "money",
+        "maxLength": 7,
+        "nullable": true
+      },
+      {
+        "name": "VAL_MATERIAL_CONSUMO",
+        "label": "Material de consumo",
+        "type": "money",
+        "maxLength": 7,
+        "nullable": true
+      },
+      {
+        "name": "VAL_PASSAGEM",
+        "label": "Passagem",
+        "type": "money",
+        "maxLength": 7,
+        "nullable": true
+      },
+      {
+        "name": "VAL_SERV_TERC_PESSOA_FISICA",
+        "label": "Serviço pessoa física",
+        "type": "money",
+        "maxLength": 7,
+        "nullable": true
+      },
+      {
+        "name": "VAL_SERV_TERC_PESSOA_JURIDICA",
+        "label": "Serviço pessoa jurídica",
+        "type": "money",
+        "maxLength": 7,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "atividade",
+    "title": "Atividade",
+    "table": "T_ATIVIDADE",
+    "demoKeys": [
+      "COD_ATIVIDADE"
+    ],
+    "fields": [
+      {
+        "name": "COD_ATIVIDADE",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 3,
+        "nullable": false
+      },
+      {
+        "name": "DSC_ATIVIDADE",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 478,
+        "nullable": false
+      },
+      {
+        "name": "NOM_ATIVIDADE",
+        "label": "Nome",
+        "type": "text",
+        "maxLength": 30,
+        "nullable": false
+      },
+      {
+        "name": "NOM_TIPO",
+        "label": "Tipo",
+        "type": "text",
+        "maxLength": 10,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "status",
+    "title": "Status",
+    "table": "T_STATUS",
+    "demoKeys": [
+      "STATUS"
+    ],
+    "fields": [
+      {
+        "name": "STATUS",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 1,
+        "nullable": false,
+        "fixed": true
+      },
+      {
+        "name": "DSC_STATUS",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 40,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "municipio",
+    "title": "Município",
+    "table": "T_MUNICIPIO",
+    "demoKeys": [
+      "COD_UF",
+      "COD_MUNICIPIO"
+    ],
+    "fields": [
+      {
+        "name": "COD_UF",
+        "label": "UF",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false
+      },
+      {
+        "name": "COD_MUNICIPIO",
+        "label": "Código município",
+        "type": "text",
+        "maxLength": 5,
+        "nullable": false
+      },
+      {
+        "name": "NOM_MUNICIPIO",
+        "label": "Nome",
+        "type": "text",
+        "maxLength": 60,
+        "nullable": false
+      },
+      {
+        "name": "DAT_CRIACAO_MUNICIPIO",
+        "label": "Criação",
+        "type": "date",
+        "maxLength": 0,
+        "nullable": true
+      },
+      {
+        "name": "DAT_INSTALACAO_MUNICIPIO",
+        "label": "Instalação",
+        "type": "date",
+        "maxLength": 0,
+        "nullable": true
+      },
+      {
+        "name": "DAT_EXTINCAO_MUNICIPIO",
+        "label": "Extinção",
+        "type": "date",
+        "maxLength": 0,
+        "nullable": true
+      }
+    ]
+  },
+  {
+    "id": "pendencia",
+    "title": "Pendências",
+    "table": "T_PENDENCIA_SADGEO",
+    "demoKeys": [
+      "COD_PEND"
+    ],
+    "fields": [
+      {
+        "name": "COD_PEND",
+        "label": "Código",
+        "type": "text",
+        "maxLength": 2,
+        "nullable": false
+      },
+      {
+        "name": "DSC_PENDENCIA",
+        "label": "Descrição",
+        "type": "text",
+        "maxLength": 80,
+        "nullable": true
+      }
+    ]
+  }
+]

@@ -1,3 +1,9 @@
+# Notas legadas — preservadas para referência
+
+O plano vigente de evolução está em [TODO / milestones](../TODO.md), com status e critérios de aceite. As anotações abaixo são históricas, inclusive referências ao Vaadin/EAP; não indicam que essas tecnologias devam ser reinstaladas ou que os itens já estejam implementados.
+
+---
+
 
 Geral
    -- Incluir o -javaagent:/opt/eap/modules/com/microsoft/applicationinsights/main/applicationinsights-agent-3.1.1.jar na imagem Docker

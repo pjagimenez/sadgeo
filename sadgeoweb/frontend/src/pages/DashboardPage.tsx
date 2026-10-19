@@ -59,7 +59,7 @@ export default function DashboardPage() {
         <div className="heading">
           <div>
             <p className="eyebrow">VISÃO GERAL</p>
-            <h1>Painel resumo</h1>
+            <h1>Painel de Controle</h1>
             <p>
               Acompanhamento de levantamentos, campanhas e situação dos
               registros.

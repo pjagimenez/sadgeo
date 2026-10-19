@@ -4,9 +4,7 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider } from "./auth/AuthContext";
 import LoginPage from "./pages/LoginPage";
 const PrincipalPage = lazy(() => import("./pages/PrincipalPage"));
-const RegistrosPage = lazy(() =>
-  import("./pages/PrincipalPage").then((m) => ({ default: m.RegistrosPage })),
-);
+const ModulePage = lazy(() => import("./pages/ModulePage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const theme = createTheme({
   palette: {
@@ -28,7 +26,11 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route element={<PrincipalPage />}>
                 <Route path="/index" element={<DashboardPage />} />
-                <Route path="/registros" element={<RegistrosPage />} />
+                <Route
+                  path="/registros"
+                  element={<Navigate to="/campo/critica" replace />}
+                />
+                <Route path="/:section/:screen" element={<ModulePage />} />
               </Route>
               <Route path="*" element={<Navigate to="/index" replace />} />
             </Routes>
