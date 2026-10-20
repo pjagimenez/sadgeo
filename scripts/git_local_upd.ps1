@@ -32,7 +32,21 @@ else {
         }
         $changes = & git status --porcelain
         if ($LASTEXITCODE -ne 0) { throw 'Nao foi possivel consultar o estado do checkout.' }
-        if ($changes) { throw 'Ha alteracoes locais ou arquivos nao rastreados. Salve-os antes de atualizar; nada foi descartado.' }
+        if ($changes) {
+            $label = 'sadgeo-antes-update-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
+            Write-Host 'Guardando alteracoes locais e arquivos nao rastreados no stash...'
+            # save is compatible with older Git versions, including those without git switch.
+            Invoke-GitChecked -Arguments @('stash', 'save', '--include-untracked', $label)
+            $stashCommit = & git rev-parse --verify refs/stash
+            if ($LASTEXITCODE -ne 0) { throw 'Nao foi possivel confirmar o stash. Atualizacao interrompida.' }
+            Write-Host "Alteracoes preservadas no stash: $stashCommit ($label)"
+            Write-Host "Para recuperar depois: git stash apply $stashCommit"
+            Write-Host 'O stash nao sera reaplicado nem removido automaticamente, mesmo se a atualizacao falhar.'
+            $remaining = & git status --porcelain
+            if ($LASTEXITCODE -ne 0 -or $remaining) {
+                throw 'O checkout ainda possui alteracoes apos o stash. Atualizacao interrompida; confira git status.'
+            }
+        }
         Invoke-GitChecked -Arguments @('checkout', 'main')
         Invoke-GitChecked -Arguments @('pull', '--ff-only', 'origin', 'main')
     }

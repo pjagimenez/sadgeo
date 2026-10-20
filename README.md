@@ -339,7 +339,7 @@ Para baixar uma nova copia, o script de Git aceita um destino ainda inexistente:
 .\scripts\git_local_upd.ps1 -Destination 'D:\IBGE\Projetos\gitProjetos\sadgeo-novo'
 ```
 
-Se o destino ja existir, deve ser checkout de `pjagimenez/sadgeo` e estar limpo, inclusive sem arquivos nao rastreados. O script nao apaga nem sobrescreve alteracoes locais, e usa `git checkout` para compatibilidade com Git antigo. Para a primeira copia sem scripts locais, use `git clone https://github.com/pjagimenez/sadgeo.git`.
+Se o destino ja existir, deve ser checkout de `pjagimenez/sadgeo`. Antes de atualizar, o script guarda automaticamente alteracoes locais e arquivos nao rastreados em um stash identificado por data e codigo unico. Ele confirma o stash e o checkout limpo antes de prosseguir, e usa `git checkout` para compatibilidade com Git antigo. Para a primeira copia sem scripts locais, use `git clone https://github.com/pjagimenez/sadgeo.git`.
 
 ### Eclipse/STS: compiler compliance 25 versus JDK 17
 
@@ -420,3 +420,23 @@ git -c http.sslCAInfo='C:/Desenvolvimento/certificados/ca-institucional.pem' pul
 Java/Maven e LDAPS usam outro mecanismo: um truststore Java com a cadeia institucional, conforme a secao LDAPS. Ele pode ficar em uma pasta do usuario e ser selecionado via `JAVA_TOOL_OPTIONS`, sem instalacao administrativa. O suporte deve fornecer/orientar um truststore que preserve as CAs publicas necessarias. Nao desative HTTPS com `strict-ssl=false`, `NODE_TLS_REJECT_UNAUTHORIZED=0` ou `http.sslVerify=false`.
 
 Erros como `SELF_SIGNED_CERT_IN_CHAIN`, `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` e `PKIX path building failed` indicam problemas de confianca TLS. `TAR_ENTRY_ERROR ENOENT`, isoladamente, nao comprova falha de certificado.
+
+### Atualizacao com stash automatico
+
+`git_local_upd.ps1` guarda as alteracoes rastreadas (inclusive staged) e os arquivos nao rastreados antes de mudar para `main` e executar o pull. Usa `git stash save --include-untracked` para funcionar tambem em versoes antigas do Git. Arquivos ignorados, como `.env`, `node_modules` e `target`, nao entram no stash e permanecem no disco.
+
+```powershell
+.\scripts\git_local_upd.ps1
+.\scripts\build_run.ps1 -Profile demo
+```
+
+O script mostra o identificador completo do stash e o comando de recuperacao. As alteracoes **nao sao reaplicadas automaticamente**, para nao substituir os scripts atualizados ou causar conflitos durante a atualizacao. O stash fica preservado mesmo se o pull falhar.
+
+```powershell
+git stash list
+# Consulte ou recupere usando o SHA mostrado pelo script:
+git stash show --stat SHA-DO-STASH
+git stash apply SHA-DO-STASH
+```
+
+A recuperacao pode gerar conflitos; `apply` mantem a copia no stash. Stash e armazenamento local neste checkout, nao um backup enviado ao GitHub.
