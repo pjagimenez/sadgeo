@@ -229,3 +229,20 @@ mvn clean verify
 ```
 
 No Eclipse/STS, selecione JDK 17 em **Installed JREs** e na configuração de execução Maven. No VS Code, selecione JavaSE-17 em **Java: Configure Java Runtime**. O Maven exige a versão `[17,18)`; o bytecode também é compilado para Java 17.
+
+### Executar pelo PowerShell com profile como argumento
+
+Na raiz do checkout, o argumento `-Profile` e obrigatorio (`demo`, `dev` ou `prod`):
+
+```powershell
+# Atualizar a main, compilar/testar e iniciar a demonstracao
+.\scripts\Start-Sadgeo.ps1 -Profile demo -JavaHome 'C:\Program Files\Java\jdk-17' -Update
+
+# Iniciar com Oracle/LDAPS configurados nas ENVVARs da sessao
+.\scripts\Start-Sadgeo.ps1 -Profile dev -JavaHome 'C:\Program Files\Java\jdk-17'
+
+# Reutilizar o JAR ja compilado e selecionar outra porta
+.\scripts\Start-Sadgeo.ps1 -Profile prod -SkipBuild -Port 8081
+```
+
+`-JavaHome` usa `JAVA_HOME` quando omitido. O script exige JDK 17, interrompe em erros e resolve os caminhos a partir de sua propria localizacao. Sem `-Update`, nao executa comandos de alteracao Git; com `-Update`, exige checkout limpo e atualiza `main` usando fast-forward. Sem `-SkipBuild`, executa `mvn clean verify`. `dev` e `prod` exigem as ENVVARs e conexoes institucionais descritas acima; o script nao carrega `.env`. Encerre com `Ctrl+C`. Pode ser executado no Windows PowerShell 5.1 ou PowerShell 7+.
