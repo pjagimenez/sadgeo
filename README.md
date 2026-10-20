@@ -293,3 +293,23 @@ Para baixar uma nova copia, o script de Git aceita um destino ainda inexistente:
 ```
 
 Se o destino ja existir, deve ser checkout de `pjagimenez/sadgeo` e estar limpo, inclusive sem arquivos nao rastreados. O script nao apaga nem sobrescreve alteracoes locais, e usa `git checkout` para compatibilidade com Git antigo. Para a primeira copia sem scripts locais, use `git clone https://github.com/pjagimenez/sadgeo.git`.
+
+### Eclipse/STS: compiler compliance 25 versus JDK 17
+
+Cadastrar o JDK 17 nao muda automaticamente o nivel do compilador. Em **Window > Preferences > Java > Compiler**, selecione **Compiler compliance level: 17**. Se houver configuracao especifica do projeto, em **Project > Properties > Java Compiler**, marque **Enable project specific settings** e selecione **17**. Depois ajuste **Java Build Path > Libraries > JRE System Library** para **JavaSE-17**, associado ao JDK portatil em **Installed JREs > Execution Environments**. Execute **Maven > Update Project** e **Project > Clean**. Nas configuracoes **Spring Boot App** e **Maven Build**, a aba **JRE** tambem deve apontar para JDK 17. Nao altere a JVM que inicia a propria IDE se a versao do STS exigir Java mais recente.
+
+### Frontend: `tsc` nao reconhecido no Windows
+
+TypeScript e Vite sao dependencias locais de compilacao em `devDependencies`. O build precisa delas mesmo quando o perfil Spring e `prod`. O Maven usa `npm ci --include=dev --bin-links=true`, para instala-las inclusive quando `NODE_ENV=production` ou uma configuracao npm omite dependencias de desenvolvimento/desativa os executaveis em `node_modules/.bin`. Nao e necessario instalar TypeScript globalmente.
+
+Depois de atualizar o checkout, execute novamente `scripts/build_run.ps1 -Profile demo`. Para diagnosticar ou compilar somente o frontend, em PowerShell:
+
+```powershell
+Set-Location .\sadgeoweb\frontend
+npm.cmd ci --include=dev --bin-links=true
+if ($LASTEXITCODE -ne 0) { throw 'Falha na instalacao npm' }
+npm.cmd ls typescript vite
+npm.cmd run build
+```
+
+`npm ci` baixa/reinstala os pacotes; a primeira execucao pode demorar conforme a rede. O aviso `whatwg-encoding deprecated` nao e a causa do erro `tsc`. Avisos de vulnerabilidades precisam de analise separada; nao execute `npm audit fix --force` automaticamente, pois pode introduzir atualizacoes incompativeis.
