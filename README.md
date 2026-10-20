@@ -392,3 +392,31 @@ try {
 ```
 
 Se `node_modules` nao existir, pule a remocao. Se a remocao falhar, interrompa e investigue o bloqueio/permissao. Se os erros persistirem mesmo com cache novo e sem builds paralelos, encaminhe o log ao suporte para verificar acesso ao diretorio e eventos de protecao de endpoint; nao desative o antivirus. O script lista os arquivos de ferramentas que faltam. Nao apague `package-lock.json` nem use `npm audit fix --force` para resolver erros de extracao. Em PowerShell, comandos npm manuais devem usar `npm.cmd`, inclusive `npm.cmd fund`; `fund` apenas informa financiamento e nao corrige o build.
+
+### Downloads HTTPS com CA institucional / proxy corporativo
+
+Solicite ao suporte o certificado publico da **CA raiz institucional** e, quando necessario, as intermediarias, em formato **PEM/Base-64**. A extensao pode ser `.pem` ou `.cer`, mas o conteudo precisa ter `-----BEGIN CERTIFICATE-----`. Nao use chave privada. Confirme a origem/impressao digital com o suporte antes de confiar no arquivo. Nao versione certificados institucionais no checkout.
+
+Para os downloads Node/npm no build:
+
+```powershell
+.\scripts\build_run.ps1 -Profile demo -CaCertificateFile 'C:\Desenvolvimento\certificados\ca-institucional.pem'
+```
+
+O parametro configura `NODE_EXTRA_CA_CERTS` antes de iniciar Node/npm e restaura o valor anterior ao encerrar. Sem o parametro, preserva a configuracao da sessao. Ele nao altera o truststore Java nem o Git. Se npm ja possui `cafile`/`ca` explicito, confirme com o suporte que esse bundle tambem contem a CA institucional, pois configuracoes explicitas de CA podem prevalecer sobre as CAs adicionais do Node.
+
+Para instalar manualmente as dependencias ou executar Vite, configure antes de iniciar o processo:
+
+```powershell
+$env:NODE_EXTRA_CA_CERTS = 'C:\Desenvolvimento\certificados\ca-institucional.pem'
+```
+
+Para Git, quando o proprio Git indicar erro de certificado, uma configuracao por comando e:
+
+```powershell
+git -c http.sslCAInfo='C:/Desenvolvimento/certificados/ca-institucional.pem' pull --ff-only origin main
+```
+
+Java/Maven e LDAPS usam outro mecanismo: um truststore Java com a cadeia institucional, conforme a secao LDAPS. Ele pode ficar em uma pasta do usuario e ser selecionado via `JAVA_TOOL_OPTIONS`, sem instalacao administrativa. O suporte deve fornecer/orientar um truststore que preserve as CAs publicas necessarias. Nao desative HTTPS com `strict-ssl=false`, `NODE_TLS_REJECT_UNAUTHORIZED=0` ou `http.sslVerify=false`.
+
+Erros como `SELF_SIGNED_CERT_IN_CHAIN`, `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` e `PKIX path building failed` indicam problemas de confianca TLS. `TAR_ENTRY_ERROR ENOENT`, isoladamente, nao comprova falha de certificado.

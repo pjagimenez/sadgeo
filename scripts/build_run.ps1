@@ -5,6 +5,7 @@ param(
     [string]$Profile,
 
     [string]$JavaHome = $(if ($env:OS -eq 'Windows_NT') { 'C:\Desenvolvimento\jdk-17.0.20.1+1' } else { $env:JAVA_HOME }),
+    [string]$CaCertificateFile,
     [ValidateRange(1, 65535)]
     [int]$Port = 8080,
     [switch]$SkipBuild
@@ -12,6 +13,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
+$previousNodeExtraCa = $env:NODE_EXTRA_CA_CERTS
 
 function Invoke-Checked {
     param([string]$Command, [string[]]$Arguments)
@@ -23,6 +25,16 @@ function Invoke-Checked {
 
 Push-Location $repoRoot
 try {
+    if (![string]::IsNullOrWhiteSpace($CaCertificateFile)) {
+        $caPath = (Resolve-Path -LiteralPath $CaCertificateFile).Path
+        $pem = Get-Content -LiteralPath $caPath -Raw
+        if ($pem -notmatch '-----BEGIN CERTIFICATE-----') {
+            throw 'CaCertificateFile deve conter certificado(s) de CA em formato PEM/Base-64, sem chave privada.'
+        }
+        if ($pem -match 'PRIVATE KEY') { throw 'Informe somente certificados publicos de CA, sem chave privada.' }
+        $env:NODE_EXTRA_CA_CERTS = $caPath
+        Write-Host 'CA adicional configurada para Node/npm; validacao TLS permanece ativa.'
+    }
     if ([string]::IsNullOrWhiteSpace($JavaHome)) {
         throw 'Informe -JavaHome ou configure JAVA_HOME apontando para o JDK 17.'
     }
@@ -54,5 +66,6 @@ try {
     Invoke-Checked -Command $java -Arguments @('-jar', $jar, "--spring.profiles.active=$Profile", "--server.port=$Port")
 }
 finally {
+    $env:NODE_EXTRA_CA_CERTS = $previousNodeExtraCa
     Pop-Location
 }
