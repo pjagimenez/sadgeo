@@ -373,3 +373,22 @@ Remove-Item .\sadgeoweb\frontend\node_modules\.sadgeo-install.json -ErrorAction 
 ```
 
 A compilacao React e os testes Maven continuam sendo executados para incorporar e verificar as alteracoes. Para apenas executar um JAR ja pronto, use `build_run.ps1 -Profile demo -SkipBuild`. No desenvolvimento diario das telas, use Vite (`npm.cmd run dev`) para atualizacao automatica.
+
+### Recuperacao npm: TAR_ENTRY_ERROR ENOENT e instalacao incompleta
+
+Se o npm informa falhas de extracao e o build acusa ferramentas ausentes, o log nao comprova a causa. Cache, bloqueios/permissoes, instalacoes simultaneas e protecao de endpoint podem interferir. Primeiro encerre Vite e outros builds desse checkout. Na raiz do repositorio, o procedimento abaixo remove apenas dependencias geradas e tenta a instalacao com um novo cache de usuario, mantendo o lockfile:
+
+```powershell
+Remove-Item -LiteralPath .\sadgeoweb\frontend\node_modules -Recurse -Force -ErrorAction Stop
+$oldNpmCache = $env:npm_config_cache
+try {
+    $env:npm_config_cache = Join-Path $env:LOCALAPPDATA ('sadgeo-npm-cache-' + [guid]::NewGuid().ToString('N'))
+    node .\sadgeoweb\frontend\scripts\install-dependencies.cjs
+    if ($LASTEXITCODE -ne 0) { throw 'Instalacao npm ainda incompleta; confira os arquivos ausentes e erros acima.' }
+} finally {
+    $env:npm_config_cache = $oldNpmCache
+}
+.\scripts\build_run.ps1 -Profile demo
+```
+
+Se `node_modules` nao existir, pule a remocao. Se a remocao falhar, interrompa e investigue o bloqueio/permissao. Se os erros persistirem mesmo com cache novo e sem builds paralelos, encaminhe o log ao suporte para verificar acesso ao diretorio e eventos de protecao de endpoint; nao desative o antivirus. O script lista os arquivos de ferramentas que faltam. Nao apague `package-lock.json` nem use `npm audit fix --force` para resolver erros de extracao. Em PowerShell, comandos npm manuais devem usar `npm.cmd`, inclusive `npm.cmd fund`; `fund` apenas informa financiamento e nao corrige o build.

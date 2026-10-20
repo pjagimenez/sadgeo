@@ -37,8 +37,12 @@ if (result.error || result.status !== 0) {
   console.error(result.error?.message || `npm ci falhou (codigo ${result.status}).`);
   process.exit(result.status || 1);
 }
-if (!fs.existsSync(installedLock) || !tools.every(file => fs.existsSync(path.join('node_modules', file)))) {
-  console.error('Instalacao incompleta: ferramentas TypeScript/Vite ou executaveis locais ausentes.');
+const required = [installedLock, ...tools.map(file => path.join('node_modules', file))];
+const missing = required.filter(file => !fs.existsSync(file));
+if (missing.length) {
+  console.error('Instalacao incompleta. Arquivos ausentes:');
+  missing.forEach(file => console.error(`  - ${file}`));
+  console.error('Feche Vite/outros builds e consulte a recuperacao npm no README. Nenhum marcador de reutilizacao foi criado.');
   process.exit(1);
 }
 fs.writeFileSync(marker, JSON.stringify({ fingerprint, installedLock: lockHash() }) + '\n');
