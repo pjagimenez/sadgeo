@@ -4,7 +4,7 @@ A 0.2 preserva a base React + Spring Boot e acrescenta o menu operacional, cadas
 
 ## Funcionalidades disponíveis
 
-- Painel de Controle padrão, rodapé `0.2.YYYYMMDD-HH`, profile/hostname e identificação/login/logout no menu inferior.
+- Painel de Controle padrão, rodapé `0.2.YYYYMMDD-HH`, profile/hostname e identificação/login/logout no cabeçalho à direita.
 - Crítica de Dados e sete análises no mesmo template, com filtro CAMPANHA fixo aplicado pela API, pesquisa e paginação.
 - Detalhe em abas: Dados Gerais, Coordenadas, Fotos, Documentos, Pendências e Histórico. Os dados disponíveis são os fatos atuais; abas sem contrato de dados mostram indisponibilidade.
 - Campanha com chave composta e dez tabelas básicas, incluindo Localização e Pendências, com CRUD, validação, CSRF e restrição de manutenção Oracle.

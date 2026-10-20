@@ -6,7 +6,7 @@ export default function SystemTitle() {
         SADGEO
       </Typography>
       <Typography className="login-subtitle">
-        Sistema de acompanhamento de dados geodésicos
+        Sistema de Administração de Dados Geodésicos de Execução Operacional
       </Typography>
     </div>
   );

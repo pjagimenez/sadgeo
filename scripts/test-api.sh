@@ -43,6 +43,7 @@ request GET /actuator/health 200
 request GET /api/dashboard/config 200
 DEMO="$(python3 -c 'import json,sys;print(str(json.load(open(sys.argv[1]))["demo"]).lower())' "$TMP_DIR/response.json")"
 if $CRUD && [[ "$DEMO" != true ]]; then echo '--crud só é permitido em demo; o script não altera Oracle real.' >&2; exit 1; fi
+request GET /api/dashboard/resumo 200
 request GET /api/registros/critica 401
 csrf
 if [[ "$DEMO" == true ]]; then
@@ -103,5 +104,6 @@ if $CRUD; then
   echo 'OK CRUD Localização (demo), com limpeza do registro criado'
 fi
 csrf; request POST /api/auth/logout 204
+request GET /api/dashboard/resumo 200
 request GET /api/registros/critica 401
 echo 'PASS: saúde, login, sessão, dashboard, campanhas, catálogos e logout'

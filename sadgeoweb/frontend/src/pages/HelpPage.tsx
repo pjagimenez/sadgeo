@@ -15,7 +15,7 @@ export default function HelpPage() {
       {[
         [
           "Painel de Controle",
-          "Consulte os indicadores gerais e gráficos. As permissões detalhadas por unidade/tema ainda precisam de implementação.",
+          "Acesso público, inclusive para visitantes: consulte os indicadores gerais e gráficos. As permissões detalhadas por unidade/tema ainda precisam de implementação.",
           "/index",
         ],
         [

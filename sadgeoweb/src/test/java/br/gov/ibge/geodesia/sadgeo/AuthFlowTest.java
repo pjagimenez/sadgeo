@@ -19,8 +19,13 @@ class AuthFlowTest {
   @Autowired MockMvc mvc;
 
   @Test
-  void sessionProtectsDataAndLogoutRevokesAccess() throws Exception {
-    mvc.perform(get("/api/dashboard/resumo")).andExpect(status().isUnauthorized());
+  void dashboardIsPublicWhileOperationalDataRequiresSession() throws Exception {
+    for (String section :
+        new String[] {"config", "resumo", "evolucao-anual", "analitico", "fatos", "pivot"}) {
+      mvc.perform(get("/api/dashboard/" + section)).andExpect(status().isOk());
+    }
+    mvc.perform(get("/api/registros/critica")).andExpect(status().isUnauthorized());
+    mvc.perform(get("/api/tabelas/localizacao")).andExpect(status().isUnauthorized());
     mvc.perform(post("/api/auth/demo")).andExpect(status().isForbidden());
     var result =
         mvc.perform(post("/api/auth/demo").with(csrf())).andExpect(status().isOk()).andReturn();
@@ -32,6 +37,8 @@ class AuthFlowTest {
     mvc.perform(post("/api/auth/logout").session(session).with(csrf()))
         .andExpect(status().isNoContent());
     mvc.perform(get("/api/auth/me")).andExpect(status().isUnauthorized());
+    mvc.perform(get("/api/dashboard/resumo")).andExpect(status().isOk());
+    mvc.perform(get("/api/registros/critica")).andExpect(status().isUnauthorized());
   }
 
   @Test

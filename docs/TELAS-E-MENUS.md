@@ -103,7 +103,7 @@ Usar a mesma composição em Crítica de Dados e nas sete análises. O contexto 
 │ seleção simples ou em lote  │ conteúdo da aba + validações contextuais  │
 └─────────────────────────────┴────────────────────────────────────────────┘
 [Voltar] [Salvar rascunho] [Solicitar complemento] [Reter / Devolver] [Liberar]
-[Usuário/perfil no menu inferior]       [rodapé do ambiente e versão atual]
+[Usuário/perfil no cabeçalho à direita]       [rodapé do ambiente e versão atual]
 ```
 
 No desktop, lista e detalhe lado a lado ou detalhe em drawer; no celular, detalhe em tela cheia, sem sete colunas comprimidas. Abrir detalhes deve preservar filtros, seleção, página e posição de rolagem. Avisar antes de abandonar alterações não salvas. A API deve retornar ações permitidas para o registro; botões desabilitados devem explicar o motivo.

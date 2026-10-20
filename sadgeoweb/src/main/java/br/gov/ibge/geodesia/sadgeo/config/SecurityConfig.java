@@ -70,6 +70,11 @@ public class SecurityConfig {
                         "/index.html",
                         "/assets/**",
                         "/api/dashboard/config",
+                        "/api/dashboard/resumo",
+                        "/api/dashboard/evolucao-anual",
+                        "/api/dashboard/analitico",
+                        "/api/dashboard/fatos",
+                        "/api/dashboard/pivot",
                         "/api/auth/csrf",
                         "/actuator/health")
                     .permitAll()

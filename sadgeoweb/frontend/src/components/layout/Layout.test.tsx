@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import RodapeView from "./RodapeView";
+import HeaderActions from "./HeaderActions";
 import MenuAcaoView from "./MenuAcaoView";
 import PrincipalPage from "../../pages/PrincipalPage";
 import type { Config, User } from "../../auth/AuthContext";
@@ -42,7 +43,7 @@ it("places copyright, profile/hostname and version in their footer slots", () =>
     within(footer).getByText("Versão 0.2.20261019-16").className,
   ).toContain("footer-version");
 });
-it("keeps user identity, profile and logout together at the bottom of the menu", async () => {
+it("keeps user identity, profile and logout together in header actions", async () => {
   auth.user = {
     login: "usuario123",
     nome: "Usuário",
@@ -51,31 +52,34 @@ it("keeps user identity, profile and logout together at the bottom of the menu",
   };
   render(
     <MemoryRouter>
-      <MenuAcaoView />
+      <HeaderActions />
     </MemoryRouter>,
   );
   const account = screen.getByLabelText(
     "Identificação do usuário",
   ).parentElement!;
-  expect(account.className).toContain("portal-account");
+  expect(account.className).toContain("header-account");
   expect(within(account).getByText("Identificador: usuario123")).toBeTruthy();
   expect(within(account).getByText("Perfil: Consulta")).toBeTruthy();
   await userEvent.click(within(account).getByRole("button", { name: "Sair" }));
   expect(auth.logout).toHaveBeenCalledOnce();
 });
-it("shows a visitor shell and login action without requesting protected data", async () => {
+it("renders the public dashboard outlet for visitors with account actions in the header", async () => {
   vi.stubGlobal(
     "fetch",
     vi.fn().mockResolvedValue({ ok: true, json: async () => config }),
   );
   render(
-    <MemoryRouter>
-      <PrincipalPage />
+    <MemoryRouter initialEntries={["/index"]}>
+      <Routes><Route element={<PrincipalPage />}>
+        <Route path="/index" element={<div>Dashboard público</div>} />
+      </Route></Routes>
     </MemoryRouter>,
   );
   expect(screen.getByText("Visitante")).toBeTruthy();
+  expect(screen.getByText("Dashboard público")).toBeTruthy();
   expect(
-    screen.getByRole("complementary").querySelector('a[href="/login"]'),
+    screen.getByRole("banner").querySelector('a[href="/login"]'),
   ).toBeTruthy();
   expect(
     await screen.findByText("Produção (prod) • sadgeo-pod-123"),
@@ -85,4 +89,15 @@ it("shows a visitor shell and login action without requesting protected data", a
       .mocked(fetch)
       .mock.calls.every(([url]) => url === "/api/dashboard/config"),
   ).toBe(true);
+});
+
+it("expands multiple menu groups independently without nested scroll containers", async () => {
+  render(<MemoryRouter><MenuAcaoView /></MemoryRouter>);
+  const nav = screen.getByRole("navigation", { name: "Navegação principal" });
+  await userEvent.click(within(nav).getByRole("button", { name: /Planejamento/ }));
+  await userEvent.click(within(nav).getByRole("button", { name: /Tabelas básicas/i }));
+  expect(within(nav).getByRole("link", { name: "Campanha" })).toBeTruthy();
+  expect(within(nav).getByRole("link", { name: "Localização" })).toBeTruthy();
+  expect(nav.querySelectorAll("details").length).toBe(0);
+  expect(within(nav).queryByText("Visitante")).toBeNull();
 });

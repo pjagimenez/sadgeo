@@ -2,7 +2,7 @@
 
 ## Navegação
 
-A tela inicial autenticada é **Painel de Controle** (`/index`). `/registros` redireciona para `/campo/critica`.
+A tela inicial pública, inclusive para visitantes, é **Painel de Controle** (`/index`). `/registros` redireciona para `/campo/critica`.
 
 | Grupo | Tela / rota | Comportamento |
 |---|---|---|
@@ -15,7 +15,7 @@ A tela inicial autenticada é **Painel de Controle** (`/index`). `/registros` re
 | Tabelas básicas | Cadastros abaixo | CRUD por metadados, sujeito à PK e autorização |
 | Tabelas básicas | NUE, Códigos de Estação, Tipo de Ocorrências | Aguardam nomes das tabelas, colunas e chaves; não são associados a tabelas por suposição |
 
-O menu hierárquico conserva o bloco de usuário/login/logout na parte inferior. O template de registros reúne busca, filtro adicional por projeto, paginação no servidor e detalhes da linha. Ele consulta os fatos do painel; não implementa ainda gravação de crítica ou edição de estação.
+Ajuda e o bloco de usuário/login/logout ficam no cabeçalho à direita. O menu hierárquico tem uma única área de rolagem e grupos expansíveis independentes. O template de registros reúne busca, filtro adicional por projeto, paginação no servidor e detalhes da linha. Ele consulta os fatos do painel; não implementa ainda gravação de crítica ou edição de estação.
 
 ## Filtros implícitos de CAMPANHA
 

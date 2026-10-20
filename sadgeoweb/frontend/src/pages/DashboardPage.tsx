@@ -80,19 +80,19 @@ export default function DashboardPage() {
           <p role="status">Carregando indicadores…</p>
         ) : (
           <>
-            <section className="cards" aria-label="Indicadores">
-              <article className="card total">
-                <span>Total de registros</span>
-                <strong>
+            <section className="dashboard-indicators" aria-label="Indicadores">
+              <article className="indicator indicator-total">
+                <span className="indicator-label">Total de registros</span>
+                <strong className="indicator-value"><span>
                   {Number(data.resumo.total ?? 0).toLocaleString("pt-BR")}
-                </strong>
+                </span></strong>
               </article>
               {statuses.map(([key, label]) => (
-                <article className="card" key={key}>
-                  <span>{label}</span>
-                  <strong>
+                <article className={`indicator indicator-${key}`} key={key}>
+                  <span className="indicator-label">{label}</span>
+                  <strong className="indicator-value"><span>
                     {Number(data.resumo[key] ?? 0).toLocaleString("pt-BR")}
-                  </strong>
+                  </span></strong>
                 </article>
               ))}
             </section>

@@ -8,7 +8,7 @@ Referências: [telas e menus](docs/TELAS-E-MENUS.md), [rastreabilidade e decisõ
 
 - [x] React/Material UI integrado ao Spring Boot no mesmo JAR; substituição do dashboard Vaadin.
 - [x] Login demonstrativo, sessão/CSRF e configuração Oracle/LDAPS por ENVVAR.
-- [x] Menu hierárquico, rodapé com build/profile/hostname e conta/login/logout no menu inferior.
+- [x] Menu hierárquico, rodapé com build/profile/hostname e conta/login/logout no cabeçalho à direita.
 - [x] Painel de Controle como tela padrão autenticada.
 - [x] Crítica de Dados e sete análises com template de **consulta**, filtros e paginação no servidor.
 - [x] Filtros implícitos `medA`, `medG`, `medP`, `vrf`, `veg`, `ogr`, `gab` aplicados pela API.

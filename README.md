@@ -1,5 +1,7 @@
 # SADGEO — versão 0.2.0
 
+**SADGEO — Sistema de Administração de Dados Geodésicos de Execução Operacional.**
+
 Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. JDK 17, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
 
 ## 1. Executar sem Oracle (demonstração)
@@ -20,7 +22,7 @@ Verificação por terminal:
 
 ```sh
 curl --fail http://127.0.0.2:8080/api/dashboard/config
-# Sem sessão, esta consulta retorna HTTP 401:
+# Dashboard público: esta consulta retorna HTTP 200 mesmo sem sessão:
 curl -i http://127.0.0.2:8080/api/dashboard/resumo
 curl --fail http://127.0.0.2:8080/actuator/health
 ```
@@ -78,7 +80,7 @@ No Eclipse: **Run Configurations → Environment**. No VS Code: seção `env`/`e
 
 O JDK precisa confiar no certificado do AD. É possível selecionar o truststore institucional pela ENVVAR padrão da JVM `JAVA_TOOL_OPTIONS`, por exemplo `-Djavax.net.ssl.trustStore=/caminho/truststore.p12 -Djavax.net.ssl.trustStoreType=PKCS12`. Não desabilite TLS nem validação de hostname. O bind usa o usuário e a senha digitados no login; não há credenciais fixas de administrador. A conexão com AD real ainda precisa ser validada na instituição.
 
-Consultas exigem sessão no servidor. O cliente obtém CSRF em `GET /api/auth/csrf`, envia credenciais por `POST /api/auth/login` (formulário URL-encoded), consulta `GET /api/auth/me` e encerra em `POST /api/auth/logout`. Respostas são JSON; logout retorna 204. A entrada `POST /api/auth/demo` só funciona no perfil demo. Senhas e tokens não são salvos em localStorage. Use HTTPS em produção. A autorização por módulo ainda não foi implementada; usuários autenticados têm acesso de consulta. A manutenção dos cadastros Oracle exige também a lista `SADGEO_CATALOG_WRITERS`.
+O Dashboard e seus dados de consulta são públicos. Registros operacionais e cadastros exigem sessão no servidor. O cliente obtém CSRF em `GET /api/auth/csrf`, envia credenciais por `POST /api/auth/login` (formulário URL-encoded), consulta `GET /api/auth/me` e encerra em `POST /api/auth/logout`. Respostas são JSON; logout retorna 204. A entrada `POST /api/auth/demo` só funciona no perfil demo. Senhas e tokens não são salvos em localStorage. Use HTTPS em produção. A autorização por módulo ainda não foi implementada; usuários autenticados têm acesso de consulta. A manutenção dos cadastros Oracle exige também a lista `SADGEO_CATALOG_WRITERS`.
 
 ## 3. Desenvolver com atualização automática do React
 
@@ -178,7 +180,7 @@ oc start-build sadgeo --from-dir=target/ocp --follow
 
 Isso pressupõe um BuildConfig `sadgeo` existente, login no cluster e acesso à imagem interna Java 17. Configure `SADGEO_DB_*` por Secret/configuração do deployment. O processo é `java -jar /deployments/app.jar`, porta 8080. Processos locais de desenvolvimento não são necessários em produção.
 
-**A versão 0.2 inclui consultas e manutenção dos cadastros descritos.** Consultas exigem sessão e CSRF permanece ativo. O login LDAPS depende da configuração e validação institucional; a autorização detalhada por módulo precisa ser definida antes de ampliar o acesso. Credenciais presentes no histórico antigo do Git devem ser rotacionadas pelos responsáveis.
+**A versão 0.2 inclui consultas e manutenção dos cadastros descritos.** O Dashboard é público; consultas operacionais e cadastros exigem sessão, e CSRF permanece ativo. O login LDAPS depende da configuração e validação institucional; a autorização detalhada por módulo precisa ser definida antes de ampliar o acesso. Credenciais presentes no histórico antigo do Git devem ser rotacionadas pelos responsáveis.
 
 ## Escopo da migração
 
@@ -193,7 +195,7 @@ Isso pressupõe um BuildConfig `sadgeo` existente, login no cluster e acesso à 
 
 ## Endpoints
 
-Todos são GET, sob `/api/dashboard`. Apenas `/config` é público; os demais exigem sessão:
+Todos são GET, sob `/api/dashboard`. As consultas listadas são públicas, inclusive para visitantes:
 
 | Rota | Resposta |
 |---|---|
@@ -230,7 +232,7 @@ O rodapé exibe copyright `IBGE-DGC/CGED/GSD` à esquerda, rótulo/profile e hos
 
 O rótulo padrão acompanha o profile (`demo`: Demonstração; `dev`: Desenvolvimento; `prod`: Produção). Para personalizá-lo, defina `SADGEO_PROFILE_LABEL`, por exemplo `Homologação`. Hostname vem da máquina que executa o backend (`HOSTNAME`/`COMPUTERNAME`, com fallback à consulta local); em contêineres, normalmente identifica o pod, não o computador do navegador.
 
-No menu lateral, nome, identificador, perfil e botão Sair ficam no bloco inferior. Sem sessão, o portal mostra Visitante e Fazer login; consultas continuam exigindo autenticação. Em telas pequenas, o rodapé distribui os três blocos em linhas para preservar a leitura.
+No canto superior direito do cabeçalho ficam Ajuda, nome, identificador, perfil e Sair. Sem sessão, aparecem Visitante e Fazer login. O menu lateral fica dedicado à navegação, com grupos independentes e uma única área de rolagem. O Dashboard é a página inicial pública; registros operacionais e cadastros continuam exigindo autenticação. Em telas pequenas, o rodapé distribui os três blocos em linhas para preservar a leitura.
 
 ## Menus, cadastros e testes curl/PowerShell
 
@@ -440,3 +442,9 @@ git stash apply SHA-DO-STASH
 ```
 
 A recuperacao pode gerar conflitos; `apply` mantem a copia no stash. Stash e armazenamento local neste checkout, nao um backup enviado ao GitHub.
+
+### Dashboard público e navegação compacta
+
+`/` abre o Painel de Controle (`/index`), sem exigir login. Os GETs existentes `/api/dashboard/config`, `/resumo`, `/evolucao-anual`, `/analitico`, `/fatos` e `/pivot` são públicos. As APIs `/api/registros/**` e `/api/tabelas/**` continuam protegidas; login, manutenção e logout preservam sessão/CSRF.
+
+Ajuda e identificação/login/logout ficam no canto superior direito do cabeçalho. O menu usa grupos expansíveis independentes, permite manter vários grupos abertos e possui uma única área de rolagem; os textos quebram linha. Os dez indicadores do Dashboard usam células compactas com rótulo e valor em losango: cinco colunas e duas linhas no desktop amplo, com adaptação para telas menores. Cores complementam os rótulos, sem substituí-los.

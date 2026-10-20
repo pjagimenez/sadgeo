@@ -29,6 +29,7 @@ try {
     $null = Invoke-Api GET '/actuator/health'
     $config = Invoke-Api GET '/api/dashboard/config'
     if ($Crud -and -not $config.demo) { throw '-Crud só é permitido em demo; o script não altera Oracle real.' }
+    $null = Invoke-Api GET '/api/dashboard/resumo'
     $null = Invoke-Api GET '/api/registros/critica' 401
     if ($config.demo) { $null = Invoke-Api POST '/api/auth/demo' }
     else {
@@ -74,6 +75,7 @@ try {
         Write-Host 'OK CRUD Localização (demo), com limpeza do registro criado'
     }
     $null = Invoke-Api POST '/api/auth/logout' 204
+    $null = Invoke-Api GET '/api/dashboard/resumo'
     $null = Invoke-Api GET '/api/registros/critica' 401
     Write-Host 'PASS: saúde, login, sessão, dashboard, campanhas, catálogos e logout'
 }

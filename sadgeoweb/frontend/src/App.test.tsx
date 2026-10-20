@@ -37,6 +37,9 @@ it("renders dashboard totals from the API", async () => {
   );
   render(<App />);
   expect(await screen.findByText("123")).toBeTruthy();
+  const indicators = screen.getByRole("region", { name: "Indicadores" });
+  expect(indicators.querySelectorAll(".indicator").length).toBe(10);
+  expect(indicators.querySelectorAll(".indicator-value > span").length).toBe(10);
 });
 it("paginates and filters analytical rows", async () => {
   render(
