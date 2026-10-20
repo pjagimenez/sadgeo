@@ -1,6 +1,6 @@
 # SADGEO — versão 0.2.0
 
-Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. Java 17 ou 21, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
+Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. JDK 17, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
 
 ## 1. Executar sem Oracle (demonstração)
 
@@ -217,4 +217,15 @@ A [nota de versão 0.2](docs/RELEASE-0.2.md) separa funcionalidades, prévias lo
 
 ### Falha de compilação em `LdapProperties` (getDomain/getBaseDn/timeouts)
 
-Atualize o checkout e execute `mvn clean verify` em `sadgeoweb`. A configuração LDAP tem acessores Java explícitos; o Maven também declara o processador Lombok usado pelas entidades. Confira `mvn -version`: o JDK efetivamente usado pelo Maven pode ser diferente do selecionado na IDE. Os JDKs recomendados para este projeto são 17 e 21. Se o erro persistir, confira se há `-proc:none` nas opções locais e atualize o projeto Maven na IDE.
+Atualize o checkout e execute `mvn clean verify` em `sadgeoweb`. A configuração LDAP tem acessores Java explícitos; o Maven também declara o processador Lombok usado pelas entidades. Confira `mvn -version`: o JDK efetivamente usado pelo Maven pode ser diferente do selecionado na IDE. O JDK obrigatório para este projeto é o 17. Se o erro persistir, confira se há `-proc:none` nas opções locais e atualize o projeto Maven na IDE.
+
+No Windows/PowerShell, configure o JDK 17 antes de compilar (ajuste o caminho da instalação):
+
+```powershell
+$env:JAVA_HOME = 'C:\Java\jdk-17'
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+mvn -version
+mvn clean verify
+```
+
+No Eclipse/STS, selecione JDK 17 em **Installed JREs** e na configuração de execução Maven. No VS Code, selecione JavaSE-17 em **Java: Configure Java Runtime**. O Maven exige a versão `[17,18)`; o bytecode também é compilado para Java 17.
