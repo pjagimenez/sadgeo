@@ -1,6 +1,6 @@
 # SADGEO — versão 0.2.0
 
-**SADGEO — Sistema de Administração de Dados Geodésicos de Execução Operacional.**
+**SADGEO — Sistematização e Análise de Dados Geodésicos.**
 
 Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. JDK 17, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
 

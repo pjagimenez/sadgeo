@@ -29,7 +29,7 @@ export default function PrincipalPage() {
             SADGEO
           </Typography>
           <Typography variant="body2">
-            Sistema de Administração de Dados Geodésicos de Execução Operacional
+            Sistematização e Análise de Dados Geodésicos
           </Typography>
         </div>
         <HeaderActions />
