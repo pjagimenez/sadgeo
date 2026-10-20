@@ -47,6 +47,7 @@ it("keeps user identity, profile and logout together in header actions", async (
   auth.user = {
     login: "usuario123",
     nome: "Usuário",
+    description: "Equipe de Geodésia <campo>",
     perfil: "Consulta",
     demo: false,
   };
@@ -61,6 +62,8 @@ it("keeps user identity, profile and logout together in header actions", async (
   expect(account.className).toContain("header-account");
   expect(within(account).getByText("Identificador: usuario123")).toBeTruthy();
   expect(within(account).getByText("Perfil: Consulta")).toBeTruthy();
+  expect(within(account).getByText("Descrição: Equipe de Geodésia <campo>")).toBeTruthy();
+  expect(account.querySelector('campo')).toBeNull();
   await userEvent.click(within(account).getByRole("button", { name: "Sair" }));
   expect(auth.logout).toHaveBeenCalledOnce();
 });

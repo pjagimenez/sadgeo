@@ -53,7 +53,7 @@ Toda a conexão AD/LDAPS é configurada por variáveis de ambiente, assim como o
 | ENVVAR | Uso | Padrão |
 |---|---|---|
 | `SADGEO_LDAP_HOST` | Servidor/FQDN, sem protocolo ou porta | vazio |
-| `SADGEO_LDAP_PORT` | Porta LDAPS | `636` |
+| `SADGEO_LDAP_PORT` | Porta LDAPS opcional; pode omitir a variável | `636` |
 | `SADGEO_LDAP_DOMAIN` | Domínio AD/UPN, por exemplo `example.org` | vazio |
 | `SADGEO_LDAP_BASE_DN` | Base de busca, por exemplo `DC=example,DC=org` | derivada do domínio quando vazia |
 | `SADGEO_LDAP_CONNECT_TIMEOUT_MS` | Timeout de conexão, em milissegundos | `5000` |
@@ -62,7 +62,7 @@ Toda a conexão AD/LDAPS é configurada por variáveis de ambiente, assim como o
 
 ```sh
 export SADGEO_LDAP_HOST='ad.example.org'
-export SADGEO_LDAP_PORT='636'
+# SADGEO_LDAP_PORT é opcional; sem a variável, usa 636
 export SADGEO_LDAP_DOMAIN='example.org'
 export SADGEO_LDAP_BASE_DN='DC=example,DC=org'
 export SADGEO_LDAP_CONNECT_TIMEOUT_MS='5000'
@@ -71,6 +71,16 @@ export SADGEO_LDAP_READ_TIMEOUT_MS='10000'
 unset SADGEO_LDAP_URL
 java -jar target/sadgeo-0.2.0.jar --spring.profiles.active=prod
 ```
+
+Configuração mínima no PowerShell (sem informar porta):
+
+```powershell
+$env:SADGEO_LDAP_HOST = 'ad.example.org'
+$env:SADGEO_LDAP_DOMAIN = 'example.org'
+.\scripts\build_run.ps1 -Profile dev
+```
+
+Se a variável já existir na sessão e quiser voltar ao padrão, remova-a com `Remove-Item Env:SADGEO_LDAP_PORT -ErrorAction SilentlyContinue`. Se `SADGEO_LDAP_URL` estiver definida, ela continua tendo prioridade sobre HOST/PORT.
 
 No Eclipse: **Run Configurations → Environment**. No VS Code: seção `env`/`envFile` da configuração de execução Java. No OpenShift: variáveis do deployment/ConfigMap; credenciais Oracle devem ficar em Secret. `sadgeoweb/.env.example` lista as variáveis, mas o Spring Boot não carrega `.env` automaticamente; configure a IDE ou exporte-as antes de iniciar.
 
@@ -470,3 +480,15 @@ Novos endpoints GET públicos, somente de leitura:
 ```
 
 Filtros aceitos: `ano`, `mes`, `campanha`, `projeto`, `uf`, `municipio`, `uorgOrigem`, `situacao` e `q`. Página inicia em zero; tamanho permitido de 1 a 100. O resultado paginado contém `items`, `total`, `page` e `size`. O endpoint de opções retorna valores distintos, respeitando as dependências; ele não carrega os fatos completos no navegador. O endpoint legado `/api/dashboard/fatos` foi preservado para compatibilidade, mas não é usado pelo Dashboard. Consultas reais às views Oracle ainda precisam ser validadas no ambiente institucional; H2 e demo não substituem essa validação.
+
+### Atributo LDAP `description` após login
+
+Após o AD validar o login, o SADGEO lê `description` do resultado da busca autenticada e o mantém no principal da sessão. Não abre outra conexão LDAP a cada consulta. A resposta de `POST /api/auth/login` inclui `authenticated` e `description`; `GET /api/auth/me` também retorna `description`, junto de `login`, `nome`, `perfil` e `demo`.
+
+```json
+{"login":"usuario@example.org","nome":"usuario@example.org","description":"Equipe de Geodésia","perfil":"Consulta","demo":false}
+```
+
+O cabeçalho apresenta o valor como **Descrição**, abaixo do identificador. O atributo é informativo: não define nome, perfil ou permissões. Atributo ausente, vazio ou indisponível por permissão do AD resulta em `description: ""`, sem impedir o login; nesse caso a linha é omitida no cabeçalho. Se houver vários valores não vazios, são unidos por `; `. A sessão de demonstração retorna descrição vazia. O valor é texto escapado, sem interpretar HTML. O JSON não expõe senha, DN ou demais atributos do diretório.
+
+Depois de atualizar a aplicação, faça novo login para carregar o atributo na sessão. Os testes cobrem mapeamento, login/sessão/logout e ausência do atributo; o acesso ao atributo no AD institucional depende das permissões locais e ainda precisa ser conferido nesse ambiente.

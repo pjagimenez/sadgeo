@@ -8,6 +8,7 @@ import {
 export type User = {
   login: string;
   nome: string;
+  description?: string;
   perfil: string;
   demo: boolean;
 };

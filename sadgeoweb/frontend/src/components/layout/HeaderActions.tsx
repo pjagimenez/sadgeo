@@ -74,6 +74,11 @@ export default function HeaderActions() {
                 Identificador: {user.login}
               </Typography>
             )}
+            {user?.description && (
+              <Typography variant="caption" component="div">
+                Descrição: {user.description}
+              </Typography>
+            )}
             <Typography variant="caption" component="div">
               Perfil: {user?.perfil ?? "Não autenticado"}
             </Typography>

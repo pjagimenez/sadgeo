@@ -32,7 +32,8 @@ class AuthFlowTest {
     var session = (MockHttpSession) result.getRequest().getSession(false);
     mvc.perform(get("/api/auth/me").session(session))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.demo").value(true));
+        .andExpect(jsonPath("$.demo").value(true))
+        .andExpect(jsonPath("$.description").value(""));
     mvc.perform(get("/api/dashboard/resumo").session(session)).andExpect(status().isOk());
     mvc.perform(post("/api/auth/logout").session(session).with(csrf()))
         .andExpect(status().isNoContent());

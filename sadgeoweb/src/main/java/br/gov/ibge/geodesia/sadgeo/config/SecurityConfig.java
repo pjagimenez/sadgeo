@@ -1,5 +1,8 @@
 package br.gov.ibge.geodesia.sadgeo.config;
 
+import br.gov.ibge.geodesia.sadgeo.auth.DirectoryUserDetails;
+import br.gov.ibge.geodesia.sadgeo.auth.DirectoryUserDetailsMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
@@ -22,6 +25,7 @@ public class SecurityConfig {
               settings.getDomain(),
               settings.effectiveUrl(),
               settings.getBaseDn().isBlank() ? null : settings.getBaseDn());
+      provider.setUserDetailsContextMapper(new DirectoryUserDetailsMapper());
       provider.setConvertSubErrorCodesToExceptions(true);
       provider.setContextEnvironmentProperties(
           Map.of(
@@ -44,7 +48,8 @@ public class SecurityConfig {
   SecurityFilterChain security(
       HttpSecurity http,
       AuthenticationManager manager,
-      HttpSessionSecurityContextRepository repository)
+      HttpSessionSecurityContextRepository repository,
+      ObjectMapper mapper)
       throws Exception {
     http.authenticationManager(manager)
         .securityContext(c -> c.securityContextRepository(repository))
@@ -107,7 +112,17 @@ public class SecurityConfig {
         .formLogin(
             f ->
                 f.loginProcessingUrl("/api/auth/login")
-                    .successHandler((req, res, auth) -> json(res, 200, "{\"authenticated\":true}"))
+                    .successHandler(
+                        (req, res, auth) ->
+                            json(
+                                res,
+                                200,
+                                mapper.writeValueAsString(
+                                    Map.of(
+                                        "authenticated",
+                                        true,
+                                        "description",
+                                        DirectoryUserDetails.descriptionOf(auth)))))
                     .failureHandler(
                         (req, res, ex) ->
                             json(
