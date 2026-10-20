@@ -214,3 +214,7 @@ As novas interfaces foram geradas na 0.2, com ações impactantes desabilitadas 
 ## Entrega 0.2
 
 A [nota de versão 0.2](docs/RELEASE-0.2.md) separa funcionalidades, prévias locais e integrações futuras. As novas telas de baixo impacto já foram geradas; mudanças que gravam estações, decidem críticas ou alteram sistemas externos permanecem nos milestones.
+
+### Falha de compilação em `LdapProperties` (getDomain/getBaseDn/timeouts)
+
+Atualize o checkout e execute `mvn clean verify` em `sadgeoweb`. A configuração LDAP tem acessores Java explícitos; o Maven também declara o processador Lombok usado pelas entidades. Confira `mvn -version`: o JDK efetivamente usado pelo Maven pode ser diferente do selecionado na IDE. Os JDKs recomendados para este projeto são 17 e 21. Se o erro persistir, confira se há `-proc:none` nas opções locais e atualize o projeto Maven na IDE.

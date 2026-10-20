@@ -3,12 +3,8 @@ package br.gov.ibge.geodesia.sadgeo.config;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import lombok.Getter;
-import lombok.Setter;
 
 /** Non-secret AD connection settings. User credentials are supplied only at login. */
-@Getter
-@Setter
 @ConfigurationProperties(prefix = "sadgeo.auth.ldap")
 public class LdapProperties {
     private String host = "";
@@ -18,6 +14,28 @@ public class LdapProperties {
     private String url = "";
     private int connectTimeoutMs = 5000;
     private int readTimeoutMs = 10000;
+
+    // Explicit JavaBean accessors also support Spring binding without annotation processing.
+    public String getHost() { return host; }
+    public void setHost(String host) { this.host = host; }
+
+    public int getPort() { return port; }
+    public void setPort(int port) { this.port = port; }
+
+    public String getDomain() { return domain; }
+    public void setDomain(String domain) { this.domain = domain; }
+
+    public String getBaseDn() { return baseDn; }
+    public void setBaseDn(String baseDn) { this.baseDn = baseDn; }
+
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
+
+    public int getConnectTimeoutMs() { return connectTimeoutMs; }
+    public void setConnectTimeoutMs(int connectTimeoutMs) { this.connectTimeoutMs = connectTimeoutMs; }
+
+    public int getReadTimeoutMs() { return readTimeoutMs; }
+    public void setReadTimeoutMs(int readTimeoutMs) { this.readTimeoutMs = readTimeoutMs; }
 
     public boolean isConfigured() {
         return (!host.isBlank() || !url.isBlank()) && !domain.isBlank();

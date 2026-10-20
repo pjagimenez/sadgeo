@@ -18,6 +18,10 @@ class LdapPropertiesTest {
             var settings = context.getBean(LdapProperties.class);
             settings.validate();
             assertTrue(settings.isConfigured());
+            assertEquals("ad.example.org", settings.getHost());
+            assertEquals(1636, settings.getPort());
+            assertEquals("example.org", settings.getDomain());
+            assertEquals("", settings.getUrl());
             assertEquals("ldaps://ad.example.org:1636", settings.effectiveUrl());
             assertEquals("DC=example,DC=org", settings.getBaseDn());
             assertEquals(2500,settings.getConnectTimeoutMs());
