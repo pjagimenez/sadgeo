@@ -38,19 +38,21 @@ try {
         throw 'SADGEO requer JDK 17. Ajuste -JavaHome ou JAVA_HOME.'
     }
     $env:JAVA_HOME = (Resolve-Path $JavaHome).Path
+    $java = Join-Path $env:JAVA_HOME "bin/$javaName"
     $env:PATH = "$(Join-Path $env:JAVA_HOME 'bin')$([IO.Path]::PathSeparator)$env:PATH"
 
     if ($Update) {
         $changes = & git status --porcelain
         if ($LASTEXITCODE -ne 0) { throw 'Nao foi possivel consultar o checkout Git.' }
         if ($changes) { throw 'Ha alteracoes locais. Salve-as antes de usar -Update.' }
-        Invoke-Checked -Command 'git' -Arguments @('switch', 'main')
+        Invoke-Checked -Command 'git' -Arguments @('checkout', 'main')
         Invoke-Checked -Command 'git' -Arguments @('pull', '--ff-only', 'origin', 'main')
     }
 
     Set-Location (Join-Path $repoRoot 'sadgeoweb')
     if (!$SkipBuild) {
-        Invoke-Checked -Command 'mvn' -Arguments @('clean', 'verify')
+        $maven = if ($env:OS -eq 'Windows_NT') { 'mvn.cmd' } else { 'mvn' }
+        Invoke-Checked -Command $maven -Arguments @('clean', 'verify')
     }
     [xml]$pom = Get-Content 'pom.xml' -Raw
     $version = [string]$pom.project.version

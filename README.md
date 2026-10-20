@@ -246,3 +246,23 @@ Na raiz do checkout, o argumento `-Profile` e obrigatorio (`demo`, `dev` ou `pro
 ```
 
 `-JavaHome` usa `JAVA_HOME` quando omitido. O script exige JDK 17, interrompe em erros e resolve os caminhos a partir de sua propria localizacao. Sem `-Update`, nao executa comandos de alteracao Git; com `-Update`, exige checkout limpo e atualiza `main` usando fast-forward. Sem `-SkipBuild`, executa `mvn clean verify`. `dev` e `prod` exigem as ENVVARs e conexoes institucionais descritas acima; o script nao carrega `.env`. Encerre com `Ctrl+C`. Pode ser executado no Windows PowerShell 5.1 ou PowerShell 7+.
+
+### Se o Windows so tem JDK 24
+
+Instale tambem o JDK 17 (o 24 pode continuar instalado):
+
+```powershell
+winget install --id EclipseAdoptium.Temurin.17.JDK --exact --source winget
+```
+
+A instalacao pode solicitar permissao do Windows. Se `winget` nao estiver disponivel, instale o Temurin 17 pelo site oficial <https://adoptium.net/temurin/releases/?version=17> ou solicite a instalacao ao suporte.
+
+Reabra o PowerShell, localize a instalacao e execute a partir da raiz do checkout:
+
+```powershell
+Get-ChildItem 'C:\Program Files\Eclipse Adoptium' -Directory
+# Substitua pelo caminho exibido:
+.\scripts\Start-Sadgeo.ps1 -Profile demo -JavaHome 'C:\Program Files\Eclipse Adoptium\jdk-17.0.x.x-hotspot'
+```
+
+Para atualizar manualmente com Git antigo, use `git checkout main` e `git pull --ff-only origin main`. `D:\` isolado nao e um comando de navegacao: use `Set-Location 'D:\caminho\do\repositorio'`. No Windows, consulte a versao do npm com `npm.cmd --version`; o build Maven tambem seleciona `npm.cmd`, evitando o bloqueio de `npm.ps1` sem alterar a politica de execucao.

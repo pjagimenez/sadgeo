@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-parent</artifactId><version>3.5.0</version></parent>
   <groupId>br.gov.ibge.geodesia</groupId><artifactId>sadgeo</artifactId><version>0.2.0</version>
-  <properties><java.version>17</java.version><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+  <properties><java.version>17</java.version><npm.executable>npm</npm.executable><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
   <dependencies>
     <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><scope>test</scope></dependency>
     <dependency><groupId>org.springframework.security</groupId><artifactId>spring-security-ldap</artifactId></dependency>
@@ -18,6 +18,11 @@
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
     <dependency><groupId>org.springframework.security</groupId><artifactId>spring-security-test</artifactId><scope>test</scope></dependency>
   </dependencies>
+  <profiles>
+    <profile><id>windows-npm</id><activation><os><family>Windows</family></os></activation>
+      <properties><npm.executable>npm.cmd</npm.executable></properties>
+    </profile>
+  </profiles>
   <build><plugins>
     <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-enforcer-plugin</artifactId><version>3.5.0</version>
       <executions><execution><id>require-jdk-17</id><goals><goal>enforce</goal></goals>
@@ -32,7 +37,7 @@
     </plugin>
     <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId><executions><execution><goals><goal>build-info</goal></goals></execution></executions></plugin>
     <plugin><groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId><version>3.5.0</version>
-      <configuration><workingDirectory>${project.basedir}/frontend</workingDirectory><executable>npm</executable></configuration>
+      <configuration><workingDirectory>${project.basedir}/frontend</workingDirectory><executable>${npm.executable}</executable></configuration>
       <executions>
         <execution><id>frontend-install</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><arguments><argument>ci</argument></arguments></configuration></execution>
         <execution><id>frontend-build</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><arguments><argument>run</argument><argument>build</argument></arguments></configuration></execution>
