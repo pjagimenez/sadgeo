@@ -39,7 +39,7 @@
     <plugin><groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId><version>3.5.0</version>
       <configuration><workingDirectory>${project.basedir}/frontend</workingDirectory><executable>${npm.executable}</executable></configuration>
       <executions>
-        <execution><id>frontend-install</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><arguments><argument>ci</argument><argument>--include=dev</argument><argument>--bin-links=true</argument></arguments></configuration></execution>
+        <execution><id>frontend-install</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><executable>node</executable><arguments><argument>scripts/install-dependencies.cjs</argument></arguments></configuration></execution>
         <execution><id>frontend-build</id><phase>generate-resources</phase><goals><goal>exec</goal></goals><configuration><arguments><argument>run</argument><argument>build</argument></arguments></configuration></execution>
       </executions>
     </plugin>

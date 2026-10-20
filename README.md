@@ -12,7 +12,7 @@ mvn clean verify
 java -jar target/sadgeo-0.2.0.jar --spring.profiles.active=demo
 ```
 
-O Maven executa `npm ci`, compila o React e copia o resultado para o JAR. Abra o endereço da aplicação na porta **8080** em sua máquina. O perfil `demo` não conecta ao banco e exibe um aviso permanente de **dados fictícios**. Não use esse perfil para conferir indicadores reais. Na página de login, clique em **Entrar na demonstração**; não informe credenciais.
+O Maven verifica as dependências frontend, executa `npm ci` quando necessário, compila o React e copia o resultado para o JAR. Abra o endereço da aplicação na porta **8080** em sua máquina. O perfil `demo` não conecta ao banco e exibe um aviso permanente de **dados fictícios**. Não use esse perfil para conferir indicadores reais. Na página de login, clique em **Entrar na demonstração**; não informe credenciais.
 
 O portal incorpora o layout de `sadgeo-react-web.7z`: login pêssego/violeta, cabeçalho, menu lateral, ajuda, tema/projeto, rodapé e grade Material UI com seleção e detalhes. Rotas: `/login`, `/index` e `/registros`. Crítica de Dados e Análise usam o mesmo template de consulta, com filtros e paginação no servidor; o dashboard apresenta os totais gerais. A grade consulta os fatos analíticos, não edita estações.
 
@@ -347,7 +347,7 @@ Cadastrar o JDK 17 nao muda automaticamente o nivel do compilador. Em **Window >
 
 ### Frontend: `tsc` nao reconhecido no Windows
 
-TypeScript e Vite sao dependencias locais de compilacao em `devDependencies`. O build precisa delas mesmo quando o perfil Spring e `prod`. O Maven usa `npm ci --include=dev --bin-links=true`, para instala-las inclusive quando `NODE_ENV=production` ou uma configuracao npm omite dependencias de desenvolvimento/desativa os executaveis em `node_modules/.bin`. Nao e necessario instalar TypeScript globalmente.
+TypeScript e Vite sao dependencias locais de compilacao em `devDependencies`. O build precisa delas mesmo quando o perfil Spring e `prod`. Quando precisa reinstalar os pacotes, o Maven usa `npm ci --include=dev --bin-links=true`, para instala-las inclusive quando `NODE_ENV=production` ou uma configuracao npm omite dependencias de desenvolvimento/desativa os executaveis em `node_modules/.bin`. Nao e necessario instalar TypeScript globalmente.
 
 Depois de atualizar o checkout, execute novamente `scripts/build_run.ps1 -Profile demo`. Para diagnosticar ou compilar somente o frontend, em PowerShell:
 
@@ -360,3 +360,16 @@ npm.cmd run build
 ```
 
 `npm ci` baixa/reinstala os pacotes; a primeira execucao pode demorar conforme a rede. O aviso `whatwg-encoding deprecated` nao e a causa do erro `tsc`. Avisos de vulnerabilidades precisam de analise separada; nao execute `npm audit fix --force` automaticamente, pois pode introduzir atualizacoes incompativeis.
+
+### Evitar reinstalar os pacotes frontend em todo build
+
+A etapa Maven `frontend-install` verifica a instalacao antes de executar `npm ci`. Se `package.json`, `package-lock.json`, `.npmrc`, o script de instalacao, a versao do Node e a plataforma permanecerem iguais, e a instalacao local estiver presente, reutiliza `node_modules`. O marcador fica dentro de `node_modules`, fora do Git; `mvn clean` nao o remove. A primeira execucao apos esta atualizacao reinstala os pacotes e cria o marcador. Mudancas no codigo React nao exigem reinstalacao dos pacotes.
+
+Para forcar uma reinstalacao, na raiz do repositorio:
+
+```powershell
+Remove-Item .\sadgeoweb\frontend\node_modules\.sadgeo-install.json -ErrorAction SilentlyContinue
+.\scripts\build_run.ps1 -Profile demo
+```
+
+A compilacao React e os testes Maven continuam sendo executados para incorporar e verificar as alteracoes. Para apenas executar um JAR ja pronto, use `build_run.ps1 -Profile demo -SkipBuild`. No desenvolvimento diario das telas, use Vite (`npm.cmd run dev`) para atualizacao automatica.
