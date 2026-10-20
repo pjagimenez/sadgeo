@@ -1,11 +1,13 @@
 package br.gov.ibge.geodesia.sadgeo.config;
 
+import br.gov.ibge.geodesia.sadgeo.auth.AuthDiagnostics;
 import br.gov.ibge.geodesia.sadgeo.auth.DirectoryUserDetails;
 import br.gov.ibge.geodesia.sadgeo.auth.DirectoryUserDetailsMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
@@ -17,7 +19,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableConfigurationProperties(LdapProperties.class)
 public class SecurityConfig {
   @Bean
-  AuthenticationManager authenticationManager(LdapProperties settings) {
+  AuthenticationManager authenticationManager(LdapProperties settings, Environment environment) {
+    AuthDiagnostics.configuration(settings, environment);
     settings.validate();
     if (settings.isConfigured()) {
       var provider =
@@ -49,7 +52,8 @@ public class SecurityConfig {
       HttpSecurity http,
       AuthenticationManager manager,
       HttpSessionSecurityContextRepository repository,
-      ObjectMapper mapper)
+      ObjectMapper mapper,
+      LdapProperties settings)
       throws Exception {
     http.authenticationManager(manager)
         .securityContext(c -> c.securityContextRepository(repository))
@@ -113,23 +117,30 @@ public class SecurityConfig {
             f ->
                 f.loginProcessingUrl("/api/auth/login")
                     .successHandler(
-                        (req, res, auth) ->
-                            json(
-                                res,
-                                200,
-                                mapper.writeValueAsString(
-                                    Map.of(
-                                        "authenticated",
-                                        true,
-                                        "description",
-                                        DirectoryUserDetails.descriptionOf(auth)))))
+                        (req, res, auth) -> {
+                          String description = DirectoryUserDetails.descriptionOf(auth);
+                          AuthDiagnostics.success(!description.isBlank());
+                          json(
+                              res,
+                              200,
+                              mapper.writeValueAsString(
+                                  Map.of("authenticated", true, "description", description)));
+                        })
                     .failureHandler(
-                        (req, res, ex) ->
-                            json(
-                                res,
-                                ex instanceof AuthenticationServiceException ? 503 : 401,
-                                "{\"message\":\"Não foi possível autenticar. Verifique as"
-                                    + " credenciais ou a configuração institucional.\"}")))
+                        (req, res, ex) -> {
+                          var failure = AuthDiagnostics.failure(ex, settings.isConfigured());
+                          json(
+                              res,
+                              failure.status(),
+                              mapper.writeValueAsString(
+                                  Map.of(
+                                      "message",
+                                      "Não foi possível autenticar. Consulte o diagnóstico no log.",
+                                      "diagnosticId",
+                                      failure.diagnosticId(),
+                                      "reason",
+                                      failure.reason())));
+                        }))
         .logout(
             l ->
                 l.logoutRequestMatcher(new AntPathRequestMatcher("/api/auth/logout", "POST"))

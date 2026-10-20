@@ -34,9 +34,12 @@ it("uses 255px charts, removes all-zero years and sorts the data table descendin
     />,
   );
   expect(screen.getByRole("img").style.height).toBe("255px");
-  expect(screen.getByTitle("Construção")).toBeTruthy();
+  expect(screen.queryByTitle("Construção")).toBeNull();
+  expect(screen.getByText("12 registros")).toBeTruthy();
+  expect(screen.queryByText("Dados — Campanhas", {selector:"h2"})).toBeNull();
   const option = mock.setOption.mock.calls.at(-1)![0];
   expect(option.xAxis.data).not.toContain("2000");
+  expect(option.legend.tooltip.formatter({name:"cons"})).toContain("Construção");
   await userEvent.click(screen.getByText("Consultar dados do gráfico"));
   expect(screen.getAllByRole("row")).toHaveLength(11);
   expect(screen.getAllByRole("row")[1].textContent).toBe("201212");

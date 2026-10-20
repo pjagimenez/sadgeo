@@ -47,18 +47,24 @@ public class DemoDashboardFactsQuery implements DashboardFactsQuery {
   }
 
   public Result page(Filter filter, int page, int size) {
-    var matched =
-        rows.stream()
-            .filter(row -> matches(row, filter))
-            .sorted(
-                Comparator.<JsonNode>comparingInt(row -> row.path("anoLevantamento").asInt())
-                    .reversed()
-                    .thenComparing(
-                        Comparator.<JsonNode>comparingInt(
-                                row -> row.path("mesLevantamento").asInt())
-                            .reversed())
-                    .thenComparing(row -> row.path("seq").asText()))
-            .toList();
+    String field = filter.get("sort");
+    Comparator<JsonNode> comparator =
+        (left, right) -> {
+          var a = left.path(field);
+          var b = right.path(field);
+          return a.isNumber() && b.isNumber()
+              ? Double.compare(a.asDouble(), b.asDouble())
+              : a.asText("").compareTo(b.asText(""));
+        };
+    if (filter.get("direction").equals("desc")) comparator = comparator.reversed();
+    if (field.equals("anoLevantamento"))
+      comparator =
+          comparator.thenComparing(
+              Comparator.<JsonNode>comparingInt(row -> row.path("mesLevantamento").asInt())
+                  .reversed());
+    if (!field.equals("seq"))
+      comparator = comparator.thenComparing(row -> row.path("seq").asText());
+    var matched = rows.stream().filter(row -> matches(row, filter)).sorted(comparator).toList();
     return new Result(
         matched.stream()
             .skip((long) page * size)

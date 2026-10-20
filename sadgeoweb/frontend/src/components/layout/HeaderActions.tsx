@@ -53,16 +53,18 @@ export default function HeaderActions() {
     <Box className="header-actions">
       {error && <Alert severity="error">{error}</Alert>}
       <Box className="header-account">
-        <Button
-          component={NavLink}
-          to="/ajuda/manual"
-          startIcon={<MenuBookIcon />}
-        >
-          Manual
-        </Button>
-        <Button startIcon={<HelpIcon />} onClick={() => setHelp(true)}>
-          Ajuda desta tela
-        </Button>
+        <Box className="header-documentation">
+          <Button
+            component={NavLink}
+            to="/ajuda/manual"
+            startIcon={<MenuBookIcon />}
+          >
+            Manual
+          </Button>
+          <Button startIcon={<HelpIcon />} onClick={() => setHelp(true)}>
+            Ajuda desta tela
+          </Button>
+        </Box>
         <Box className="portal-user" aria-label="Identificação do usuário">
           <PersonIcon />
           <Box sx={{ minWidth: 0 }}>

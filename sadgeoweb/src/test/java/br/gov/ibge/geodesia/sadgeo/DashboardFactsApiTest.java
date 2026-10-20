@@ -51,6 +51,24 @@ class DashboardFactsApiTest {
   }
 
   @Test
+  void orderingAppliesBeforePaginationAndRejectsUnknownColumns() throws Exception {
+    var response =
+        mvc.perform(
+                get("/api/dashboard/fatos-pagina")
+                    .param("size", "1")
+                    .param("sort", "anoLevantamento")
+                    .param("direction", "asc"))
+            .andExpect(status().isOk())
+            .andReturn();
+    var first = mapper.readTree(response.getResponse().getContentAsString()).get("items").get(0);
+    org.junit.jupiter.api.Assertions.assertEquals(2024, first.get("anoLevantamento").asInt());
+    mvc.perform(get("/api/dashboard/fatos-pagina").param("sort", "invalid;drop table"))
+        .andExpect(status().isBadRequest());
+    mvc.perform(get("/api/dashboard/fatos-pagina").param("direction", "invalid"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   void validatesBoundsAndKeepsOperationalDataProtected() throws Exception {
     for (String invalid : new String[] {"0", "101", "abc"})
       mvc.perform(get("/api/dashboard/fatos-pagina").param("size", invalid))

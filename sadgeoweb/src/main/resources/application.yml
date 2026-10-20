@@ -35,3 +35,12 @@ sadgeo:
       url: ${SADGEO_LDAP_URL:}
       connect-timeout-ms: ${SADGEO_LDAP_CONNECT_TIMEOUT_MS:5000}
       read-timeout-ms: ${SADGEO_LDAP_READ_TIMEOUT_MS:10000}
+
+logging:
+  file:
+    name: ${SADGEO_LOG_FILE:logs/sadgeo.log}
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+      total-size-cap: 70MB

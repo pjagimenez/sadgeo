@@ -60,3 +60,47 @@ export function matches(row: Row, filters: FilterValues) {
     ([field, value]) => !value || String(row[field] ?? "") === value,
   );
 }
+
+export const monthNames = [
+  "JAN",
+  "FEV",
+  "MAR",
+  "ABR",
+  "MAI",
+  "JUN",
+  "JUL",
+  "AGO",
+  "SET",
+  "OUT",
+  "NOV",
+  "DEZ",
+];
+export const dayColumns: Record<string, string> = {
+  mediaDiasLevantamentoAteEntrada: "Levant. → Entrada",
+  mediaDiasEntradaAteCritica: "Entrada → Crítica",
+  mediaDiasEntradadiasAtePublicacao: "Entrada → Publicação",
+  mediaDiasEntradaAtePublicacao: "Entrada → Publicação",
+  mediaDiasLevantamentoAteCalculoCoordenadas: "Levant. → Cálc. coord.",
+  diasAteEntrada: "Levant. → Entrada",
+  diasAteCritica: "Entrada → Crítica",
+  diasAtePublicacao: "Entrada → Publicação",
+  diasAteCalculoCoord: "Levant. → Cálc. coord.",
+};
+export function numericColumn(key: string, rows: Row[]) {
+  return (
+    ["ano", "anoLevantamento", "mesLevantamento"].includes(key) ||
+    rows.some((row) => typeof row[key] === "number")
+  );
+}
+export function displayValue(key: string, value: Row[string]) {
+  if (value == null) return "—";
+  if (key === "mesLevantamento")
+    return monthNames[Number(value) - 1] ?? String(value);
+  if (typeof value === "number" && !["ano", "anoLevantamento"].includes(key))
+    return value.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+  return String(value);
+}
+export function brazilianDate(value: Row[string] | undefined) {
+  const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return match ? `${match[3]}/${match[2]}/${match[1]}` : "—";
+}

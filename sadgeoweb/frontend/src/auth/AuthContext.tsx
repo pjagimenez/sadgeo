@@ -33,12 +33,22 @@ export async function authRequest(path: string, data?: URLSearchParams) {
     },
     body: data,
   });
-  if (!response.ok)
-    throw new Error(
+  if (!response.ok) {
+    const failure = await response.json().catch(() => null);
+    const fallback =
       response.status === 401
         ? "Usuário ou senha inválidos."
-        : `Não foi possível autenticar ou encerrar a sessão (HTTP ${response.status}).`,
-    );
+        : `Não foi possível autenticar ou encerrar a sessão (HTTP ${response.status}).`;
+    const message =
+      typeof failure?.message === "string" ? failure.message : fallback;
+    const reference =
+      typeof failure?.diagnosticId === "string"
+        ? ` Referência: ${failure.diagnosticId}.`
+        : "";
+    const reason =
+      typeof failure?.reason === "string" ? ` Motivo: ${failure.reason}.` : "";
+    throw new Error(message + reference + reason);
+  }
 }
 const AuthContext = createContext<{
   user: User | null;

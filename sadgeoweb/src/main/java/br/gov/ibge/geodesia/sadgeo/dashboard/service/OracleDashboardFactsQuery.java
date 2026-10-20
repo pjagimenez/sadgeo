@@ -64,16 +64,12 @@ public class OracleDashboardFactsQuery implements DashboardFactsQuery {
   }
 
   public Result page(Filter filter, int page, int size) {
-    var result =
-        repository.findAll(
-            specification(filter),
-            PageRequest.of(
-                page,
-                size,
-                Sort.by(
-                    Sort.Order.desc("anoLevantamento"),
-                    Sort.Order.desc("mesLevantamento"),
-                    Sort.Order.asc("seq"))));
+    String field = filter.get("sort");
+    var sort = Sort.by(new Sort.Order(Sort.Direction.fromString(filter.get("direction")), field));
+    if (field.equals("anoLevantamento"))
+      sort = sort.and(Sort.by(Sort.Order.desc("mesLevantamento")));
+    if (!field.equals("seq")) sort = sort.and(Sort.by(Sort.Order.asc("seq")));
+    var result = repository.findAll(specification(filter), PageRequest.of(page, size, sort));
     return new Result(
         result.getContent().stream().map(FatoPainelEntity::toDTO).toList(),
         result.getTotalElements(),

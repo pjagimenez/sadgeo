@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Chart from "../Chart";
 import type { Row } from "../Table";
 import DashboardTables from "../components/DashboardTables";
-import { campaignNames } from "../dashboard";
+import { campaignNames, brazilianDate } from "../dashboard";
 const statuses: [string, string][] = [
   ["naoCriticado", "Não criticado"],
   ["retidoCampo", "Retido campo"],
@@ -56,18 +56,29 @@ export default function DashboardPage() {
     <>
       {" "}
       <main>
-        <div className="heading">
+        <div className="heading dashboard-heading">
           <div>
             <p className="eyebrow">VISÃO GERAL</p>
             <h1>Painel de Controle</h1>
+          </div>
+          <button
+            className="dashboard-refresh"
+            onClick={() => setAttempt((a) => a + 1)}
+          >
+            Atualizar dados
+          </button>
+          <div className="dashboard-subline">
             <p>
               Acompanhamento de levantamentos, campanhas e situação dos
               registros.
             </p>
+            {data && (
+              <p className="period">
+                Período {brazilianDate(data.resumo.dtPrimeiroLevantamento)} a{" "}
+                {brazilianDate(data.resumo.dtUltimoLevantamento)}
+              </p>
+            )}
           </div>
-          <button onClick={() => setAttempt((a) => a + 1)}>
-            Atualizar dados
-          </button>
         </div>
         {error ? (
           <div role="alert" className="error">
@@ -100,11 +111,6 @@ export default function DashboardPage() {
                 </article>
               ))}
             </section>
-            <p className="period">
-              Período dos levantamentos:{" "}
-              {data.resumo.dtPrimeiroLevantamento ?? "—"} a{" "}
-              {data.resumo.dtUltimoLevantamento ?? "—"}
-            </p>
             <div className="charts">
               <Chart
                 title="Evolução anual"
@@ -115,7 +121,7 @@ export default function DashboardPage() {
                 }))}
               />
               <Chart
-                title="Registros por ano e campanha"
+                title="Consolidado por Ano e Campanha"
                 hints={campaignNames}
                 categories={data.pivot.categorias}
                 series={Object.entries(data.pivot.series).map(

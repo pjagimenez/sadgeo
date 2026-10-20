@@ -113,8 +113,10 @@ export default function LoginPage() {
               </Button>
               {config && !config.authConfigured && (
                 <Alert severity="warning">
-                  Login institucional ainda não configurado. Configure o domínio
-                  e o servidor LDAPS no backend.
+                  Login institucional ainda não configurado no processo Java.
+                  Configure SADGEO_LDAP_HOST e SADGEO_LDAP_DOMAIN na execução do
+                  backend e reinicie-o. Consulte AUTH_CONFIG no arquivo
+                  logs/sadgeo.log.
                 </Alert>
               )}
             </Box>

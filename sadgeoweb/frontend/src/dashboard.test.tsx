@@ -105,3 +105,65 @@ it("requests facts by page and resets dependent project/month/municipality filte
       .mock.calls.every(([url]) => !String(url).endsWith("/fatos")),
   ).toBe(true);
 });
+
+it("formats numeric chart cells with thousands and groups mean-day headers", async () => {
+  render(
+    <Table
+      title="Resumo"
+      rows={[
+        {
+          ano: 2026,
+          campanha: "medA",
+          contagem: 12345,
+          mediaDiasLevantamentoAteEntrada: 1234.5,
+          mediaDiasEntradaAteCritica: 20,
+          mediaDiasEntradadiasAtePublicacao: 30,
+          mediaDiasLevantamentoAteCalculoCoordenadas: 40,
+        },
+      ]}
+      dense
+      groupDays
+      topScroll
+    />,
+  );
+  expect(screen.getByText("12.345").className).toContain("numeric-column");
+  expect(screen.getByText("1.234,5").className).toContain("numeric-column");
+  expect(
+    screen
+      .getByRole("columnheader", { name: "Médias de dias entre…" })
+      .getAttribute("colspan"),
+  ).toBe("4");
+  expect(screen.getByLabelText("Rolagem horizontal de Resumo")).toBeTruthy();
+});
+it("requests server ordering for all fact columns instead of sorting just the current page", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url: string) => ({
+      ok: true,
+      json: async () =>
+        url.includes("fatos-filtros")
+          ? {}
+          : {
+              items: [{ seq: "1", anoLevantamento: 2026, contagem: 50 }],
+              total: 100,
+            },
+    })),
+  );
+  render(<DashboardTables analytical={[]} refresh={0} />);
+  const column = await screen.findByRole("button", {
+    name: "Ordenar por Quantidade",
+  });
+  await userEvent.click(column);
+  await vi.waitFor(() =>
+    expect(
+      vi
+        .mocked(fetch)
+        .mock.calls.some(
+          ([url]) =>
+            String(url).includes("sort=contagem") &&
+            String(url).includes("direction=desc") &&
+            String(url).includes("page=0"),
+        ),
+    ).toBe(true),
+  );
+});

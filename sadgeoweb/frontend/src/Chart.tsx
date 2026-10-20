@@ -29,7 +29,11 @@ export default function Chart({
   const valid = inputCategories
     .map((_, index) => index)
     .filter((index) =>
-      inputSeries.some((s) => Number(s.data[index] ?? 0) !== 0),
+      inputSeries.some(
+        (s) =>
+          Number.isFinite(Number(s.data[index])) &&
+          Number(s.data[index] ?? 0) !== 0,
+      ),
     );
   const categories = valid.map((index) => inputCategories[index]);
   const series = inputSeries.map((s) => ({
@@ -66,7 +70,7 @@ export default function Chart({
           params
             .map(
               (p, index) =>
-                `${index === 0 ? `${echarts.format.encodeHTML(p.axisValue)}<br/>` : ""}${echarts.format.encodeHTML(p.seriesName)}${hints[p.seriesName] ? ` — ${echarts.format.encodeHTML(hints[p.seriesName])}` : ""}: ${p.value}`,
+                `${index === 0 ? `${echarts.format.encodeHTML(p.axisValue)}<br/>` : ""}${echarts.format.encodeHTML(p.seriesName)}${hints[p.seriesName] ? ` — ${echarts.format.encodeHTML(hints[p.seriesName])}` : ""}: ${Number(p.value).toLocaleString("pt-BR")}`,
             )
             .join("<br/>"),
       },
@@ -80,7 +84,7 @@ export default function Chart({
         },
       },
       grid: { top: 20, bottom: 75, left: 65, right: 20 },
-      xAxis: { type: "category", data: categories },
+      xAxis: { type: "category", data: categories, axisLabel: { interval: 0 } },
       yAxis: { type: "value" },
       series: series.map((s) => ({ ...s, type: "bar", stack: "total" })),
     });
@@ -100,21 +104,19 @@ export default function Chart({
         ref={element}
         style={{ height: 255 }}
       />
-      {Object.keys(hints).length > 0 && (
-        <p className="campaign-hints">
-          {series.map((s) => (
-            <abbr key={s.name} title={hints[s.name] ?? s.name}>
-              {s.name}
-            </abbr>
-          ))}
-        </p>
-      )}
       <details>
-        <summary>Consultar dados do gráfico</summary>
+        <summary>
+          Consultar dados do gráfico{" "}
+          <span className="record-badge">
+            {rows.length.toLocaleString("pt-BR")} registros
+          </span>
+        </summary>
         <Table
           title={`Dados — ${title}`}
           rows={rows}
           searchable={false}
+          showTitle={false}
+          showCount={false}
           pageSize={10}
           defaultSort="ano"
           compact

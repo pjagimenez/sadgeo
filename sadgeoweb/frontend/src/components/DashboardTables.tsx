@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Table, { type Row } from "../Table";
+import Table, { type Row, type TableSort } from "../Table";
 import DashboardFilters from "./DashboardFilters";
 import {
   defaultYear,
@@ -16,11 +16,12 @@ const analyticalFields: [string, string][] = [
 const factFields: [string, string][] = [
   ["ano", "Ano"],
   ["mes", "Mês"],
-  ["campanha", "Campanha"],
-  ["projeto", "Projeto"],
   ["uf", "UF"],
   ["municipio", "Município"],
   ["uorgOrigem", "UORG de origem"],
+  ["campanha", "Campanha"],
+  ["projeto", "Projeto"],
+  ["situacao", "Situação"],
 ];
 export default function DashboardTables({
   analytical,
@@ -36,6 +37,10 @@ export default function DashboardTables({
   const [options, setOptions] = useState<Record<string, string[]>>({});
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<TableSort>({
+    field: "anoLevantamento",
+    desc: true,
+  });
   const [result, setResult] = useState<{ items: Row[]; total: number }>();
   const [error, setError] = useState("");
   const [facetError, setFacetError] = useState("");
@@ -68,6 +73,8 @@ export default function DashboardTables({
             page: String(page),
             size: "25",
             q: query,
+            sort: sort.field,
+            direction: sort.desc ? "desc" : "asc",
           }),
         { signal: c.signal },
       )
@@ -84,7 +91,7 @@ export default function DashboardTables({
       clearTimeout(timer);
       c.abort();
     };
-  }, [filters, page, query, refresh]);
+  }, [filters, page, query, refresh, sort]);
   const summaryOptions = Object.fromEntries(
     analyticalFields.map(([key]) => [
       key,
@@ -108,6 +115,7 @@ export default function DashboardTables({
             uf: "",
             municipio: "",
             uorgOrigem: "",
+            situacao: "",
           }
         : {}),
       ...(key === "campanha" ? { projeto: "" } : {}),
@@ -117,15 +125,6 @@ export default function DashboardTables({
   return (
     <div className="dashboard-tables">
       <div className="dashboard-table-column">
-        <h2>Filtros do Resumo Analítico</h2>
-        <DashboardFilters
-          fields={analyticalFields}
-          values={summaryFilters}
-          options={summaryOptions}
-          onChange={(key, value) =>
-            setSummaryFilters((previous) => ({ ...previous, [key]: value }))
-          }
-        />
         <Table
           title="Resumo analítico"
           rows={newestFirst(
@@ -133,23 +132,44 @@ export default function DashboardTables({
           )}
           pageSize={25}
           defaultSort="ano"
+          dense
+          topScroll
+          groupDays
+          filters={
+            <DashboardFilters
+              layout="summary"
+              fields={analyticalFields}
+              values={summaryFilters}
+              options={summaryOptions}
+              onChange={(key, value) =>
+                setSummaryFilters((previous) => ({ ...previous, [key]: value }))
+              }
+            />
+          }
         />
       </div>
       <div className="dashboard-table-column">
-        <h2>Filtros dos Fatos do Painel</h2>
-        <DashboardFilters
-          fields={factFields}
-          values={filters}
-          options={options}
-          onChange={change}
-        />
-        {facetError && <p role="alert">{facetError}</p>}
-        {error && <p role="alert">{error}</p>}
-        {!result && !error && <p role="status">Carregando fatos…</p>}
         <Table
           title="Fatos do painel"
           rows={result?.items ?? []}
           pageSize={25}
+          dense
+          topScroll
+          groupDays
+          filters={
+            <>
+              <DashboardFilters
+                layout="facts"
+                fields={factFields}
+                values={filters}
+                options={options}
+                onChange={change}
+              />
+              {facetError && <p role="alert">{facetError}</p>}
+              {error && <p role="alert">{error}</p>}
+              {!result && !error && <p role="status">Carregando fatos…</p>}
+            </>
+          }
           server={{
             total: result?.total ?? 0,
             page,
@@ -157,6 +177,11 @@ export default function DashboardTables({
             query,
             onQuery: (value) => {
               setQuery(value);
+              setPage(0);
+            },
+            sort,
+            onSort: (next) => {
+              setSort(next);
               setPage(0);
             },
           }}

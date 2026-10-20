@@ -25,6 +25,25 @@ public interface DashboardFactsQuery {
           "situacao",
           "situacao");
 
+  Set<String> SORT_FIELDS =
+      Set.of(
+          "seq",
+          "anoLevantamento",
+          "mesLevantamento",
+          "dataLevantamento",
+          "campanha",
+          "projeto",
+          "uf",
+          "municipio",
+          "tipoLocal",
+          "uorgOrigem",
+          "situacao",
+          "contagem",
+          "diasAteEntrada",
+          "diasAteCritica",
+          "diasAtePublicacao",
+          "diasAteCalculoCoord");
+
   record Result(List<FatoPainelDTO> items, long total, int page, int size) {}
 
   final class Filter {
@@ -42,6 +61,12 @@ public interface DashboardFactsQuery {
       String q = input.getOrDefault("q", "").trim();
       if (q.length() > 200) throw bad("Pesquisa muito longa");
       values.put("q", q);
+      String sort = input.getOrDefault("sort", "anoLevantamento");
+      String direction = input.getOrDefault("direction", "desc");
+      if (!SORT_FIELDS.contains(sort)) throw bad("Coluna de ordenacao invalida");
+      if (!Set.of("asc", "desc").contains(direction)) throw bad("Direcao de ordenacao invalida");
+      values.put("sort", sort);
+      values.put("direction", direction);
       for (String key : List.of("page", "size"))
         if (input.containsKey(key)) values.put(key, input.get(key));
       if (values.containsKey("ano")) number("ano", 0, 1, 9999);

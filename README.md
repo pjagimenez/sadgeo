@@ -492,3 +492,59 @@ Após o AD validar o login, o SADGEO lê `description` do resultado da busca aut
 O cabeçalho apresenta o valor como **Descrição**, abaixo do identificador. O atributo é informativo: não define nome, perfil ou permissões. Atributo ausente, vazio ou indisponível por permissão do AD resulta em `description: ""`, sem impedir o login; nesse caso a linha é omitida no cabeçalho. Se houver vários valores não vazios, são unidos por `; `. A sessão de demonstração retorna descrição vazia. O valor é texto escapado, sem interpretar HTML. O JSON não expõe senha, DN ou demais atributos do diretório.
 
 Depois de atualizar a aplicação, faça novo login para carregar o atributo na sessão. Os testes cobrem mapeamento, login/sessão/logout e ausência do atributo; o acesso ao atributo no AD institucional depende das permissões locais e ainda precisa ser conferido nesse ambiente.
+
+### Dashboard compacto: gráficos, filtros e ordenação
+
+As tabelas de dados dos gráficos têm números à direita, separador de milhar em pt-BR, cabeçalhos com quebra de linha e linhas compactas. O contador aparece como badge junto de **Consultar dados do gráfico**, sem título repetido dentro da tabela. Anos com todas as séries nulas, ausentes, inválidas ou zeradas são omitidos do eixo X. O gráfico de campanhas se chama **Consolidado por Ano e Campanha**; os nomes completos ficam nas dicas da legenda, sem linha adicional de siglas.
+
+O período é exibido em `dd/MM/aaaa`, abaixo de Atualizar dados e na linha da descrição do painel. Os filtros ficam dentro de cada painel, logo antes da busca: uma linha no Resumo; duas nos Fatos (Ano/Mês/UF/Município/UORG; Campanha/Projeto/Situação). Mês é apresentado como JAN, FEV etc., mantendo o valor numérico na API. As tabelas têm rolagem horizontal superior sincronizada com a inferior, linhas de aproximadamente 16px e paginação de 25 registros, com botões menores.
+
+No Resumo, as quatro colunas de médias são agrupadas em **Médias de dias entre…**. Nos Fatos, os valores individuais são agrupados em **Dias entre…**. Subcolunas: Levant. → Entrada, Entrada → Crítica, Entrada → Publicação e Levant. → Cálc. coord. Os valores dos fatos não foram convertidos artificialmente em médias.
+
+Todas as colunas dos Fatos permitem ordenação sobre o resultado completo no servidor, antes da paginação. O GET `/api/dashboard/fatos-pagina` aceita `sort` com um dos campos do DTO e `direction=asc|desc`. Exemplo:
+
+```text
+/api/dashboard/fatos-pagina?ano=2026&page=0&size=25&sort=contagem&direction=desc
+```
+
+Campos aceitos: `seq`, `anoLevantamento`, `mesLevantamento`, `dataLevantamento`, `campanha`, `projeto`, `uf`, `municipio`, `tipoLocal`, `uorgOrigem`, `situacao`, `contagem`, `diasAteEntrada`, `diasAteCritica`, `diasAtePublicacao`, `diasAteCalculoCoord`. Campo/direção inválidos retornam 400. O identificador desempata a ordenação para manter a paginação estável. O padrão continua ano decrescente, mês decrescente, identificador crescente.
+
+Manual e Ajuda desta tela ficam empilhados no cabeçalho, com Manual acima e fonte discreta.
+
+### Diagnosticar login institucional: console e arquivo
+
+A aplicação grava no console e, por padrão, em **`logs/sadgeo.log`**, relativo à pasta de execução Java. Pelo `build_run.ps1`, o arquivo fica em **`sadgeoweb/logs/sadgeo.log`**. O script informa o caminho e a presença das ENVVARs da sessão antes do build. Para alterar o arquivo, configure `SADGEO_LOG_FILE`. A rotação é de 10MB por arquivo, histórico de sete dias, com limite total de 70MB.
+
+Em outro PowerShell, partindo da raiz do checkout:
+
+```powershell
+Get-Content .\sadgeoweb\logs\sadgeo.log -Tail 80 -Wait
+```
+
+Para conferir o backend realmente em execução, sem enviar credenciais:
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/dashboard/config | Select-Object profile, authConfigured
+```
+
+Se a tela mostra **Login institucional ainda não configurado**, `authConfigured` está falso: o processo Java não recebeu servidor/URL e domínio juntos. Não é uma tentativa de conexão LDAP nem prova de senha incorreta. Configure os nomes completos **SADGEO_LDAP_HOST** e **SADGEO_LDAP_DOMAIN** na mesma sessão que executa o script, ou em **Run Configurations > Spring Boot App > Environment** no Spring Tools. ENVVARs de outro terminal não são transferidas para uma IDE já aberta. Se alterou as variáveis do Windows depois de abrir a IDE, reabra a IDE. Criar `.env` não carrega variáveis automaticamente. Porta é opcional e usa 636.
+
+Se `AUTH_CONFIG` mostra servidor/domínio presentes e a tela continua desabilitada, confira se o frontend consulta a mesma instância Java: o Vite encaminha `/api` para a porta 8080 por padrão. Um backend em outra porta ou um processo antigo pode devolver outra configuração. Consulte `/api/dashboard/config` na porta efetivamente usada pelo navegador.
+
+No log, `AUTH_CONFIG` mostra apenas presença de servidor/domínio/base/URL e porta/timeouts. `AUTH_VARIAVEL` aponta nomes curtos como `LDAP_HOST` quando detectados, orientando usar o prefixo `SADGEO_`. Os valores de host/domínio, senha, token, descrição e demais atributos pessoais não são gravados pelos eventos de diagnóstico.
+
+Falhas de login retornam uma **referência** (`diagnosticId`) e um motivo seguro na API/tela, correspondentes ao evento `AUTH_LOGIN_FALHA` no log. `AUTH_LOGIN_SUCESSO` informa sucesso e apenas se `description` foi recebido, sem registrar seu conteúdo.
+
+| Motivo | Conferir |
+|---|---|
+| `LDAP_NAO_CONFIGURADO` | ENVVARs recebidas pelo processo Java e seus nomes completos |
+| `LDAP_DNS` | Resolução do hostname e acesso à rede institucional |
+| `LDAP_CERTIFICADO_TLS` | Cadeia da CA institucional no truststore do JDK 17; o parâmetro Node/npm de CA não configura Java |
+| `LDAP_TIMEOUT` / `LDAP_CONEXAO` | Rede, servidor, porta e timeouts |
+| `LDAP_BASE_BUSCA` | Base DN e escopo de pesquisa |
+| `LDAP_CREDENCIAIS` | Login/domínio e senha |
+| `LDAP_CONTA_BLOQUEADA` / `LDAP_CONTA_DESABILITADA` | Estado da conta no AD |
+| `LDAP_SENHA_EXPIRADA` / `LDAP_CONTA_EXPIRADA` | Validade da senha/conta |
+| `LDAP_SERVICO` | Serviço institucional; localizar o evento pela referência |
+
+Não habilite DEBUG global nem compartilhe senhas/tokens para diagnosticar. Os eventos do SADGEO não gravam o texto bruto de exceções LDAP ou dados de entrada. Demais mensagens de infraestrutura podem aparecer no mesmo log; revise o conteúdo antes de compartilhá-lo.

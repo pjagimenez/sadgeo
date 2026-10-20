@@ -52,7 +52,16 @@ try {
     $java = Join-Path $env:JAVA_HOME "bin/$javaName"
     $env:PATH = "$(Join-Path $env:JAVA_HOME 'bin')$([IO.Path]::PathSeparator)$env:PATH"
 
+    $hostPresent = ![string]::IsNullOrWhiteSpace($env:SADGEO_LDAP_HOST)
+    $domainPresent = ![string]::IsNullOrWhiteSpace($env:SADGEO_LDAP_DOMAIN)
+    $urlPresent = ![string]::IsNullOrWhiteSpace($env:SADGEO_LDAP_URL)
+    Write-Host "LDAPS nesta sessao: SADGEO_LDAP_HOST informado=$hostPresent | SADGEO_LDAP_DOMAIN informado=$domainPresent | SADGEO_LDAP_URL informado=$urlPresent"
+    if ($Profile -ne 'demo' -and (!$domainPresent -or (!$hostPresent -and !$urlPresent))) {
+        Write-Warning 'Login institucional depende das propriedades recebidas pelo Java. Configure SADGEO_LDAP_HOST e SADGEO_LDAP_DOMAIN nesta sessao ou nas configuracoes Spring. .env nao e carregado automaticamente.'
+    }
     Set-Location (Join-Path $repoRoot 'sadgeoweb')
+    $logPath = if ([string]::IsNullOrWhiteSpace($env:SADGEO_LOG_FILE)) { Join-Path (Get-Location) 'logs/sadgeo.log' } else { $env:SADGEO_LOG_FILE }
+    Write-Host "Log da aplicacao: $logPath"
     if (!$SkipBuild) {
         $maven = if ($env:OS -eq 'Windows_NT') { 'mvn.cmd' } else { 'mvn' }
         Invoke-Checked -Command $maven -Arguments @('clean', 'verify')

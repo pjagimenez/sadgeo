@@ -1,17 +1,26 @@
-import { campaignNames, type FilterValues } from "../dashboard";
+import { campaignNames, monthNames, type FilterValues } from "../dashboard";
 export default function DashboardFilters({
   fields,
+  layout = "summary",
   values,
   options,
   onChange,
 }: {
   fields: [string, string][];
+  layout?: "summary" | "facts";
   values: FilterValues;
   options: Record<string, string[]>;
   onChange: (key: string, value: string) => void;
 }) {
   return (
-    <div className="dashboard-filters">
+    <div
+      className={`dashboard-filters dashboard-filters-${layout}`}
+      aria-label={
+        layout === "summary"
+          ? "Filtros do Resumo analítico"
+          : "Filtros dos Fatos do painel"
+      }
+    >
       {fields.map(([key, label]) => {
         const choices = [
           ...new Set([
@@ -24,7 +33,7 @@ export default function DashboardFilters({
             : a.localeCompare(b, "pt-BR"),
         );
         return (
-          <label key={key}>
+          <label key={key} className={`filter-${key}`}>
             {label}
             <select
               aria-label={label}
@@ -41,7 +50,9 @@ export default function DashboardFilters({
               <option value="">Todos</option>
               {choices.map((value) => (
                 <option key={value} value={value}>
-                  {value}
+                  {key === "mes"
+                    ? (monthNames[Number(value) - 1] ?? value)
+                    : value}
                   {key === "campanha" && campaignNames[value]
                     ? ` — ${campaignNames[value]}`
                     : ""}

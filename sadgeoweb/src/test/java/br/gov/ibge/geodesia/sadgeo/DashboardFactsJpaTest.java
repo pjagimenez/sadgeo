@@ -49,6 +49,27 @@ class DashboardFactsJpaTest {
       assertEquals(3, first.total());
       assertEquals("literal_%!", first.items().get(0).seq());
       assertNotEquals(first.items().get(0).seq(), service.page(year, 1, 1).items().get(0).seq());
+      assertEquals(
+          2025,
+          service
+              .page(
+                  new DashboardFactsQuery.Filter(
+                      Map.of("sort", "anoLevantamento", "direction", "asc")),
+                  0,
+                  1)
+              .items()
+              .get(0)
+              .anoLevantamento());
+      assertEquals(
+          "G",
+          service
+              .page(
+                  new DashboardFactsQuery.Filter(Map.of("sort", "projeto", "direction", "desc")),
+                  0,
+                  1)
+              .items()
+              .get(0)
+              .projeto());
       var filtered =
           new DashboardFactsQuery.Filter(
               Map.of("ano", "2026", "campanha", "medA", "uf", "RJ", "mes", "2", "q", "_%!"));

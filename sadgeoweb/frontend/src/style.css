@@ -300,3 +300,46 @@ footer {
 .metric-column .column-sort { min-width: 166px; max-width: 190px; }
 @media(max-width:1100px) { .dashboard-filters { min-height: 0; } }
 @media(max-width:600px) { .dashboard-filters { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+/* Dense dashboard tables and filters sized to their contents. */
+.dashboard-heading { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 8px 20px; }
+.dashboard-subline { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+.dashboard-subline p { margin: 0; }
+.dashboard-subline .period { flex: 0 0 auto; text-align: right; }
+.record-badge { display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 10px; background: #e7edf5; color: #3d526c; font-size: 11px; font-weight: 600; vertical-align: middle; }
+.dashboard-table-column > .panel { padding: 14px; }
+.dashboard-table-column > .panel h2 { margin-bottom: 10px; }
+.dashboard-filters { display: grid; min-height: 0; gap: 6px; margin-bottom: 8px; align-content: start; }
+.dashboard-filters-summary { grid-template-columns: minmax(6ch,10fr) minmax(10ch,20fr) minmax(12ch,30fr) minmax(10ch,20fr); }
+.dashboard-filters-facts { grid-template-columns: minmax(5ch,5fr) minmax(5ch,5fr) minmax(3ch,3fr) minmax(10ch,20fr) minmax(7ch,10fr); }
+.dashboard-filters label { min-width: 0; font-size: 11px; }
+.dashboard-filters select { margin-top: 2px; padding: 4px 2px; font-size: 11px; height: 26px; }
+.dashboard-filters-facts .filter-campanha { grid-row: 2; grid-column: 1 / 4; }
+.dashboard-filters-facts .filter-projeto { grid-row: 2; grid-column: 4; }
+.dashboard-filters-facts .filter-situacao { grid-row: 2; grid-column: 5; }
+.dense-table .table-search { font-size: 11px; }
+.dense-table .table-search input { margin-top: 3px; padding: 5px 7px; font-size: 11px; }
+.dense-table .table-count { font-size: 11px; margin: 6px 0; }
+.dense-table table { width: max-content; min-width: 100%; font-size: 11px; }
+.dense-table th { min-width: 0; padding: 3px 4px; max-width: none; white-space: normal; vertical-align: middle; }
+.dense-table .column-sort { min-width: 0; max-width: 16ch; padding: 0; font-size: 11px; line-height: 13px; white-space: normal; }
+.dense-table td { min-width: var(--column-width,8ch); padding: 0 4px; font-size: 11px; line-height: 15px; }
+.dense-table tbody tr { height: 16px; }
+.numeric-column { text-align: right; font-variant-numeric: tabular-nums; }
+.numeric-column .column-sort { text-align: right; }
+.day-column-group { text-align: center; border-bottom: 1px solid #c8d4e0; }
+.chart-data-table .column-sort { max-width: 9ch; }
+.dense-table .pagination { margin-top: 6px; gap: 8px; font-size: 10px; }
+.dense-table .pagination button { font-size: 7px; line-height: 1.2; padding: 2px 6px; min-height: 20px; }
+.table-scroll-top { overflow-x: scroll; overflow-y: hidden; height: 15px; margin-bottom: 2px; }
+@media(max-width:600px) {
+  .dashboard-heading { grid-template-columns: minmax(0,1fr); }
+  .dashboard-subline { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .dashboard-subline .period { text-align: left; }
+  .dashboard-filters-summary { grid-template-columns: minmax(6ch,10fr) minmax(8ch,20fr) minmax(10ch,30fr) minmax(8ch,20fr); }
+  .dashboard-filters-facts { grid-template-columns: minmax(5ch,5fr) minmax(5ch,5fr) minmax(3ch,3fr) minmax(7ch,20fr) minmax(6ch,10fr); }
+}
+
+.header-documentation { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+.header-account .header-documentation .MuiButton-root { font-size: 10px; line-height: 1.25; padding: 3px 5px; min-height: 24px; }
+.header-documentation .MuiButton-startIcon { margin-right: 4px; }
+.header-documentation .MuiButton-startIcon > svg { font-size: 14px; }

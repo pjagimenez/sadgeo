@@ -12,7 +12,7 @@ A 0.2 preserva a base React + Spring Boot e acrescenta o menu operacional, cadas
 - CSV com campos delimitados/escapados e proteção contra fórmulas de planilha; precisão de números grandes preservada como texto.
 - Estado das integrações: health da aplicação e presença de configuração LDAPS, distinguindo “configurado” de “conectado”. Nenhuma senha/token é retornada.
 - Manual no cabeçalho e Ajuda desta tela contextual; Guia de Uso e Evolução no ícone junto à versão, com fontes em Markdown.
-- Dashboard: indicadores arredondados, gráficos de 255px, dados dos gráficos paginados em dez linhas e anos zerados omitidos.
+- Dashboard: indicadores arredondados, gráficos de 255px, dados dos gráficos paginados em dez linhas, números formatados e anos sem dados omitidos.
 - Resumo e fatos lado a lado, filtros por combos e 25 linhas por página; fatos filtrados/paginados no servidor. Ano inicial anterior de janeiro a março, corrente a partir de abril.
 - NUE e Códigos de Estação em Planejamento, com redirecionamento das URLs anteriores.
 - Scripts de testes curl e PowerShell 7+ que usam sessão/CSRF e só fazem CRUD automatizado em demo.
@@ -66,3 +66,11 @@ pwsh -NoProfile -File scripts/Test-Api.ps1 -BaseUrl http://127.0.0.1:8080 -Crud
 ```
 
 Para dados institucionais, siga as ENVVARs e pré-requisitos do [README](../README.md). O [TODO](../TODO.md) mantém os marcos de impacto, as dependências e os critérios de aceite.
+
+## Refinamentos de consulta e diagnóstico
+
+- Tabelas compactas, filtros em uma linha no Resumo e duas nos Fatos, meses como MMM e rolagem superior sincronizada.
+- Cabeçalhos agrupados para médias (Resumo) e dias individuais (Fatos); ordenação de todas as colunas dos Fatos no servidor.
+- Contadores dos dados dos gráficos ao lado de Consultar dados, sem título repetido; período em formato brasileiro no cabeçalho do Dashboard.
+- Manual acima da ajuda, com fonte menor.
+- Diagnóstico de autenticação no console e em arquivo com rotação, com referência de falha e categorias seguras. Não registra credenciais ou conteúdo dos atributos do diretório nos eventos do SADGEO.
