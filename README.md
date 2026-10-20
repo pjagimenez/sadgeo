@@ -101,6 +101,53 @@ npm run dev
 
 Abra a porta **5173** na sua máquina. O Vite encaminha `/api` para a porta 8080, sem precisar liberar CORS. Ao acessar a porta 8080, será exibido o último frontend compilado; as alterações instantâneas ficam na porta 5173.
 
+### Trabalhar com Spring Tools for Eclipse e Visual Studio Code
+
+Use as duas IDEs no **mesmo checkout**, com o backend Java no Spring Tools e o frontend React no VS Code.
+
+| Ferramenta | Pasta | Responsabilidade |
+|---|---|---|
+| Spring Tools for Eclipse | `sadgeoweb` | Java, Spring Boot, API REST e persistência |
+| Visual Studio Code | `sadgeoweb/frontend` | React, TypeScript, componentes e estilos |
+
+**Backend no Spring Tools**
+
+1. Importe por **File → Import → Maven → Existing Maven Projects**, selecionando a pasta `sadgeoweb` que contém o `pom.xml`.
+2. Configure o projeto com **JavaSE-17**, compiler compliance **17** e o JDK portátil `C:\Desenvolvimento\jdk-17.0.20.1+1`.
+3. Abra **Run → Run Configurations → Spring Boot App** e selecione a classe principal `SadgeoApplication`.
+4. Na aba **JRE**, selecione o JDK 17. Em **Arguments → Program arguments**, informe:
+
+   ```text
+   --spring.profiles.active=demo
+   ```
+
+5. Inicie com **Run** ou **Debug**. O backend usa a porta **8080** por padrão. Para dados institucionais, use `dev` ou `prod` e configure as ENVVARs de Oracle/LDAPS na aba **Environment**, conforme as seções anteriores.
+
+Se o Eclipse indicar compliance 25 incompatível com JDK 17, ajuste **Window → Preferences → Java → Compiler** e **Project → Properties → Java Compiler** para **17**. Depois execute **Maven → Update Project** e **Project → Clean**. A JVM que inicia a própria IDE pode ser mais recente se a versão do Spring Tools exigir.
+
+**Frontend no VS Code**
+
+Abra `sadgeoweb/frontend` e execute no terminal PowerShell integrado:
+
+```powershell
+npm.cmd ci --include=dev --bin-links=true
+npm.cmd run dev
+```
+
+Acesse **http://localhost:5173**. O Vite encaminha as chamadas `/api` para o backend em **8080**. Alterações React aparecem automaticamente; não é necessário gerar o JAR a cada alteração. Não use Live Server para executar esse frontend.
+
+Durante o desenvolvimento, depure Java com breakpoints no Spring Tools e inspecione o React pelas ferramentas do navegador ou pelo depurador do VS Code. Alterações Java podem exigir reiniciar o backend. Os dois editores compartilham os mesmos arquivos e o mesmo histórico Git.
+
+**Testar a aplicação empacotada**
+
+Para conferir React e API no mesmo JAR, encerre primeiro o backend iniciado pelo Spring Tools, liberando a porta 8080. Na raiz do checkout:
+
+```powershell
+.\scripts\build_run.ps1 -Profile demo
+```
+
+Acesse **http://localhost:8080**. Esse comando compila, testa e executa o JAR; o React servido nessa porta corresponde ao último build. No trabalho diário com alterações automáticas das telas, mantenha o backend no Spring Tools e o Vite no VS Code, acessando **5173**.
+
 ## 4. Testar e empacotar
 
 Em `sadgeoweb/frontend`:
