@@ -235,17 +235,18 @@ No Eclipse/STS, selecione JDK 17 em **Installed JREs** e na configuração de ex
 Na raiz do checkout, o argumento `-Profile` e obrigatorio (`demo`, `dev` ou `prod`):
 
 ```powershell
-# Atualizar a main, compilar/testar e iniciar a demonstracao
-.\scripts\Start-Sadgeo.ps1 -Profile demo -JavaHome 'C:\Program Files\Java\jdk-17' -Update
+# Atualizar a main; depois compilar/testar e iniciar a demonstracao
+.\scripts\git_local_upd.ps1
+.\scripts\build_run.ps1 -Profile demo -JavaHome 'C:\Desenvolvimento\jdk-17.0.20.1+1'
 
 # Iniciar com Oracle/LDAPS configurados nas ENVVARs da sessao
-.\scripts\Start-Sadgeo.ps1 -Profile dev -JavaHome 'C:\Program Files\Java\jdk-17'
+.\scripts\build_run.ps1 -Profile dev -JavaHome 'C:\Program Files\Java\jdk-17'
 
 # Reutilizar o JAR ja compilado e selecionar outra porta
-.\scripts\Start-Sadgeo.ps1 -Profile prod -SkipBuild -Port 8081
+.\scripts\build_run.ps1 -Profile prod -SkipBuild -Port 8081
 ```
 
-`-JavaHome` usa `JAVA_HOME` quando omitido. O script exige JDK 17, interrompe em erros e resolve os caminhos a partir de sua propria localizacao. Sem `-Update`, nao executa comandos de alteracao Git; com `-Update`, exige checkout limpo e atualiza `main` usando fast-forward. Sem `-SkipBuild`, executa `mvn clean verify`. `dev` e `prod` exigem as ENVVARs e conexoes institucionais descritas acima; o script nao carrega `.env`. Encerre com `Ctrl+C`. Pode ser executado no Windows PowerShell 5.1 ou PowerShell 7+.
+No Windows, `-JavaHome` usa `C:\Desenvolvimento\jdk-17.0.20.1+1` quando omitido; em outros sistemas, usa `JAVA_HOME`. O script exige JDK 17, interrompe em erros e resolve os caminhos a partir de sua propria localizacao. O build nao executa comandos Git; use `git_local_upd.ps1` separadamente para atualizar. Sem `-SkipBuild`, executa `mvn clean verify`. `dev` e `prod` exigem as ENVVARs e conexoes institucionais descritas acima; o script nao carrega `.env`. Encerre com `Ctrl+C`. Pode ser executado no Windows PowerShell 5.1 ou PowerShell 7+.
 
 ### Se o Windows so tem JDK 24
 
@@ -262,7 +263,33 @@ Reabra o PowerShell, localize a instalacao e execute a partir da raiz do checkou
 ```powershell
 Get-ChildItem 'C:\Program Files\Eclipse Adoptium' -Directory
 # Substitua pelo caminho exibido:
-.\scripts\Start-Sadgeo.ps1 -Profile demo -JavaHome 'C:\Program Files\Eclipse Adoptium\jdk-17.0.x.x-hotspot'
+.\scripts\build_run.ps1 -Profile demo -JavaHome 'C:\Program Files\Eclipse Adoptium\jdk-17.0.x.x-hotspot'
 ```
 
 Para atualizar manualmente com Git antigo, use `git checkout main` e `git pull --ff-only origin main`. `D:\` isolado nao e um comando de navegacao: use `Set-Location 'D:\caminho\do\repositorio'`. No Windows, consulte a versao do npm com `npm.cmd --version`; o build Maven tambem seleciona `npm.cmd`, evitando o bloqueio de `npm.ps1` sem alterar a politica de execucao.
+
+### Scripts prontos para o JDK portatil informado
+
+No Windows, `build_run.ps1` usa por padrao `C:\Desenvolvimento\jdk-17.0.20.1+1`. Nao instala programas nem exige alterar `JAVA_HOME` permanentemente. `-JavaHome` permite substituir esse caminho. Execute na raiz do repositorio:
+
+```powershell
+# Somente atualizar do GitHub (sem Maven, Java ou execucao da aplicacao)
+.\scripts\git_local_upd.ps1
+
+# Compilar/testar e executar no perfil escolhido
+.\scripts\build_run.ps1 -Profile demo
+
+# Compilar e executar com as ENVVARs institucionais configuradas
+.\scripts\build_run.ps1 -Profile dev
+
+# Reutilizar o JAR existente
+.\scripts\build_run.ps1 -Profile prod -SkipBuild
+```
+
+Para baixar uma nova copia, o script de Git aceita um destino ainda inexistente:
+
+```powershell
+.\scripts\git_local_upd.ps1 -Destination 'D:\IBGE\Projetos\gitProjetos\sadgeo-novo'
+```
+
+Se o destino ja existir, deve ser checkout de `pjagimenez/sadgeo` e estar limpo, inclusive sem arquivos nao rastreados. O script nao apaga nem sobrescreve alteracoes locais, e usa `git checkout` para compatibilidade com Git antigo. Para a primeira copia sem scripts locais, use `git clone https://github.com/pjagimenez/sadgeo.git`.

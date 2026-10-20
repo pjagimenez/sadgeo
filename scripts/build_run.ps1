@@ -4,10 +4,9 @@ param(
     [ValidateSet('demo', 'dev', 'prod')]
     [string]$Profile,
 
-    [string]$JavaHome = $env:JAVA_HOME,
+    [string]$JavaHome = $(if ($env:OS -eq 'Windows_NT') { 'C:\Desenvolvimento\jdk-17.0.20.1+1' } else { $env:JAVA_HOME }),
     [ValidateRange(1, 65535)]
     [int]$Port = 8080,
-    [switch]$Update,
     [switch]$SkipBuild
 )
 
@@ -40,14 +39,6 @@ try {
     $env:JAVA_HOME = (Resolve-Path $JavaHome).Path
     $java = Join-Path $env:JAVA_HOME "bin/$javaName"
     $env:PATH = "$(Join-Path $env:JAVA_HOME 'bin')$([IO.Path]::PathSeparator)$env:PATH"
-
-    if ($Update) {
-        $changes = & git status --porcelain
-        if ($LASTEXITCODE -ne 0) { throw 'Nao foi possivel consultar o checkout Git.' }
-        if ($changes) { throw 'Ha alteracoes locais. Salve-as antes de usar -Update.' }
-        Invoke-Checked -Command 'git' -Arguments @('checkout', 'main')
-        Invoke-Checked -Command 'git' -Arguments @('pull', '--ff-only', 'origin', 'main')
-    }
 
     Set-Location (Join-Path $repoRoot 'sadgeoweb')
     if (!$SkipBuild) {
