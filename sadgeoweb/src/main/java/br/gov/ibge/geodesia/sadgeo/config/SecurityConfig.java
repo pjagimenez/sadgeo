@@ -74,6 +74,8 @@ public class SecurityConfig {
                         "/api/dashboard/evolucao-anual",
                         "/api/dashboard/analitico",
                         "/api/dashboard/fatos",
+                        "/api/dashboard/fatos-pagina",
+                        "/api/dashboard/fatos-filtros",
                         "/api/dashboard/pivot",
                         "/api/auth/csrf",
                         "/actuator/health")

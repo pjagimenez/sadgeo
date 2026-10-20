@@ -25,14 +25,15 @@ it("renders dashboard totals from the API", async () => {
     resumo: { total: 123 },
     "evolucao-anual": [],
     analitico: [],
-    fatos: [],
+    "fatos-filtros": {},
+    "fatos-pagina": { items: [], total: 0, page: 0, size: 25 },
     pivot: { categorias: [], series: {} },
   };
   vi.stubGlobal(
     "fetch",
     vi.fn(async (url: string) => ({
       ok: true,
-      json: async () => data[url.split("/").pop()!],
+      json: async () => data[url.split("?")[0].split("/").pop()!],
     })),
   );
   render(<App />);

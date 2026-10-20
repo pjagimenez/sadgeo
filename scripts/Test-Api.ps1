@@ -30,6 +30,9 @@ try {
     $config = Invoke-Api GET '/api/dashboard/config'
     if ($Crud -and -not $config.demo) { throw '-Crud só é permitido em demo; o script não altera Oracle real.' }
     $null = Invoke-Api GET '/api/dashboard/resumo'
+    $facts = Invoke-Api GET '/api/dashboard/fatos-pagina?size=2'
+    if ($facts.size -ne 2 -or $facts.items.Count -gt 2 -or $facts.total -lt $facts.items.Count) { throw 'Paginacao de fatos invalida.' }
+    $null = Invoke-Api GET '/api/dashboard/fatos-filtros'
     $null = Invoke-Api GET '/api/registros/critica' 401
     if ($config.demo) { $null = Invoke-Api POST '/api/auth/demo' }
     else {
@@ -76,6 +79,9 @@ try {
     }
     $null = Invoke-Api POST '/api/auth/logout' 204
     $null = Invoke-Api GET '/api/dashboard/resumo'
+    $facts = Invoke-Api GET '/api/dashboard/fatos-pagina?size=2'
+    if ($facts.size -ne 2 -or $facts.items.Count -gt 2 -or $facts.total -lt $facts.items.Count) { throw 'Paginacao de fatos invalida.' }
+    $null = Invoke-Api GET '/api/dashboard/fatos-filtros'
     $null = Invoke-Api GET '/api/registros/critica' 401
     Write-Host 'PASS: saúde, login, sessão, dashboard, campanhas, catálogos e logout'
 }

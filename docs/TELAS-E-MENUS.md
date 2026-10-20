@@ -39,6 +39,7 @@ Não há proposta de construir um coletor móvel/offline ou um ERP de planejamen
 Painel de Controle                                      [hoje; ampliar por perfil]
 Planejamento
   Campanha                                              [hoje: cadastro]
+  NUE; Códigos de Estação                               [templates; definições pendentes]
   Estações previstas / equipe / NUE                     [proposto, só se houver integração pertinente]
 Levantamento de Campo
   Recepção de Lotes                                     [template 0.2; processamento pendente]
@@ -80,8 +81,9 @@ Tabelas básicas                                        [cadastros de códigos, 
   Localização; Pendências; Tipo de Projeto; Situação do Marco
   Método de Cálculo; Fonte de Coordenada; Equipamento; Atividade
   Status; Município                                    [hoje]
-  NUE; Códigos de Estação; Tipo de Ocorrências           [templates; definições pendentes]
-Ajuda e Manuais                                        [guia 0.2]
+  Tipo de Ocorrências                                  [template; definições pendentes]
+Cabeçalho: Manual; Ajuda desta tela; conta/login/logout
+Rodapé: Guia de Uso e Evolução ao lado da versão
 ```
 
 A árvore reúne o menu gerado na 0.2 e a evolução operacional. As telas de integração, edição e qualidade estão identificadas como templates; seus comandos de produção dependem dos milestones. A navegação operacional deve exibir apenas itens permitidos ao usuário. Ocultar um item não substitui a autorização na API.

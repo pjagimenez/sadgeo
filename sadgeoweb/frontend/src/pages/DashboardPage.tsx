@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import Chart from "../Chart";
-import Table, { type Row } from "../Table";
+import type { Row } from "../Table";
+import DashboardTables from "../components/DashboardTables";
+import { campaignNames } from "../dashboard";
 const statuses: [string, string][] = [
   ["naoCriticado", "Não criticado"],
   ["retidoCampo", "Retido campo"],
   ["liberadoCampo", "Liberado campo"],
   ["criticadoCampo", "Criticado campo"],
+  ["atualizadoBdg", "Atualizado BDG"],
+  ["reservadoGabinete", "Reservado gabinete"],
   ["retidoProjeto", "Retido projeto"],
   ["liberadoProjeto", "Liberado projeto"],
   ["criticadoProjeto", "Criticado projeto"],
-  ["atualizadoBdg", "Atualizado BDG"],
-  ["reservadoGabinete", "Reservado gabinete"],
 ];
 type Dashboard = {
   config: { demo: boolean; version: string };
   resumo: Row;
   anual: Row[];
   analitico: Row[];
-  fatos: Row[];
   pivot: { categorias: string[]; series: Record<string, number[]> };
 };
 async function get<T>(section: string, signal: AbortSignal): Promise<T> {
@@ -41,11 +42,10 @@ export default function DashboardPage() {
       get<Row>("resumo", controller.signal),
       get<Row[]>("evolucao-anual", controller.signal),
       get<Row[]>("analitico", controller.signal),
-      get<Row[]>("fatos", controller.signal),
       get<Dashboard["pivot"]>("pivot", controller.signal),
     ])
-      .then(([config, resumo, anual, analitico, fatos, pivot]) =>
-        setData({ config, resumo, anual, analitico, fatos, pivot }),
+      .then(([config, resumo, anual, analitico, pivot]) =>
+        setData({ config, resumo, anual, analitico, pivot }),
       )
       .catch((e) => {
         if (!controller.signal.aborted) setError(e.message);
@@ -83,16 +83,20 @@ export default function DashboardPage() {
             <section className="dashboard-indicators" aria-label="Indicadores">
               <article className="indicator indicator-total">
                 <span className="indicator-label">Total de registros</span>
-                <strong className="indicator-value"><span>
-                  {Number(data.resumo.total ?? 0).toLocaleString("pt-BR")}
-                </span></strong>
+                <strong className="indicator-value">
+                  <span>
+                    {Number(data.resumo.total ?? 0).toLocaleString("pt-BR")}
+                  </span>
+                </strong>
               </article>
               {statuses.map(([key, label]) => (
                 <article className={`indicator indicator-${key}`} key={key}>
                   <span className="indicator-label">{label}</span>
-                  <strong className="indicator-value"><span>
-                    {Number(data.resumo[key] ?? 0).toLocaleString("pt-BR")}
-                  </span></strong>
+                  <strong className="indicator-value">
+                    <span>
+                      {Number(data.resumo[key] ?? 0).toLocaleString("pt-BR")}
+                    </span>
+                  </strong>
                 </article>
               ))}
             </section>
@@ -112,14 +116,14 @@ export default function DashboardPage() {
               />
               <Chart
                 title="Registros por ano e campanha"
+                hints={campaignNames}
                 categories={data.pivot.categorias}
                 series={Object.entries(data.pivot.series).map(
                   ([name, values]) => ({ name, data: values }),
                 )}
               />
             </div>
-            <Table title="Resumo analítico" rows={data.analitico} />
-            <Table title="Fatos do painel" rows={data.fatos} />
+            <DashboardTables analytical={data.analitico} refresh={attempt} />
           </>
         )}
       </main>

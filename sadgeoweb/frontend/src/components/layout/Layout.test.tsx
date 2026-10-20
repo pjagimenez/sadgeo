@@ -40,7 +40,7 @@ it("places copyright, profile/hostname and version in their footer slots", () =>
     within(footer).getByText("Produção (prod) • sadgeo-pod-123").className,
   ).toContain("footer-environment");
   expect(
-    within(footer).getByText("Versão 0.2.20261019-16").className,
+    within(footer).getByText("Versão 0.2.20261019-16").parentElement!.className,
   ).toContain("footer-version");
 });
 it("keeps user identity, profile and logout together in header actions", async () => {

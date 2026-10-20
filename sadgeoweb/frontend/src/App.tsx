@@ -30,6 +30,16 @@ export default function App() {
                   path="/registros"
                   element={<Navigate to="/campo/critica" replace />}
                 />
+                <Route
+                  path="/tabelas/nue"
+                  element={<Navigate to="/planejamento/nue" replace />}
+                />
+                <Route
+                  path="/tabelas/codigos-estacao"
+                  element={
+                    <Navigate to="/planejamento/codigos-estacao" replace />
+                  }
+                />
                 <Route path="/:section/:screen" element={<ModulePage />} />
               </Route>
               <Route path="*" element={<Navigate to="/index" replace />} />

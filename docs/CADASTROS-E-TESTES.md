@@ -13,7 +13,7 @@ A tela inicial pública, inclusive para visitantes, é **Painel de Controle** (`
 | Análise | Altimetria, Gravimetria, Planimetria, VRF, VEG, OGR, Ajustes de Gabinete | Mesmo template de consulta, com campanha fixa |
 | Administração | Perfil de Acesso, Usuário, Permissionamento | Rotas e template; manutenção de permissões institucionais pendente |
 | Tabelas básicas | Cadastros abaixo | CRUD por metadados, sujeito à PK e autorização |
-| Tabelas básicas | NUE, Códigos de Estação, Tipo de Ocorrências | Aguardam nomes das tabelas, colunas e chaves; não são associados a tabelas por suposição |
+| Planejamento / Tabelas básicas | NUE e Códigos de Estação em Planejamento; Tipo de Ocorrências em Tabelas básicas | Aguardam nomes das tabelas, colunas e chaves; não são associados a tabelas por suposição |
 
 Ajuda e o bloco de usuário/login/logout ficam no cabeçalho à direita. O menu hierárquico tem uma única área de rolagem e grupos expansíveis independentes. O template de registros reúne busca, filtro adicional por projeto, paginação no servidor e detalhes da linha. Ele consulta os fatos do painel; não implementa ainda gravação de crítica ou edição de estação.
 

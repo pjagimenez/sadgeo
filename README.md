@@ -447,4 +447,26 @@ A recuperacao pode gerar conflitos; `apply` mantem a copia no stash. Stash e arm
 
 `/` abre o Painel de Controle (`/index`), sem exigir login. Os GETs existentes `/api/dashboard/config`, `/resumo`, `/evolucao-anual`, `/analitico`, `/fatos` e `/pivot` são públicos. As APIs `/api/registros/**` e `/api/tabelas/**` continuam protegidas; login, manutenção e logout preservam sessão/CSRF.
 
-Ajuda e identificação/login/logout ficam no canto superior direito do cabeçalho. O menu usa grupos expansíveis independentes, permite manter vários grupos abertos e possui uma única área de rolagem; os textos quebram linha. Os dez indicadores do Dashboard usam células compactas com rótulo e valor em losango: cinco colunas e duas linhas no desktop amplo, com adaptação para telas menores. Cores complementam os rótulos, sem substituí-los.
+Ajuda e identificação/login/logout ficam no canto superior direito do cabeçalho. O menu usa grupos expansíveis independentes, permite manter vários grupos abertos e possui uma única área de rolagem; os textos quebram linha. Os dez indicadores do Dashboard usam células compactas com rótulo e valor em retângulo com cantos arredondados: cinco colunas e duas linhas no desktop amplo, com adaptação para telas menores. Cores complementam os rótulos, sem substituí-los.
+
+### Dashboard: filtros, paginação e documentação
+
+- Indicadores em duas linhas no desktop: a segunda começa com Atualizado BDG e Reservado gabinete, seguidos dos estados de projeto. Os valores usam retângulos arredondados.
+- Gráficos com área de 255px (antes 340px), excluindo anos com todas as séries zeradas. A tabela em Consultar dados do gráfico usa Ano decrescente e dez linhas por página. Dicas mostram Construção (`cons`), Medição altimétrica (`medA`), gravimétrica (`medG`), planimétrica (`medP`) e Ajustes de gabinete (`gab`); siglas sem descrição confirmada continuam como siglas.
+- Resumo analítico e Fatos do Painel ficam lado a lado no desktop amplo, empilhados em telas menores, com cabeçalhos legíveis e pesquisa textual. Resumo começa por ano decrescente e permite ordenar as colunas; ambas as tabelas usam 25 registros por página.
+- Nos dois conjuntos, somente Ano começa selecionado. A regra usa America/Sao_Paulo: janeiro a março selecionam o ano anterior; abril a dezembro, o ano corrente. Não há troca silenciosa para outro ano quando não existem dados.
+- Resumo: combos Ano, Projeto, Campanha e Situação. Fatos: Ano, Mês (dependente do ano), Campanha, Projeto (dependente da campanha), UF, Município (dependente da UF) e UORG de origem. Alterar um filtro pai limpa as seleções dependentes.
+- Fatos são consultados sob demanda, em páginas de 25, com filtros e busca no servidor. A tela não baixa mais o endpoint legado de fatos completos. A ordem do servidor é ano decrescente, mês decrescente e identificador crescente.
+- NUE e Códigos de Estação ficam em Planejamento. URLs antigas de Tabelas básicas redirecionam para as novas telas; os contratos Oracle desses dois cadastros continuam pendentes.
+- Manual (ícone de livro) fica no cabeçalho. Ajuda desta tela abre orientação conforme o contexto atual. O Guia de Uso e Evolução está no ícone discreto ao lado da versão no rodapé, sem grupo próprio no menu.
+
+As fontes de documentação são texto Markdown em `sadgeoweb/frontend/src/content/manual.md` e `guia.md`; são incorporadas ao build e renderizadas com títulos, listas e parágrafos, sem executar HTML.
+
+Novos endpoints GET públicos, somente de leitura:
+
+```text
+/api/dashboard/fatos-pagina?ano=2026&page=0&size=25
+/api/dashboard/fatos-filtros?ano=2026&campanha=medA&uf=RJ
+```
+
+Filtros aceitos: `ano`, `mes`, `campanha`, `projeto`, `uf`, `municipio`, `uorgOrigem`, `situacao` e `q`. Página inicia em zero; tamanho permitido de 1 a 100. O resultado paginado contém `items`, `total`, `page` e `size`. O endpoint de opções retorna valores distintos, respeitando as dependências; ele não carrega os fatos completos no navegador. O endpoint legado `/api/dashboard/fatos` foi preservado para compatibilidade, mas não é usado pelo Dashboard. Consultas reais às views Oracle ainda precisam ser validadas no ambiente institucional; H2 e demo não substituem essa validação.

@@ -26,6 +26,18 @@ export const menus: MenuGroup[] = [
         kind: "table",
         table: "campanha",
       },
+      {
+        label: "NUE",
+        path: "/planejamento/nue",
+        kind: "pending",
+        note: "Informe a tabela, as colunas e a chave de NUE para habilitar o cadastro.",
+      },
+      {
+        label: "Códigos de Estação",
+        path: "/planejamento/codigos-estacao",
+        kind: "pending",
+        note: "Informe a tabela, as colunas e a chave de Códigos de Estação.",
+      },
     ],
   },
   {
@@ -250,12 +262,6 @@ export const menus: MenuGroup[] = [
     ],
   },
   {
-    label: "Ajuda e Manuais",
-    items: [
-      { label: "Guia de Uso e Evolução", path: "/ajuda/guia", kind: "help" },
-    ],
-  },
-  {
     label: "Tabelas básicas",
     items: [
       {
@@ -269,18 +275,6 @@ export const menus: MenuGroup[] = [
         path: "/tabelas/localizacao",
         kind: "table",
         table: "localizacao",
-      },
-      {
-        label: "NUE",
-        path: "/tabelas/nue",
-        kind: "pending",
-        note: "Informe a tabela, as colunas e a chave de NUE para habilitar o cadastro.",
-      },
-      {
-        label: "Códigos de Estação",
-        path: "/tabelas/codigos-estacao",
-        kind: "pending",
-        note: "Informe a tabela, as colunas e a chave de Códigos de Estação.",
       },
       {
         label: "Tipo de Ocorrências",
@@ -340,6 +334,18 @@ export const menus: MenuGroup[] = [
   },
 ];
 const detailScreens: { group: string; screen: Screen }[] = [
+  {
+    group: "Documentação",
+    screen: {
+      label: "Guia de Uso e Evolução",
+      path: "/ajuda/guia",
+      kind: "help",
+    },
+  },
+  {
+    group: "Documentação",
+    screen: { label: "Manual do SADGEO", path: "/ajuda/manual", kind: "help" },
+  },
   {
     group: "Levantamento de Campo",
     screen: {

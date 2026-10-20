@@ -20,7 +20,7 @@ export default function ModulePage() {
   if (screen.kind === "reports")
     return <ReportsPage key={screen.path} title={screen.label} />;
   if (screen.kind === "integrations") return <IntegrationsPage />;
-  if (screen.kind === "help") return <HelpPage />;
+  if (screen.kind === "help") return <HelpPage manual={screen.path === "/ajuda/manual"} />;
   return (
     <WorkflowTemplatePage key={screen.path} screen={screen} group={group} />
   );

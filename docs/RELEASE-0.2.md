@@ -11,7 +11,10 @@ A 0.2 preserva a base React + Spring Boot e acrescenta o menu operacional, cadas
 - Análise de Produção e Exportações: filtros cumulativos por campanha, período anual e texto; CSV de todos os grupos filtrados. Registro e página de consulta também podem ser exportados em CSV.
 - CSV com campos delimitados/escapados e proteção contra fórmulas de planilha; precisão de números grandes preservada como texto.
 - Estado das integrações: health da aplicação e presença de configuração LDAPS, distinguindo “configurado” de “conectado”. Nenhuma senha/token é retornada.
-- Guia de Uso e Evolução, com links de navegação e TODO.
+- Manual no cabeçalho e Ajuda desta tela contextual; Guia de Uso e Evolução no ícone junto à versão, com fontes em Markdown.
+- Dashboard: indicadores arredondados, gráficos de 255px, dados dos gráficos paginados em dez linhas e anos zerados omitidos.
+- Resumo e fatos lado a lado, filtros por combos e 25 linhas por página; fatos filtrados/paginados no servidor. Ano inicial anterior de janeiro a março, corrente a partir de abril.
+- NUE e Códigos de Estação em Planejamento, com redirecionamento das URLs anteriores.
 - Scripts de testes curl e PowerShell 7+ que usam sessão/CSRF e só fazem CRUD automatizado em demo.
 
 ## Novas telas geradas, sem executar mudanças no processo

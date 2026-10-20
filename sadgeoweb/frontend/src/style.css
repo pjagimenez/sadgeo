@@ -245,8 +245,8 @@ footer {
 .dashboard-indicators { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px 14px; }
 .indicator { --indicator-color: #4a568c; display: flex; align-items: center; gap: 10px; min-width: 0; min-height: 54px; padding: 7px 14px 7px 10px; background: white; border: 1px solid #dfe7ed; border-left: 4px solid var(--indicator-color); border-radius: 6px; }
 .indicator-label { flex: 1; min-width: 0; font-size: 12px; font-weight: 600; line-height: 1.35; color: #344253; overflow-wrap: anywhere; }
-.indicator-value { display: grid; place-items: center; flex: 0 0 auto; min-width: 38px; min-height: 38px; padding: 5px; border-radius: 5px; background: var(--indicator-color); color: white; transform: rotate(45deg); }
-.indicator-value > span { display: block; transform: rotate(-45deg); font-size: 12px; line-height: 1; font-variant-numeric: tabular-nums; }
+.indicator-value { display: grid; place-items: center; flex: 0 0 auto; min-width: 38px; min-height: 38px; padding: 5px; border-radius: 5px; background: var(--indicator-color); color: white; transform: none; }
+.indicator-value > span { display: block; transform: none; font-size: 12px; line-height: 1; font-variant-numeric: tabular-nums; }
 .indicator-total { --indicator-color: #273b50; }
 .indicator-naoCriticado { --indicator-color: #c92840; }
 .indicator-retidoCampo, .indicator-retidoProjeto { --indicator-color: #8e3697; }
@@ -276,3 +276,27 @@ footer {
   .dashboard-indicators { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .indicator { gap: 8px; padding-right: 12px; }
 }
+
+.indicator-value { border-radius: 8px; min-height: 30px; min-width: 44px; padding: 7px; }
+.dashboard-tables { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; align-items: start; }
+.dashboard-table-column { min-width: 0; }
+.dashboard-filters { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-bottom: 16px; }
+.dashboard-filters select { width: 100%; min-width: 0; margin-top: 6px; padding: 9px; border: 1px solid #adc1ce; border-radius: 5px; background: white; font: inherit; }
+.table-scroll th { min-width: 85px; max-width: 160px; white-space: normal; vertical-align: bottom; }
+.column-sort { font: inherit; font-weight: 600; text-align: left; padding: 0; border: 0; border-radius: 0; background: transparent; color: inherit; white-space: normal; overflow-wrap: anywhere; }
+.chart-data-table { padding: 10px 0; margin: 0; border: 0; box-shadow: none; }
+.campaign-hints { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; }
+.campaign-hints abbr { cursor: help; }
+.footer-version { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.footer-version .MuiIconButton-root { color: #637887; font-size: 16px; }
+.documentation { max-width: 1000px; }
+.documentation h2 { margin-top: 28px; }
+@media(max-width:1100px) { .dashboard-tables { grid-template-columns: minmax(0,1fr); } }
+
+.dashboard-filters { grid-template-columns: repeat(3,minmax(0,1fr)); min-height: 205px; align-content: start; }
+.table-scroll th { max-width: none; }
+.table-scroll th.metric-column { min-width: 190px; width: 190px; }
+.column-sort { min-width: 80px; overflow-wrap: normal; word-break: normal; line-height: 1.35; }
+.metric-column .column-sort { min-width: 166px; max-width: 190px; }
+@media(max-width:1100px) { .dashboard-filters { min-height: 0; } }
+@media(max-width:600px) { .dashboard-filters { grid-template-columns: repeat(2,minmax(0,1fr)); } }

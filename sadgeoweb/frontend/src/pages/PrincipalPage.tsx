@@ -42,13 +42,14 @@ export default function PrincipalPage() {
       <Box className="portal-body">
         <MenuAcaoView />
         <Box className="portal-workspace">
-          {!user && pathname !== "/index" && pathname !== "/ajuda/guia" ? (
+          {!user && pathname !== "/index" && !pathname.startsWith("/ajuda/") ? (
             <Box component="main" className="portal-content">
               <Typography component="h1" variant="h4">
                 Acesso ao módulo
               </Typography>
               <Alert severity="info" sx={{ my: 2 }}>
-                Faça login para acessar este módulo. O Painel de Controle é público.
+                Faça login para acessar este módulo. O Painel de Controle é
+                público.
               </Alert>
               <Button component={Link} to="/login" variant="contained">
                 Fazer login

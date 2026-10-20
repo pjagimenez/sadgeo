@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import type { Config } from "../../auth/AuthContext";
 export default function RodapeView({ config }: { config?: Config }) {
   return (
@@ -15,9 +16,20 @@ export default function RodapeView({ config }: { config?: Config }) {
           ? `${config.profileLabel} (${config.profile}) • ${config.hostname}`
           : "Ambiente indisponível"}
       </Typography>
-      <Typography variant="caption" className="footer-version">
-        {config ? `Versão ${config.version}` : "Versão indisponível"}
-      </Typography>
+      <Box className="footer-version">
+        <Typography variant="caption">
+          {config ? `Versão ${config.version}` : "Versão indisponível"}
+        </Typography>
+        <IconButton
+          component="a"
+          href="/ajuda/guia"
+          size="small"
+          title="Guia de Uso e Evolução"
+          aria-label="Guia de Uso e Evolução"
+        >
+          <InfoOutlinedIcon fontSize="inherit" />
+        </IconButton>
+      </Box>
     </Box>
   );
 }
