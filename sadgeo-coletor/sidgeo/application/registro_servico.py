@@ -12,6 +12,8 @@ from typing import TYPE_CHECKING
 from sidgeo.domain.erros import ValidacaoErro
 from sidgeo.domain.registro import Registro
 from sidgeo.domain.registro_validador import RegistroValidador
+from sidgeo.domain.foto import Foto
+from sidgeo.domain.tratamento_foto import AjusteFoto
 
 if TYPE_CHECKING:
     from sidgeo.infra.repositorio_registro import RepositorioRegistro
@@ -30,6 +32,18 @@ class RegistroServico:
 
     def finalizar_persistencia(self) -> None:
         self.repositorio.encerrar()
+
+    def adicionar_foto(self, caminho: str, tipo: str) -> Foto:
+        return self.repositorio.imagens.adicionar(caminho, tipo)
+
+    def caminho_foto(self, foto: Foto) -> str:
+        return str(self.repositorio.imagens.caminho(foto))
+
+    def original_foto(self, foto: Foto) -> bytes:
+        return self.repositorio.imagens.ler_original(foto.arquivo_original or foto.arquivo)
+
+    def tratar_foto(self, foto: Foto, ajuste: AjusteFoto) -> Foto:
+        return self.repositorio.imagens.tratar(foto, ajuste)
 
     def salvar(self, registro: Registro) -> None:
         self.validador.validar(registro)

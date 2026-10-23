@@ -13,6 +13,8 @@ from sidgeo.domain.registro import Registro
 
 from sidgeo.util.settings import APP_VERSAO
 from sidgeo.util.parsing import  (parse_data, str_para_bool, safe_int, safe_float)
+from sidgeo.util.geofuncoes import normalizar_hemisferio
+from sidgeo.domain.foto import ler_fotos
 
 
 class RegistroFabrica:
@@ -57,11 +59,11 @@ class RegistroFabrica:
             informante=texto(dados.get("informante", "")),
             siape=texto(dados.get("siape", "")),
             tipo_fonte_coord=codigo(dados.get("tipo_fonte_coord", "")),
-            lat_sinal=codigo(dados.get("lat_sinal", "")),
+            lat_sinal=normalizar_hemisferio(dados.get("lat_sinal")),
             lat_grau=safe_int(dados.get("lat_grau", 0)),
             lat_min=safe_int(dados.get("lat_min", 0)),
             lat_seg=safe_float(dados.get("lat_seg", 0)),
-            lon_sinal=codigo(dados.get("lon_sinal", "")),
+            lon_sinal=normalizar_hemisferio(dados.get("lon_sinal")),
             lon_grau=safe_int(dados.get("lon_grau", 0)),
             lon_min=safe_int(dados.get("lon_min", 0)),
             lon_seg=safe_float(dados.get("lon_seg", 0)),
@@ -81,6 +83,9 @@ class RegistroFabrica:
             status_vrf=codigo(dados.get("status_vrf", "")),
             municipio=texto(dados.get("municipio", "")),
             uf=codigo(dados.get("uf", "")),
+            unidade_informante=codigo(dados.get("unidade_informante", "")),
+            data_coordenada=parse_data(dados.get("data_coordenada")),
+            fotos=ler_fotos(dados.get("fotos")),
         )
 
     @staticmethod

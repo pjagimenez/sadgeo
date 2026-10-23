@@ -28,6 +28,7 @@ class DatasetFrame(tk.Frame):
         zerar: Callable[[], None] | None = None,
         ver: Callable[[], None] | None = None,
         consultar_sadgeo: Callable[[], None] | None = None,
+        empacotar: Callable[[], None] | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(master, **kwargs)
@@ -37,6 +38,7 @@ class DatasetFrame(tk.Frame):
                             "zerar": zerar,
                             "ver": ver,
                             "consultar_sadgeo" : consultar_sadgeo,
+                            "empacotar": empacotar,
         }
         self._build()
 
@@ -48,9 +50,9 @@ class DatasetFrame(tk.Frame):
 
     def _build(self) -> None:
         # ── 6 colunas: [esp½] [btn] [btn] [btn] [btn] [esp½] ──
-        for col in range(7):
+        for col in range(8):
             # colunas 0 e 5 recebem peso 1 → centralizam o bloco
-            self.columnconfigure(col, weight=1 if col in (0, 6) else 0)
+            self.columnconfigure(col, weight=1 if col in (0, 7) else 0)
 
         # Botão Importar
         ttk.Button(self,
@@ -83,3 +85,6 @@ class DatasetFrame(tk.Frame):
                   style="Primario.TButton",
                   command=self._callback("consultar_sadgeo")
         ).grid(row=0, column=5, padx=(5, 5), pady=2 )
+
+        ttk.Button(self, text="Empacotar ZIP", command=self._callback("empacotar"),
+                   style="Primario.TButton").grid(row=0, column=6, padx=5, pady=2)

@@ -21,7 +21,7 @@ def descendentes(widget):
 def test_layout_cabe_em_1366x768(app):
     assert app.winfo_width() <= 1326
     assert app.winfo_height() <= 668
-    assert len(app.abas.tabs()) == 3
+    assert len(app.abas.tabs()) == 4
     for aba_id in app.abas.tabs():
         app.abas.select(aba_id)
         app.update()
@@ -63,7 +63,7 @@ def test_salvar_editar_ver_dados_e_excluir(app, controller):
     assert app.info_basicas.entry_estacao.get() == '1234A'
     assert app.observacoes.txt_descricao.get('1.0', 'end').strip() == 'Teste da interface'
     app.exibir_dados()
-    tabela = next(w for w in descendentes(app) if isinstance(w, ttk.Treeview))
+    tabela = next(w for w in descendentes(app) if isinstance(w, ttk.Treeview) and w is not app.fotos_frame.lista)
     assert len(tabela.get_children()) == 1
     app.show_confirm_modal = Mock(return_value=False)
     app.acao_excluir()
@@ -88,8 +88,8 @@ def test_sem_janela_nao_confirma_exclusao(logger):
 
 @pytest.mark.parametrize('acao,atualiza', [('usar_bdg', True), ('manter_local', False), ('fechar', None)])
 def test_comparacao_bdg_retorna_escolha(app, acao, atualiza):
-    local = RegistroFabrica.criar({'cod_estacao': '1234A', 'lat_grau': 22})
-    bdg = RegistroFabrica.criar({'cod_estacao': '1234A', 'lat_grau': 23})
+    local = RegistroFabrica.criar({'cod_estacao': '1234A', 'lat_sinal': '-', 'lat_grau': 22, 'lon_sinal': '-', 'lon_grau': 43})
+    bdg = RegistroFabrica.criar({'cod_estacao': '1234A', 'lat_sinal': '-', 'lat_grau': 23, 'lon_sinal': '-', 'lon_grau': 43})
     dialogo = JanelaCoordenadasBDG(app, app.msg, app.mapper_view, local, bdg)
     dialogo.update()
     for frame in (dialogo.frm_coord_local, dialogo.frm_coord_bdg):
@@ -105,7 +105,7 @@ def test_comparacao_bdg_retorna_escolha(app, acao, atualiza):
 
 def test_coordenadas_bdg_aplicadas_sem_salvar_automaticamente(app, controller, monkeypatch):
     app.info_basicas.entry_estacao.insert(0, '1234A')
-    bdg = RegistroFabrica.criar({'cod_estacao': '1234A', 'lat_grau': 23})
+    bdg = RegistroFabrica.criar({'cod_estacao': '1234A', 'lat_sinal': '-', 'lat_grau': 23, 'lon_sinal': '-', 'lon_grau': 43})
     monkeypatch.setattr(app, 'janela_importar_coordenadas_bdg', lambda cod: (True, bdg))
     app.acao_comparar_coord_bdg()
     assert app.coordenadas.txt_lat_grau.get() == '23'

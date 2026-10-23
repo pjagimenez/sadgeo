@@ -93,31 +93,24 @@ def parse_gms(texto: str | None) -> dict[str, str | int | float]:
     if not texto:
         return {"sinal": "", "grau": 0, "min": 0, "seg": 0.0}
 
+    # Aceita graus Unicode, hemisfério antes/depois e segundos com vírgula.
     padrao = re.compile(
-        r"""^\s*
-            (\d+)\s*[ºo]\s*
-            (\d+)\s*'\s*
-            ([\d.,]+)\s*"\s*
-            ([NnSsEeWwOo+-])\s*
-        $""",
-        re.VERBOSE,
+        r"^\s*([NSEWO+-])?\s*(\d{1,3})(?:\s*[°ºo]\s*|\s+)"
+        r"(\d{1,2})(?:\s*['′’]\s*|\s+)"
+        r'(\d{1,2}(?:[.,]\d+)?)(?:\s*["″”])?\s*([NSEWO+-])?\s*$',
+        re.IGNORECASE,
     )
-
-    match = padrao.match(texto.strip())
+    match = padrao.fullmatch(texto.strip())
     if not match:
-        return {"sinal": "", "grau": 0, "min": 0, "seg": 0.0}
-
-    grau, minuto, segundo, direcao = match.groups()
-
-    try:
-        return {
-            "sinal": normalizar_hemisferio(direcao),
-            "grau": int(grau),
-            "min": int(minuto),
-            "seg": float(segundo.replace(",", ".")),
-        }
-    except ValueError:
-        return {"sinal": "", "grau": 0, "min": 0, "seg": 0.0}
+        raise ValueError(f"Coordenada GMS não reconhecida: {texto!r}")
+    antes, grau, minuto, segundo, depois = match.groups()
+    sinal = normalizar_hemisferio(antes or depois)
+    if not sinal or (antes and depois and normalizar_hemisferio(antes) != normalizar_hemisferio(depois)):
+        raise ValueError("Coordenada GMS sem hemisfério/sinal válido ou com sinais conflitantes.")
+    if int(grau) > 180 or int(minuto) >= 60 or float(segundo.replace(",", ".")) >= 60:
+        raise ValueError("Coordenada GMS fora dos limites de grau, minuto ou segundo.")
+    return {"sinal": sinal, "grau": int(grau), "min": int(minuto),
+            "seg": float(segundo.replace(",", "."))}
 
 
 def validar_latitude(latitude: float, margem: float = 1.0) -> bool:

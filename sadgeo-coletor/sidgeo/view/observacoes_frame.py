@@ -9,6 +9,8 @@ from __future__ import annotations
 import tkinter as tk
 from typing import Any
 from tkinter import scrolledtext
+from tkinter import ttk
+from sidgeo.view.ajuda_descritivo import AjudaDescritivo
 
 from sidgeo.util.strings import trim_all
 from sidgeo.view.mensagem_visual import MensagemVisual
@@ -28,7 +30,11 @@ class ObservacoesFrame(tk.LabelFrame):
         self.create_widgets()
 
     def create_widgets(self) -> None:
-        tk.Label(self, text="Descrição:").grid(row=0, column=0, sticky="nw", padx=5)
+        rotulo = tk.Frame(self)
+        rotulo.grid(row=0, column=0, sticky="nw", padx=5)
+        tk.Label(rotulo, text="Descritivo:").pack(anchor="w")
+        self.btn_ajuda_descritivo = ttk.Button(rotulo, text="(?) Ajuda", command=self.abrir_ajuda_descritivo)
+        self.btn_ajuda_descritivo.pack(anchor="w", pady=4)
         self.txt_descricao = scrolledtext.ScrolledText(self, width=60, height=2)
         self.txt_descricao.grid(row=0, column=1, padx=5, pady=2, sticky="nsew")
 
@@ -49,6 +55,9 @@ class ObservacoesFrame(tk.LabelFrame):
         self.rowconfigure(1, weight=1)
         self.rowconfigure(2, weight=1)
         self.rowconfigure(3, weight=1)
+
+    def abrir_ajuda_descritivo(self) -> None:
+        AjudaDescritivo(self, self.txt_descricao)
 
     def get_data(self) -> dict[str, object]:
         data = {

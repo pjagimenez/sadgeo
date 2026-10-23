@@ -24,6 +24,8 @@ from sidgeo.infra.persistencia_hdf import HdfDataStore
 from sidgeo.infra.csv_serializer import CsvSerializer
 from sidgeo.infra.json_serializer import JsonSerializer
 from sidgeo.util.settings import APP_SIGLA
+from sidgeo.infra.imagens_store import ImagensStore
+from sidgeo.infra.pacote_zip import PacoteZip
 
 class RepositorioRegistro:
     """Repositório local de registros SIDGeo."""
@@ -43,6 +45,8 @@ class RepositorioRegistro:
         data_dir.mkdir(parents=True, exist_ok=True)
 
         self.filename = data_dir / "sidgeo.h5"
+        self.imagens = ImagensStore(data_dir)
+        self.pacote_zip = PacoteZip(self.imagens)
         self.hdf_store = HdfDataStore(self.filename)
         self.csv_serializer = CsvSerializer()
         self.json_serializer = JsonSerializer()
@@ -108,6 +112,8 @@ class RepositorioRegistro:
             df_importado = self.csv_serializer.importar(path)
         elif formato.lower() == "json":
             df_importado = self.json_serializer.importar(path)
+        elif formato.lower() == "zip":
+            df_importado = self.pacote_zip.importar(path)
         else:
             raise ValueError(f"Formato não suportado: {formato}")
 
@@ -120,6 +126,8 @@ class RepositorioRegistro:
             self.csv_serializer.exportar(self.dataset, path)
         elif formato.lower() == "json":
             self.json_serializer.exportar(self.dataset, path)
+        elif formato.lower() == "zip":
+            self.pacote_zip.exportar(self.dataset, path)
         else:
             raise ValueError(f"Formato não suportado: {formato}")
 
@@ -145,6 +153,9 @@ class RepositorioRegistro:
 
         if indices:
             indice = indices[0]
+            # Bases antigas podem ter colunas opcionais inteiramente vazias como StringArray.
+            # A edição deve aceitar a primeira data/valor tipado nessas colunas.
+            self.dataset = self.dataset.astype(object)
             for campo, valor in registro.items():
                 if campo in self.dataset.columns:
                     self.dataset.at[indice, campo] = valor

@@ -6,7 +6,7 @@ file: /sidgeo/infra/bdg_client.py
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 import requests
 
 from sidgeo.infra.erros_integracao import IntegracaoErro
@@ -39,7 +39,10 @@ class BdgClient:
                 verify=self.verificar_tls,
             )
             response.raise_for_status()
-            return response.json()
+            dados = response.json()
+            if not isinstance(dados, dict):
+                raise IntegracaoErro("Resposta inválida do BDG: esperado um objeto JSON de estação.")
+            return cast(dict[str, Any], dados)
 
         except requests.Timeout as erro:
             raise IntegracaoErro(
@@ -53,6 +56,8 @@ class BdgClient:
 
         except requests.HTTPError as erro:
             status = erro.response.status_code if erro.response is not None else "desconhecido"
+            if status == 404:
+                return {}
             raise IntegracaoErro(
                 f"Erro HTTP {status} ao consultar BDG para estação {codigo}."
             ) from erro

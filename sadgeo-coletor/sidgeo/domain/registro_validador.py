@@ -6,9 +6,11 @@ file: /sidgeo/domain/registro_validador.py
 """
 
 from __future__ import annotations
+import re
 
 from sidgeo.domain.erros import ValidacaoErro
 from sidgeo.domain.registro import Registro
+from sidgeo.domain.informante import UNIDADES_INFORMANTE
 
 
 class RegistroValidador:
@@ -19,6 +21,17 @@ class RegistroValidador:
         """Validar a linha completa de registro."""
         cls._validar_codigo(registro.cod_estacao)
         cls._validar_conexao(registro)
+        cls.validar_informante(registro.informante)
+        if registro.unidade_informante and registro.unidade_informante not in UNIDADES_INFORMANTE:
+            raise ValidacaoErro("Unidade do informante inválida. Selecione uma unidade da lista.")
+
+    @staticmethod
+    def validar_informante(login: str) -> None:
+        if login and not re.fullmatch(r"[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*", login):
+            raise ValidacaoErro(
+                "Informante: use o login de rede, sem espaços. "
+                "Exemplos: nome.sobrenome ou nome_sobrenome (letras, números, ponto, '_' ou '-')."
+            )
 
     @staticmethod
     def _validar_codigo(codigo: str) -> None:

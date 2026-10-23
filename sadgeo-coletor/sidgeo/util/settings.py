@@ -7,7 +7,7 @@ file: /sidgeo/util/settings.py
 
 from __future__ import annotations
 
-APP_VERSAO = "v1.0.261023"
+APP_VERSAO = "v1.1.261023"
 APP_SIGLA = "SIDGEO"
 APP_ALTURA = 680
 APP_LARGURA = 1280

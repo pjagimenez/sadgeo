@@ -69,8 +69,9 @@ class RegistroMapeadorVisao:
 
         view["municipio"] = self.valor_para_exibicao(reg_dict.get("municipio"), "str")
 
-        for k in ("projeto", "nue", "linha", "caderneta", "informante", "siape"):
+        for k in ("projeto", "nue", "linha", "caderneta", "informante", "siape", "unidade_informante"):
             view[k] = self.valor_para_exibicao(reg_dict.get(k), "str")
+        view["data_coordenada"] = parse_data(reg_dict.get("data_coordenada"))
 
         view["seq"] = (reg_dict.get("seq", "") or "")
         view["status_vrf"] = (reg_dict.get("status_vrf", "") or "")

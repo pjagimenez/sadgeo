@@ -8,6 +8,7 @@ file: /sidgeo/infra/json_serializer.py
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 import pandas as pd
 
@@ -25,11 +26,16 @@ class JsonSerializer:
         except Exception as erro:
             raise RuntimeError(f"Erro ao importar JSON: {erro}") from erro
 
+        if "fotos" in df.columns:
+            df["fotos"] = df["fotos"].map(lambda valor: json.dumps(valor, ensure_ascii=False) if isinstance(valor, list) else valor)
         return normalizar_dataset(df)
 
     def exportar(self, df: pd.DataFrame, caminho: str | Path) -> None:
         path = Path(caminho)
         df_exportacao = normalizar_dataset(df)
+        if "fotos" in df_exportacao.columns:
+            df_exportacao["fotos"] = df_exportacao["fotos"].map(
+                lambda valor: json.loads(valor) if isinstance(valor, str) and valor.strip() else [])
 
         df_exportacao.to_json(
             path,

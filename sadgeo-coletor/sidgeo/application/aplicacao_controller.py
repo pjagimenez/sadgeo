@@ -7,6 +7,8 @@ file: /sidgeo/application/aplicacao_controller.py
 from __future__ import annotations
 
 from sidgeo.domain.registro import Registro
+from sidgeo.domain.foto import Foto
+from sidgeo.domain.tratamento_foto import AjusteFoto
 
 from sidgeo.infra.notificacao_evento_log import NotificadorEventoLog
 
@@ -61,3 +63,15 @@ class AplicacaoController:
     
     def finalizar_persistencia(self) -> None:
         self.servico_reg.finalizar_persistencia()
+
+    def adicionar_foto(self, caminho: str, tipo: str) -> Foto:
+        return self.servico_reg.adicionar_foto(caminho, tipo)
+
+    def caminho_foto(self, foto: Foto) -> str:
+        return self.servico_reg.caminho_foto(foto)
+
+    def original_foto(self, foto: Foto) -> bytes:
+        return self.servico_reg.original_foto(foto)
+
+    def tratar_foto(self, foto: Foto, ajuste: AjusteFoto) -> Foto:
+        return self.servico_reg.tratar_foto(foto, ajuste)

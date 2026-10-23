@@ -1,14 +1,15 @@
 # SIDGEO — Coletor de campo
 
-Aplicativo desktop Python/Tkinter para preparar e revisar registros de estações geodésicas. Versão **v1.0.261023**, independente da versão do portal `sadgeoweb`.
+Aplicativo desktop Python/Tkinter para preparar e revisar registros de estações geodésicas. Versão **v1.1.261023**, independente da versão do portal `sadgeoweb`.
 
-A tela segue a paleta e a organização do [DynAdjustWeb](https://github.com/pjagimenez/DynAdjustWeb): cabeçalho verde escuro, painéis claros, botões compactos e destaque para a ação principal. Na resolução **1366 × 768**, a janela reserva espaço para a barra de tarefas. Os campos estão em três abas, com rolagem quando necessário:
+A tela segue a paleta e a organização do [DynAdjustWeb](https://github.com/pjagimenez/DynAdjustWeb): cabeçalho verde escuro, painéis claros, botões compactos e destaque para a ação principal. Na resolução **1366 × 768**, a janela reserva espaço para a barra de tarefas. Os campos estão em quatro abas, com rolagem quando necessário:
 
 - **Identificação e campanha:** estação, situação, informante, projeto, campanha e datas.
 - **Coordenadas:** latitude/longitude, fonte, atualização e possibilidade de ocupação.
-- **Descrição e acesso:** descrição, localização, itinerário e observação.
+- **Descrição e acesso:** descrição, localização, itinerário e observação, com ajuda (?) e sete modelos de descritivo.
+- **Fotografias:** panorâmica, chapa e fotos adicionais, prévia e tratamento da etiqueta.
 
-A listagem e os botões Salvar, Limpar, Coordenadas BDG e Excluir ficam visíveis à direita. Importar/exportar arquivos, consultar SADGEO e ver/zerar a base ficam na barra inferior. Aplicar coordenadas do BDG altera o formulário; clique em **Salvar registro** para persistir.
+A listagem e os botões Salvar, Limpar, Coordenadas BDG e Excluir ficam visíveis à direita. Importar/exportar arquivos, consultar SADGEO, ver/zerar a base e **Empacotar ZIP** ficam na barra inferior. **Ver REG**, à direita, abre o relatório da estação no navegador. Aplicar coordenadas do BDG altera o formulário; clique em **Salvar registro** para persistir.
 
 ![Coletor em uma tela de 1366 × 768](docs/sidgeo-1366x768.png)
 
@@ -120,6 +121,69 @@ Se os downloads e as consultas funcionam normalmente, essas variáveis não prec
 
 ## Validação desta alteração
 
-Foram executados **30 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
+Foram executados **62 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
 
 O empacotamento PyInstaller 6 e o teste `--smoke-test` foram validados em Linux/Python 3.12. A geração e a execução do **`.exe` Windows** devem ser validadas no Windows com `build.ps1`; esta sessão não dispõe desse sistema operacional. Os scripts usam comandos compatíveis com Windows PowerShell 5.1.
+
+## Informante e comparação de coordenadas (v1.1)
+
+**Informante** recebe o login de rede (ex.: `nome.sobrenome`, `nome_sobrenome`, `login123`), sem espaços, domínio `DOMINIO\` ou e-mail. A validação de formato ocorre na interface e no serviço, inclusive na importação; ela não consulta o LDAP. O texto inválido é mantido para correção. O novo campo **Unidade informante** oferece as unidades SES e CGED indicadas pela área usuária. Bases antigas continuam abrindo com esse campo vazio.
+
+**Coordenadas BDG** compara os dados atuais do formulário com o retorno do BDG, aceita hemisférios `S/W/O/N/E` e sinais `+/-`, reconhece graus e aspas Unicode e segundos com vírgula. Dados não reconhecidos geram erro; não são transformados silenciosamente em zeros. A janela mostra a data da coordenada quando fornecida pelo serviço e a diferença horizontal **aproximada**, em metros (Haversine; sem componente de altitude).
+
+**Usar BDG** aplica coordenadas e fonte, marca **Atualizar** e preserva as possibilidades de ocupação locais. **Manter Local** marca **Manter**. Ambas as escolhas precisam de **Salvar registro** para persistir. O botão **Ver REG** abre `https://bdg.ibge.gov.br/bdg/pdf/relatorio.asp?L1=<codigo>` no navegador padrão.
+
+A ajuda **(?)** junto ao descritivo apresenta os sete modelos fornecidos (chapa, pino, tronco de pirâmide, pilares cilíndricos e prismáticos). É possível copiar ou acrescentar um modelo ao texto existente; substitua os marcadores `#` pelas informações de campo.
+
+## Fotos e pasta do usuário
+
+Os dados e as fotos ficam na pasta **SIDGEO** dentro do perfil do usuário. No Windows:
+
+```text
+%LOCALAPPDATA%\SIDGEO\
+├── sidgeo.h5
+├── imagens\
+│   ├── <sha256>.jpg
+│   └── <sha256>.png
+└── Logs\
+    └── sidgeo.log
+```
+
+A localização efetiva é obtida por `platformdirs`, respeitando as pastas do Windows. Não é preciso criar pastas em `Program Files` nem ter privilégios administrativos. Para backup manual completo, copie a pasta SIDGEO inteira.
+
+Na aba **Fotografias**, adicione panorâmica, chapa e fotos adicionais **JPEG ou PNG**, com até **5 MB (5.242.880 bytes) por arquivo**. A prévia usa uma miniatura; o original é copiado para o perfil e não é alterado. A aba mostra as quantidades e avisa quando faltam panorâmica/chapa; rascunhos e registros antigos continuam podendo ser salvos sem fotos.
+
+Os nomes físicos usam SHA-256 para evitar colisões e duplicação de conteúdo; tipo, nome original, tamanho e hash ficam vinculados ao registro no HDF5. Clique em **Salvar registro** após incluir, tratar ou remover vínculos. Remover um vínculo não apaga o arquivo original do disco. Imagens sem vínculo são conservadas localmente; o ZIP inclui as imagens dos registros salvos e os originais necessários para reeditar suas etiquetas.
+
+### Redimensionar e ajustar a etiqueta
+
+1. Informe o código da estação e adicione/selecione uma foto.
+2. Clique em **Redimensionar foto / Ajustar etiqueta**.
+3. Escolha o tipo da estação, por exemplo `SAT` ou `RN`, e confira o código.
+4. O limite inicial é **640 × 480 pixels**, preservando a proporção e sem ampliar fotos menores. Largura e altura máximas são ajustáveis; desmarque Redimensionar para manter a resolução.
+5. Ajuste **Horizontal (X)**, **Vertical (Y)**, **Comprimento** e **Altura da etiqueta**, em pixels da foto final. A etiqueta inicial usa 370/280/70/15, ajustada à área disponível na primeira abertura. Posições fora da imagem são recusadas.
+6. Atualize a prévia. **Aplicar ao registro** cria uma cópia JPEG tratada; depois, salve o registro. **Salvar cópia...** permite gravar um JPEG em uma pasta escolhida sem alterar o vínculo atual.
+
+O original e os ajustes são preservados. Ao reeditar, a imagem é recriada a partir do original, permitindo mover a etiqueta sem acumular etiquetas antigas. A cópia final também respeita o limite de 5 MB.
+
+### Empacotar ZIP com a base completa
+
+Clique em **Empacotar ZIP** e escolha onde salvar. O pacote contém **todos os registros salvos da base local**, sem filtros:
+
+```text
+pacote.zip
+├── sidgeo.h5
+├── registros.csv
+├── registros.json
+└── imagens\
+    ├── <fotos vinculadas>
+    └── <originais das fotos tratadas>
+```
+
+Alterações ainda não salvas do formulário não entram no pacote. O HDF5 é uma cópia independente da base; JSON e CSV incluem as referências e metadados, sem Base64. Use o ZIP para transportar dados **e** imagens. CSV/JSON avulsos transportam somente dados e referências, portanto não bastam para levar as fotos a outro perfil.
+
+Em outro computador, use **Importar arquivo → zip**. O importador usa `registros.json`, confere tamanho e SHA-256 das imagens e copia os arquivos para a pasta SIDGEO do usuário de destino. Estações existentes são atualizadas pela chave `cod_estacao`; os demais registros do destino são preservados. O JSON de dados do ZIP tem limite de 50 MB; o limite individual de foto é 5 MB. Caminhos arbitrários do ZIP nunca são extraídos.
+
+O pacote contém dados de campo e fotos, não um ambiente Python nem o código-fonte. Para obter o projeto de software completo, use o Git ou **Code → Download ZIP** no GitHub. A sincronização com o SADGEO/BDG real e o envio de imagens ao servidor dependem dos contratos da API institucional.
+
+Telas da versão 1.1: [fotografias](docs/sidgeo-fotografias.png), [tratamento da etiqueta](docs/sidgeo-etiqueta.png) e [comparação BDG](docs/sidgeo-comparacao-bdg.png). As fotos das capturas são sintéticas.

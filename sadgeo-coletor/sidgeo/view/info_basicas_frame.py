@@ -9,8 +9,12 @@ from __future__ import annotations
 import re
 import tkinter as tk
 from typing import Any
+from datetime import datetime
 from tkinter import ttk
 from tkcalendar import DateEntry
+from sidgeo.domain.informante import UNIDADES_INFORMANTE
+from sidgeo.domain.registro_validador import RegistroValidador
+from sidgeo.domain.erros import ValidacaoErro
 
 from sidgeo.domain.dominios import (TIPO_CONEXAO_LIST,
                                     TIPO_MONUMENTACAO_DICT,
@@ -45,13 +49,11 @@ class InfoBasicasFrame(tk.LabelFrame):
     def validar_informante(self, event: tk.Event | None = None):
         valor = self.entry_informante.get().strip()
 
-        if valor and not re.fullmatch(r"[A-Za-z0-9._-]+", valor):
-            self.msg.warn(
-                "Login inválido. Utilize apenas letras, números, '.', '-' e '_'.",
-                modal=True
-            )
-
-            self.entry_informante.delete(0, tk.END)
+        try:
+            RegistroValidador.validar_informante(valor)
+        except ValidacaoErro as erro:
+            # Preserva o texto digitado para permitir a correção.
+            self.msg.warn(str(erro), modal=True)
             self.entry_informante.focus_set()
 
 
@@ -244,6 +246,13 @@ class InfoBasicasFrame(tk.LabelFrame):
         )
         self.combo_uf.grid(row=8, column=3, padx=5, pady=2, sticky="w")
 
+        tk.Label(self, text="Unidade informante:").grid(row=9, column=2, padx=5, pady=2, sticky="e")
+        self.combo_unidade_informante = ttk.Combobox(
+            self, values=values_with_placeholder(UNIDADES_INFORMANTE), state="readonly", width=20,
+        )
+        self.combo_unidade_informante.grid(row=9, column=3, padx=5, pady=2, sticky="w")
+        self.data_coordenada: datetime | None = None
+
         # --------------------------------------
         # Campos ocultos (seq/status)  -- Parte inferior desse quadro col 0-1, 2-3
         self.seq_var = tk.StringVar(self)
@@ -293,6 +302,8 @@ class InfoBasicasFrame(tk.LabelFrame):
             "linha": self.entry_linha.get(),
             "caderneta": self.entry_caderneta.get(),
             "informante": self.entry_informante.get(),
+            "unidade_informante": self.combo_unidade_informante.get() if self.combo_unidade_informante.current() > 0 else "",
+            "data_coordenada": self.data_coordenada,
             "siape": self.entry_siape.get(),
             "seq": self.seq_var.get(),
             "status_vrf": self.status_vrf_var.get(),
@@ -326,6 +337,7 @@ class InfoBasicasFrame(tk.LabelFrame):
         self.seq_var.set("")
         self.status_vrf_var.set("")
 
+        self.data_coordenada = None
         self.set_default_value()
 
     def set_default_value(self):
@@ -335,7 +347,8 @@ class InfoBasicasFrame(tk.LabelFrame):
             self.combo_situacao,
             self.combo_tipo_conexao,
             self.combo_campanha,
-            self.combo_uf
+            self.combo_uf,
+            self.combo_unidade_informante
         ):
             combo.current(0)  # "Selecione..."
         # status label

@@ -7,8 +7,9 @@ file: /sidgeo/domain/registro.py
 
  # pylint: disable=too-many-instance-attributes
  
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
+from sidgeo.domain.foto import Foto
 
 @dataclass(slots=True)
 class Registro: 
@@ -56,3 +57,6 @@ class Registro:
     status_vrf: str  # novo v2
     municipio: str
     uf: str
+    unidade_informante: str = ""
+    data_coordenada: datetime | None = None
+    fotos: list[Foto] = field(default_factory=lambda: list[Foto]())

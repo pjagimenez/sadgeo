@@ -8,6 +8,8 @@ file: /sidgeo/domain/registro_mapeador.py
 from __future__ import annotations
 
 from dataclasses import asdict
+import json
+import unicodedata
 from typing import Any, cast
 
 import pandas as pd
@@ -41,7 +43,9 @@ class RegistroMapeador:
     @staticmethod
     def registro_para_dict(registro: Registro) -> dict[str, Any]:
         """Converte o conjunto do formato interno da aplicação para padrão python Dict."""
-        return asdict(registro)
+        dados = asdict(registro)
+        dados["fotos"] = json.dumps(dados["fotos"], ensure_ascii=False)
+        return dados
 
     def df_para_registros(self, df: pd.DataFrame) -> list[Registro]:
         """Converte do padrão Panda DataFrame para o conjunto do formato interno da aplicação."""
@@ -102,6 +106,8 @@ class RegistroMapeador:
             "statusVrf": "status_vrf",
             "municipio": "municipio",
             "uf": "uf",
+            "unidadeInformante": "unidade_informante",
+            "dataCoordenada": "data_coordenada",
         }
 
         return {
@@ -141,6 +147,7 @@ class RegistroMapeador:
             "rn_anterior": origem.get("codigoEstacaoMaterializada") or "",
             "campanha": origem.get("tema") or "",
             "data_levantamento": origem.get("dataVisita"),
+            "data_coordenada": origem.get("dataCoordenada") or origem.get("dataCoordenadas"),
             "data_critica": "",
             "projeto": "",
             "nue": "",
@@ -181,10 +188,15 @@ class RegistroMapeador:
         if not descricao:
             return ""
 
-        descricao_normalizada = str(descricao).strip().lower()
-
+        chave = str(descricao).strip()
+        if chave in dicionario:
+            return chave
+        def normalizar(texto: str) -> str:
+            return "".join(letra for letra in unicodedata.normalize("NFD", texto.casefold().strip())
+                           if unicodedata.category(letra) != "Mn")
+        descricao_normalizada = normalizar(chave)
         for codigo, texto in dicionario.items():
-            if str(texto).strip().lower() == descricao_normalizada:
+            if normalizar(str(texto)) == descricao_normalizada:
                 return str(codigo)
 
         return ""

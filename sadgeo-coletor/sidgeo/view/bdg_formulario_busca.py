@@ -13,6 +13,7 @@ from sidgeo.view.coordenadas_frame import CoordenadasFrame
 from sidgeo.view.mensagem_visual import MensagemVisual
 from sidgeo.view.registro_visao_mapeador import RegistroMapeadorVisao
 from sidgeo.view.tema import AbaRolavel, ajustar_janela, estilizar_quadro
+from sidgeo.domain.coordenadas import coordenadas_decimais, diferenca_horizontal_m
 
 
 class JanelaCoordenadasBDG(tk.Toplevel):
@@ -34,16 +35,20 @@ class JanelaCoordenadasBDG(tk.Toplevel):
         self.registro_bdg = registro_bdg
         self.resultado: tuple[bool, Registro] | None = None
 
-        self.title("Comparação Coordenadas BDG")
-        ajustar_janela(self, 1100, 440)
+        self.title(f"Comparação de coordenadas — Estação {registro_local.cod_estacao}")
+        ajustar_janela(self, 1100, 500)
         self.resizable(True, True)
         self.transient(master)
         self.grab_set()
         self.protocol("WM_DELETE_WINDOW", self.fechar)
 
         self._construir_interface()
+        self.grab_set()
 
     def _construir_interface(self) -> None:
+        # Reserva o espaço das ações antes da área rolável.
+        frame_bottom = tk.Frame(self)
+        frame_bottom.pack(side="bottom", fill="x", padx=10, pady=6)
         conteudo = AbaRolavel(self)
         conteudo.pack(fill="both", expand=True, padx=8, pady=8)
         top_frame = conteudo.conteudo
@@ -78,8 +83,15 @@ class JanelaCoordenadasBDG(tk.Toplevel):
             pady=2,
         )
 
-        frame_bottom = tk.Frame(self)
-        frame_bottom.pack(fill="x", padx=10, pady=2)
+        self.lbl_data_local = tk.Label(top_frame, text=self._rotulo_data(self.registro_local), anchor="w")
+        self.lbl_data_local.grid(row=1, column=0, sticky="ew", padx=8)
+        self.lbl_data_bdg = tk.Label(top_frame, text=self._rotulo_data(self.registro_bdg), anchor="w")
+        self.lbl_data_bdg.grid(row=1, column=1, sticky="ew", padx=8)
+        self.lbl_diferenca = tk.Label(top_frame, text="Diferença indisponível: coordenadas incompletas.",
+                                     anchor="w", font=("TkDefaultFont", 10, "bold"), wraplength=950)
+        self.lbl_diferenca.grid(row=2, column=0, columnspan=2, sticky="ew", padx=8, pady=12)
+        tk.Label(top_frame, text="A escolha altera o formulário. Use Salvar registro para confirmar.",
+                 anchor="w").grid(row=3, column=0, columnspan=2, sticky="ew", padx=8)
 
         self.btn_local = tk.Button(
             frame_bottom,
@@ -104,12 +116,25 @@ class JanelaCoordenadasBDG(tk.Toplevel):
 
         self._popular_coordenadas_local()
         self._popular_coordenadas_bdg()
+        if self.registro_bdg is not None:
+            try:
+                metros = diferenca_horizontal_m(self.registro_local, self.registro_bdg)
+                valor = f"{metros:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
+                self.lbl_diferenca.config(text=f"Diferença horizontal aproximada: {valor} m")
+            except ValueError:
+                pass
 
         self.frm_coord_local.disable_all()
         self.frm_coord_bdg.disable_all()
         estilizar_quadro(self.frm_coord_local)
         estilizar_quadro(self.frm_coord_bdg)
         conteudo.ativar_rolagem()
+
+    @staticmethod
+    def _rotulo_data(registro: Registro | None) -> str:
+        if registro is not None and registro.data_coordenada is not None:
+            return f"Data da coordenada: {registro.data_coordenada:%d/%m/%Y}"
+        return "Data da coordenada: não informada"
 
     def _popular_coordenadas_local(self) -> None:
         self._popular_frame_coordenadas(
@@ -130,6 +155,10 @@ class JanelaCoordenadasBDG(tk.Toplevel):
             self.frm_coord_bdg,
             self.registro_bdg,
         )
+        try:
+            coordenadas_decimais(self.registro_bdg)
+        except ValueError:
+            self.btn_bdg.config(state="disabled")
 
     def _popular_frame_coordenadas(
         self,
@@ -162,6 +191,11 @@ class JanelaCoordenadasBDG(tk.Toplevel):
 
     def usar_bdg(self) -> None:
         if self.registro_bdg is None:
+            return
+        try:
+            coordenadas_decimais(self.registro_bdg)
+        except ValueError as erro:
+            self.mensagens.warn(str(erro), modal=True)
             return
         self.resultado = (True, self.registro_bdg)
         self.destroy()

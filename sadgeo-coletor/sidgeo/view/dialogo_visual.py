@@ -22,7 +22,7 @@ class DialogoVisual:
 
 
     def escolher_arquivo_importacao(self) -> Optional[Tuple[str, str]]:
-        """Abre janela para escolher formato (CSV/JSON) e depois arquivo."""
+        """Abre janela para escolher formato (CSV/JSON/ZIP) e depois arquivo."""
 
         if not self._app:
             raise RuntimeError("DialogoVisual sem app. Chame attach().")
@@ -49,7 +49,7 @@ class DialogoVisual:
 
         ttk.Combobox(modal,
                      textvariable=formato,
-                     values=("csv", "json"),
+                     values=("csv", "json", "zip"),
                      state="readonly"
         ).pack(padx=10)
 
@@ -59,11 +59,7 @@ class DialogoVisual:
 
             fmt = formato.get()
 
-            tipos = (
-                [("CSV", "*.csv")]
-                if fmt == "csv"
-                else [("JSON", "*.json")]
-            )
+            tipos = [(fmt.upper(), f"*.{fmt}")]
 
             path = filedialog.askopenfilename(
                 parent=modal,
@@ -98,7 +94,7 @@ class DialogoVisual:
 
 
     def escolher_arquivo_exportacao(self) -> Optional[Tuple[str, str]]:
-        """Abre janela para escolher formato (CSV/JSON) e depois local para salvar."""
+        """Abre janela para escolher formato (CSV/JSON/ZIP) e depois local para salvar."""
 
         if not self._app:
             raise RuntimeError("MensagemService sem app. Chame attach().")
@@ -118,7 +114,7 @@ class DialogoVisual:
 
         ttk.Combobox(modal,
                      textvariable=formato,
-                     values=("csv", "json"),
+                     values=("csv", "json", "zip"),
                      state="readonly"
         ).pack(padx=10)
 
@@ -128,13 +124,9 @@ class DialogoVisual:
 
             fmt = formato.get()
 
-            ext = ".csv" if fmt == "csv" else ".json"
+            ext = f".{fmt}"
 
-            tipos = (
-                [("CSV", "*.csv")]
-                if fmt == "csv"
-                else [("JSON", "*.json")]
-            )
+            tipos = [(fmt.upper(), f"*.{fmt}")]
 
             path = filedialog.asksaveasfilename(
                 parent=modal,

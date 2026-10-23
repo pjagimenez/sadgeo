@@ -9,6 +9,8 @@ from __future__ import annotations
 import tkinter as tk
 from tkinter import ttk
 from typing import Any, Dict, Optional, cast
+import webbrowser
+from urllib.parse import urlencode
 from datetime import datetime
 from sidgeo.view.tema import AbaRolavel, aplicar_tema, ajustar_janela, estilizar_quadro, AZUL
 
@@ -16,6 +18,7 @@ from sidgeo.view.tema import AbaRolavel, aplicar_tema, ajustar_janela, estilizar
 from sidgeo.view.info_basicas_frame import InfoBasicasFrame
 from sidgeo.view.coordenadas_frame import CoordenadasFrame
 from sidgeo.view.observacoes_frame import ObservacoesFrame
+from sidgeo.view.fotos_frame import FotosFrame
 from sidgeo.view.registro_frame import RegistroFrame
 from sidgeo.view.dataset_frame import DatasetFrame
 from sidgeo.view.sadgeo_formulario_busca import JanelaBuscaSadgeo
@@ -87,7 +90,7 @@ class AplicativoVisual(tk.Tk):
         self.ds_frame = DatasetFrame(
             self, self.msg, importar=self.janela_importar, exportar=self.janela_exportar,
             zerar=self.zerar_base, ver=self.exibir_dados,
-            consultar_sadgeo=self.janela_importar_sadgeo,
+            consultar_sadgeo=self.janela_importar_sadgeo, empacotar=self.empacotar_zip,
         )
         self.ds_frame.pack(side="bottom", fill="x", padx=10, pady=6)
         corpo = ttk.Frame(self, padding=10)
@@ -109,10 +112,16 @@ class AplicativoVisual(tk.Tk):
             quadro.pack(fill="both", expand=True, padx=8, pady=8)
             setattr(self, atributo, quadro)
             aba.ativar_rolagem()
+        aba_fotos = AbaRolavel(self.abas)
+        self.abas.add(aba_fotos, text="Fotografias")
+        self.fotos_frame = FotosFrame(aba_fotos.conteudo, self.msg, self.controle_app,
+                                      lambda: self.info_basicas.entry_estacao.get())
+        self.fotos_frame.pack(fill="both", expand=True)
+        aba_fotos.ativar_rolagem()
         self.reg_frame = RegistroFrame(
             corpo, self.msg, salvar=self.acao_salvar, excluir=self.acao_excluir,
             limpar=self.acao_limpar, buscar=self.acao_buscar,
-            comparar=self.acao_comparar_coord_bdg,
+            comparar=self.acao_comparar_coord_bdg, ver_reg=self.acao_ver_reg,
         )
         self.reg_frame.grid(row=0, column=1, sticky="nsew")
 
@@ -127,6 +136,7 @@ class AplicativoVisual(tk.Tk):
         dados.update(self.info_basicas.get_data())
         dados.update(self.coordenadas.get_data())
         dados.update(self.observacoes.get_data())
+        dados.update(self.fotos_frame.get_data())
         reg = RegistroFabrica.criar(dados)
         self.msg.info("APP:_coletar_dados_do_form -> OK")
         return reg
@@ -226,12 +236,29 @@ class AplicativoVisual(tk.Tk):
 
         if atualiz:
             self._preencher_coordenadas(reg)
+            self.coordenadas.var_atualizar_coord.set(True)
+            self.info_basicas.data_coordenada = reg.data_coordenada
             self.msg.info("Coordenadas do BDG aplicadas ao formulário. Clique em Salvar para confirmar.", modal=True)
 
         else:
+            self.coordenadas.var_atualizar_coord.set(False)
             self.msg.info("Mantidas as coordenadas locais.")
 
 
+
+    def acao_ver_reg(self) -> None:
+        codigo = self.info_basicas.entry_estacao.get().strip().upper()
+        if not codigo:
+            codigo = self._cod_selecionado() or ""
+        if not codigo:
+            self.msg.warn("Informe ou selecione uma estação para consultar o REG.", modal=True)
+            return
+        url = "https://bdg.ibge.gov.br/bdg/pdf/relatorio.asp?" + urlencode({"L1": codigo})
+        try:
+            if not webbrowser.open_new_tab(url):
+                self.msg.warn(f"Não foi possível abrir o navegador. Acesse: {url}", modal=True)
+        except webbrowser.Error as erro:
+            self.msg.error(f"Não foi possível abrir o REG: {erro}")
 
     def acao_limpar(self) -> None:
         self._limpar_formulario()
@@ -283,6 +310,7 @@ class AplicativoVisual(tk.Tk):
         self.info_basicas.limpar()
         self.coordenadas.limpar()
         self.observacoes.limpar()
+        self.fotos_frame.limpar()
 
 
     def _preencher_coordenadas(self, reg: Registro) -> None:
@@ -317,16 +345,6 @@ class AplicativoVisual(tk.Tk):
         # Fonte
         coord.combo_tipo_fonte.set(view["tipo_fonte_coord"])
 
-        # Flags
-        coord.var_atualizar_coord.set(view["is_atualizar_coord"])
-        coord.var_ocup_gps.set(view["is_ocup_gps"])
-        coord.var_ocup_mira.set(view["is_ocup_mira"])
-        coord.var_ocup_gravimetro.set(view["is_ocup_gravimetro"])
-        """
-        Atualiza apenas os campos de coordenadas do formulário.
-        Não altera informações básicas nem observações.
-    """
-
     def _preencher_formulario(self, reg: Registro) -> None:
         self.msg.info("Atualizando formulário…")
         view = self.mapper_view.registro_para_dict_view(reg)
@@ -335,6 +353,8 @@ class AplicativoVisual(tk.Tk):
         ib = self.info_basicas
         coord = self.coordenadas
         obs = self.observacoes
+
+        self.fotos_frame.definir_fotos(reg.fotos)
 
         # ---- Info Básicas ----
         ib.entry_estacao.delete(0, "end")
@@ -351,6 +371,8 @@ class AplicativoVisual(tk.Tk):
         ib.entry_rn_anterior.insert(0, view["rn_anterior"])
         ib.combo_campanha.set(view["campanha"])
         ib.combo_uf.set(view["uf"])
+        ib.combo_unidade_informante.set(view["unidade_informante"] or "Selecione...")
+        ib.data_coordenada = reg.data_coordenada
 
         if view["data_levantamento"]: ib.entry_data_levantamento.set_date(view["data_levantamento"])
         if view["data_critica"]:      ib.entry_data_critica.set_date(view["data_critica"])
@@ -422,6 +444,18 @@ class AplicativoVisual(tk.Tk):
             self.msg.error(f"Falha na importação: {e}", modal=True)
         finally:
             self.atualiza_listbox()
+
+    def empacotar_zip(self) -> None:
+        from tkinter import filedialog
+        caminho = filedialog.asksaveasfilename(parent=self, title="Empacotar base salva e fotos",
+                                             defaultextension=".zip", filetypes=[("Pacote SIDGEO", "*.zip")])
+        if not caminho:
+            return
+        try:
+            self.controle_app.exportar(caminho, "zip")
+            self.msg.info(f"Pacote completo da base salva gerado em {caminho}. Alterações não salvas do formulário não são incluídas.", modal=True)
+        except Exception as erro:
+            self.msg.error(f"Não foi possível empacotar a base: {erro}")
 
     def janela_exportar(self) -> None:
 
