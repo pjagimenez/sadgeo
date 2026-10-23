@@ -42,7 +42,9 @@ class AuthDiagnosticsTest {
   @Test
   void logsReferencesAndPresenceWithoutValuesOrExceptionMessages(CapturedOutput output) {
     var ldap = new LdapProperties();
+	ldap.setProtocol("ldap");
     ldap.setHost("private-host-value");
+	ldap.setPort(389);
     ldap.setDomain("private-domain-value");
     AuthDiagnostics.configuration(
         ldap, new MockEnvironment().withProperty("LDAP_HOST", "private-alias-value"));

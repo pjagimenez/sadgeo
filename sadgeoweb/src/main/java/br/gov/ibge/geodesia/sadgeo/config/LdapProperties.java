@@ -7,14 +7,22 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /** Non-secret AD connection settings. User credentials are supplied only at login. */
 @ConfigurationProperties(prefix = "sadgeo.auth.ldap")
 public class LdapProperties {
+	private String protocol = "";
     private String host = "";
-    private int port = 636;
+    private int port = 0;
     private String domain = "";
     private String baseDn = "";
     private String url = "";
     private int connectTimeoutMs = 5000;
     private int readTimeoutMs = 10000;
 
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
     // Explicit JavaBean accessors also support Spring binding without annotation processing.
     public String getHost() { return host; }
     public void setHost(String host) { this.host = host; }
@@ -38,14 +46,45 @@ public class LdapProperties {
     public void setReadTimeoutMs(int readTimeoutMs) { this.readTimeoutMs = readTimeoutMs; }
 
     public boolean isConfigured() {
-        return (!host.isBlank() || !url.isBlank()) && !domain.isBlank();
+        return (!host.isBlank() || !url.isBlank()) && !domain.isBlank() 
+        && !protocol.isBlank() && port > 0;
     }
 
     public void validate() {
-        if (port < 1 || port > 65535) throw new IllegalArgumentException("SADGEO_LDAP_PORT deve estar entre 1 e 65535");
-        if (connectTimeoutMs <= 0 || readTimeoutMs <= 0) throw new IllegalArgumentException("Timeouts LDAP devem ser positivos");
+		if (protocol.isBlank()) {
+			throw new IllegalArgumentException(
+			"SADGEO_LDAP_PROTOCOL nao configurado");
+		}
+		
+		boolean usingUrl = !url.isBlank();
+		boolean usingHost = !host.isBlank();
+		if (!usingHost && !usingUrl) {
+			throw new IllegalArgumentException(
+				"Configure SADGEO_LDAP_HOST ou SADGEO_LDAP_URL");
+		}
+
+		if (usingHost) {
+
+			if (port == 0) {
+				throw new IllegalArgumentException(
+					"SADGEO_LDAP_PORT nao configurado");
+			}
+
+			if (port < 1 || port > 65535) {
+				throw new IllegalArgumentException(
+					"SADGEO_LDAP_PORT deve estar entre 1 e 65535");
+			}
+		}
+	
+		if (!protocol.equalsIgnoreCase("ldap")  && !protocol.equalsIgnoreCase("ldaps")) {
+			throw new IllegalArgumentException( "SADGEO_LDAP_PROTOCOL deve ser ldap ou ldaps");
+		}
+		
+		if (connectTimeoutMs <= 0 || readTimeoutMs <= 0) 
+			throw new IllegalArgumentException("Timeouts LDAP devem ser positivos");
         boolean hasServer = !host.isBlank() || !url.isBlank();
-        if (hasServer != !domain.isBlank()) throw new IllegalArgumentException("Configure servidor LDAP e SADGEO_LDAP_DOMAIN juntos");
+        if (hasServer != !domain.isBlank()) 
+			throw new IllegalArgumentException("Configure servidor LDAP e SADGEO_LDAP_DOMAIN juntos");
         if (hasServer) effectiveUrl();
     }
 
@@ -54,7 +93,12 @@ public class LdapProperties {
         try {
             if (!url.isBlank()) {
                 URI parsed = new URI(url);
-                if (!"ldaps".equalsIgnoreCase(parsed.getScheme()) || parsed.getHost() == null
+
+				if (!"ldap".equalsIgnoreCase(parsed.getScheme())
+					&& !"ldaps".equalsIgnoreCase(parsed.getScheme())) {
+					throw new IllegalArgumentException( "SADGEO_LDAP_URL deve ser ldap:// ou ldaps://");
+				}
+                if (parsed.getHost() == null
                         || parsed.getUserInfo() != null || parsed.getQuery() != null || parsed.getFragment() != null
                         || (parsed.getPath() != null && !parsed.getPath().isEmpty() && !parsed.getPath().equals("/"))
                         || parsed.getPort() == 0 || parsed.getPort() > 65535) {
@@ -65,11 +109,11 @@ public class LdapProperties {
             if (host.isBlank() || host.contains("://") || host.contains("/") || host.contains(":")) {
                 throw new IllegalArgumentException("SADGEO_LDAP_HOST deve conter somente o hostname/FQDN ou IPv4");
             }
-            URI parsed = new URI("ldaps", null, host, port, null, null, null);
+            URI parsed = new URI(protocol, null, host, port, null, null, null);
             if (parsed.getHost() == null) throw new IllegalArgumentException("Hostname LDAP inválido");
             return parsed.toASCIIString();
         } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("Endereço LDAPS inválido", e);
+            throw new IllegalArgumentException("Endereço LDAP inválido", e);
         }
     }
 }

@@ -25,7 +25,8 @@ public final class AuthDiagnostics {
     LOG.info(
         "AUTH_CONFIG configurada={} servidorInformado={} dominioInformado={} urlAlternativa={}"
             + " portaHost={} baseInformada={} connectTimeoutMs={} readTimeoutMs={}",
-        ldap.isConfigured(),
+        ldap.isConfigured(),		
+		ldap.getProtocol(),
         !ldap.getHost().isBlank(),
         !ldap.getDomain().isBlank(),
         !ldap.getUrl().isBlank(),

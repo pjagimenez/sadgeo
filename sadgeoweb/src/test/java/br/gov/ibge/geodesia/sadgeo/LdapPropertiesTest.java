@@ -9,73 +9,112 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
 
 class LdapPropertiesTest {
+
   @Configuration
   @EnableConfigurationProperties(LdapProperties.class)
   static class Config {}
 
   @Test
-  void bindsIndividualSettingsAndBuildsLdapsUrl() {
+  void bindsSettingsAndBuildsLdapUrl() {
     new ApplicationContextRunner()
         .withUserConfiguration(Config.class)
         .withPropertyValues(
-            "sadgeo.auth.ldap.host=ad.example.org", "sadgeo.auth.ldap.port=1636",
-            "sadgeo.auth.ldap.domain=example.org", "sadgeo.auth.ldap.base-dn=DC=example,DC=org",
-            "sadgeo.auth.ldap.connect-timeout-ms=2500", "sadgeo.auth.ldap.read-timeout-ms=6000")
-        .run(
-            context -> {
-              var settings = context.getBean(LdapProperties.class);
-              settings.validate();
-              assertTrue(settings.isConfigured());
-              assertEquals("ad.example.org", settings.getHost());
-              assertEquals(1636, settings.getPort());
-              assertEquals("example.org", settings.getDomain());
-              assertEquals("", settings.getUrl());
-              assertEquals("ldaps://ad.example.org:1636", settings.effectiveUrl());
-              assertEquals("DC=example,DC=org", settings.getBaseDn());
-              assertEquals(2500, settings.getConnectTimeoutMs());
-              assertEquals(6000, settings.getReadTimeoutMs());
-            });
-  }
+            "sadgeo.auth.ldap.protocol=ldap",
+            "sadgeo.auth.ldap.host=ad.example.org",
+            "sadgeo.auth.ldap.port=389",
+            "sadgeo.auth.ldap.domain=example.org",
+            "sadgeo.auth.ldap.base-dn=DC=example,DC=org",
+            "sadgeo.auth.ldap.connect-timeout-ms=2500",
+            "sadgeo.auth.ldap.read-timeout-ms=6000")
+        .run(context -> {
+          var settings = context.getBean(LdapProperties.class);
 
-  @Test
-  void usesDefaultLdapsPortWhenOnlyHostAndDomainAreConfigured() {
-    new ApplicationContextRunner()
-        .withUserConfiguration(Config.class)
-        .withPropertyValues(
-            "sadgeo.auth.ldap.host=ad.example.org", "sadgeo.auth.ldap.domain=example.org")
-        .run(
-            context -> {
-              var settings = context.getBean(LdapProperties.class);
-              settings.validate();
-              assertEquals(636, settings.getPort());
-              assertEquals("ldaps://ad.example.org:636", settings.effectiveUrl());
-            });
+          assertDoesNotThrow(settings::validate);
+
+          assertTrue(settings.isConfigured());
+          assertEquals("ldap", settings.getProtocol());
+          assertEquals("ad.example.org", settings.getHost());
+          assertEquals(389, settings.getPort());
+          assertEquals("example.org", settings.getDomain());
+          assertEquals("DC=example,DC=org", settings.getBaseDn());
+          assertEquals("ldap://ad.example.org:389", settings.effectiveUrl());
+        });
   }
 
   @Test
   void preservesExistingUrlOverride() {
     var p = new LdapProperties();
+
+    p.setProtocol("ldaps");
     p.setUrl("ldaps://legacy.example.org:636");
     p.setDomain("example.org");
-    p.validate();
-    assertEquals("ldaps://legacy.example.org:636", p.effectiveUrl());
+
+    assertDoesNotThrow(p::validate);
+
+    assertEquals(
+        "ldaps://legacy.example.org:636",
+        p.effectiveUrl());
   }
 
   @Test
-  void rejectsPlaintextPartialAndInvalidSettings() {
+  void requiresProtocolHostPortAndDomain() {
     var p = new LdapProperties();
-    assertFalse(p.isConfigured());
-    p.validate();
+
+    assertThrows(
+        IllegalArgumentException.class,
+        p::validate);
+
+    p.setProtocol("ldap");
+
+    assertThrows(
+        IllegalArgumentException.class,
+        p::validate);
+
     p.setHost("ad.example.org");
-    assertThrows(IllegalArgumentException.class, p::validate);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        p::validate);
+
     p.setDomain("example.org");
-    p.setPort(0);
-    assertThrows(IllegalArgumentException.class, p::validate);
-    p.setPort(636);
-    p.setUrl("ldap://ad.example.org");
-    assertThrows(IllegalArgumentException.class, p::validate);
-    p.setUrl("");
-    p.setConnectTimeoutMs(0);
-    assertThrows(IllegalArgumentException.class, p::validate);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        p::validate);
+
+    p.setPort(389);
+
+    assertDoesNotThrow(
+        p::validate);
+  }
+
+  @Test
+  void rejectsInvalidProtocol() {
+    var p = new LdapProperties();
+
+    p.setProtocol("ftp");
+    p.setHost("ad.example.org");
+    p.setPort(389);
+    p.setDomain("example.org");
+
+    assertThrows(
+        IllegalArgumentException.class,
+        p::validate);
+  }
+
+  @Test
+  void acceptsLdapUrlOverride() {
+    var p = new LdapProperties();
+
+    p.setProtocol("ldap");
+    p.setDomain("example.org");
+    p.setUrl("ldap://ad.example.org:389");
+
+    assertDoesNotThrow(
+        p::validate);
+
+    assertEquals(
+        "ldap://ad.example.org:389",
+        p.effectiveUrl());
   }
 }

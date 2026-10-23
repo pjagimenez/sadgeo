@@ -21,8 +21,9 @@ public class SecurityConfig {
   @Bean
   AuthenticationManager authenticationManager(LdapProperties settings, Environment environment) {
     AuthDiagnostics.configuration(settings, environment);
-    settings.validate();
+	
     if (settings.isConfigured()) {
+		settings.validate();
       var provider =
           new ActiveDirectoryLdapAuthenticationProvider(
               settings.getDomain(),
