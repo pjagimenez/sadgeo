@@ -27,7 +27,7 @@ class RegistroValidador:
 
     @staticmethod
     def _validar_conexao(registro: Registro) -> None:
-        if registro.conexao and not registro.tipo_conexao:
+        if bool(registro.conexao) != bool(registro.tipo_conexao):
             raise ValidacaoErro(
-                "Tipo de conexão é obrigatório quando há conexão informada."
+                "Conexão e Tipo de Conexão devem ser informados em conjunto."
             )

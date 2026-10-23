@@ -7,6 +7,7 @@ Created on Wed Feb 26 10:35:12 2025
 from __future__ import annotations
 
 import tkinter as tk
+from typing import Any
 from tkinter import ttk
 
 from sidgeo.domain.dominios import opcoes_tipo_fonte
@@ -17,18 +18,18 @@ from sidgeo.view.mensagem_visual import MensagemVisual
 
 # Classe para o quadro de Coordenadas
 class CoordenadasFrame(tk.LabelFrame):
-    def __init__(self, 
-                 master: tk.Tk | tk.Toplevel,
-                 msg: MensagemVisual, 
-                 titulo:str = "Coordenadas", 
-                 com_def_coord: bool = True, 
-                 **kwargs
+    def __init__(self,
+                 master: tk.Misc,
+                 msg: MensagemVisual,
+                 titulo:str = "Coordenadas",
+                 com_def_coord: bool = True,
+                 **kwargs: Any
     ) -> None:
         super().__init__(master, text=titulo, padx=10, pady=2, **kwargs)
-        self.com_def_coord = com_def_coord     
+        self.com_def_coord = com_def_coord
         self.msg = msg
         self.create_widgets()
-   
+
     def validate_min(self, proposed: str):
         if proposed == "":
             return True
@@ -83,7 +84,7 @@ class CoordenadasFrame(tk.LabelFrame):
         # longitudes Oeste do Brasil: 34..74
         return 30 <= v <= 80
 
-    def _obter_key_combo(self, combo):
+    def _obter_key_combo(self, combo: ttk.Combobox) -> str:
         conteudo = combo.get()
         if conteudo == "Selecione..." or not conteudo.strip():
             return ""
@@ -118,7 +119,7 @@ class CoordenadasFrame(tk.LabelFrame):
 
         tk.Label(self, text="Sinal:").grid(row=1, column=2, sticky="e", padx=5, pady=2)
         self.combo_lon_sinal = ttk.Combobox(self, values=["+", "-"], width=3, state="readonly")
-        self.combo_lon_sinal.current(0)  # Brasil: -
+        self.combo_lon_sinal.current(1)  # Brasil: -
         self.combo_lon_sinal.grid(row=1, column=3, padx=5, pady=2)
 
         tk.Label(self, text="Grau:").grid(row=2, column=2, sticky="e", padx=5, pady=2)
@@ -147,7 +148,7 @@ class CoordenadasFrame(tk.LabelFrame):
         self.combo_tipo_fonte.grid(row=5, column=1, columnspan=3, padx=5, pady=2, sticky="w")
 
         qrow = 6
-        self.var_atualizar_coord = tk.BooleanVar(value=True)  # True = Atualizar (default)        
+        self.var_atualizar_coord = tk.BooleanVar(value=True)  # True = Atualizar (default)
         if self.com_def_coord:
             # Definição de Coordenadas (Atualizar/Manter)
             tk.Label(self, text="Definição de Coordenadas:").grid(row=qrow, column=0, padx=5, pady=(10, 2), sticky="e")
@@ -156,7 +157,7 @@ class CoordenadasFrame(tk.LabelFrame):
             tk.Radiobutton(self.rb_frame, text="Atualizar", variable=self.var_atualizar_coord, value=True).pack(side="left")
             tk.Radiobutton(self.rb_frame, text="Manter", variable=self.var_atualizar_coord, value=False).pack(side="left")
             qrow = qrow +1
-            
+
         # --- Grupo de Checkboxes: Possibilidade de Ocupação ---
         self.var_ocup_gps = tk.BooleanVar()
         self.var_ocup_mira = tk.BooleanVar()
@@ -168,10 +169,10 @@ class CoordenadasFrame(tk.LabelFrame):
 
         self.chk_gps = tk.Checkbutton(self, text="GPS", variable=self.var_ocup_gps)
         self.chk_gps.grid(row=qrow, column=0, padx=5, pady=2, sticky="w")
-        
+
         self.chk_mira = tk.Checkbutton(self, text="Mira", variable=self.var_ocup_mira)
         self.chk_mira.grid(row=qrow, column=1, padx=5, pady=2, sticky="w")
-        
+
         self.chk_grav = tk.Checkbutton(self, text="Gravímetro", variable=self.var_ocup_gravimetro)
         self.chk_grav.grid(row=qrow, column=2, columnspan=2, padx=5, pady=2, sticky="w" )
 
@@ -184,25 +185,27 @@ class CoordenadasFrame(tk.LabelFrame):
         self.txt_lat_grau.config(state="disabled")
         self.txt_lat_min.config(state="disabled")
         self.txt_lat_seg.config(state="disabled")
-        
+
         # Longitude
         self.combo_lon_sinal.config(state="disabled")
         self.txt_lon_grau.config(state="disabled")
         self.txt_lon_min.config(state="disabled")
         self.txt_lon_seg.config(state="disabled")
-        
+
         # Tipo Fonte   lin=5 / Col=0..3
         self.combo_tipo_fonte.config(state="disabled")
 
         if self.com_def_coord:
             # Definição de Coordenadas (Atualizar/Manter)
-            self.rb_frame.config(state="disabled")
-            
+            for botao in self.rb_frame.winfo_children():
+                if isinstance(botao, tk.Radiobutton):
+                    botao.config(state="disabled")
+
         # --- Grupo de Checkboxes: Possibilidade de Ocupação ---
         self.chk_gps.config(state="disabled")
-        self.chk_mira.config(state="disabled")       
+        self.chk_mira.config(state="disabled")
         self.chk_grav.config(state="disabled")
-  
+
 
     def enable_all(self) -> None:
         # Latitude
@@ -210,26 +213,28 @@ class CoordenadasFrame(tk.LabelFrame):
         self.txt_lat_grau.config(state="normal")
         self.txt_lat_min.config(state="normal")
         self.txt_lat_seg.config(state="normal")
-        
+
         # Longitude
         self.combo_lon_sinal.config(state="normal")
         self.txt_lon_grau.config(state="normal")
         self.txt_lon_min.config(state="normal")
         self.txt_lon_seg.config(state="normal")
-        
+
         # Tipo Fonte   lin=5 / Col=0..3
         self.combo_tipo_fonte.config(state="normal")
 
         if self.com_def_coord:
             # Definição de Coordenadas (Atualizar/Manter)
-            self.rb_frame.config(state="normal")
-            
+            for botao in self.rb_frame.winfo_children():
+                if isinstance(botao, tk.Radiobutton):
+                    botao.config(state="normal")
+
         # --- Grupo de Checkboxes: Possibilidade de Ocupação ---
         self.chk_gps.config(state="normal")
-        self.chk_mira.config(state="normal")       
-        self.chk_grav.config(state="normal")        
+        self.chk_mira.config(state="normal")
+        self.chk_grav.config(state="normal")
 
-    def get_data(self):
+    def get_data(self) -> dict[str, Any]:
         return {
             "lat_sinal": self.combo_lat_sinal.get(),
             "lat_grau": self.txt_lat_grau.get(),

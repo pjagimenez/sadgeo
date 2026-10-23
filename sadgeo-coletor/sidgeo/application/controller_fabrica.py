@@ -5,6 +5,7 @@ file: /sidgeo/application/controller_fabrica.py
 @updated: 03-07-2026 pjag Refatoração MVC, GRASP, PEP8 pythonic
 """
 
+from pathlib import Path
 from sidgeo.application.bdg_servico import BdgServico
 from sidgeo.application.sadgeo_servico import SadgeoServico
 from sidgeo.application.registro_servico import RegistroServico
@@ -25,19 +26,19 @@ from sidgeo.infra.sadgeo_client import SadgeoClient
 class ControllerFactory:
 
     @staticmethod
-    def criar(log_app : NotificadorEventoLog):
+    def criar(log_app: NotificadorEventoLog, data_dir: Path | None = None) -> AplicacaoController:
 
         log_servico = log_app
         mapeador = RegistroMapeador()
 
-        repo = RepositorioRegistro(log_servico, mapeador)
+        repo = RepositorioRegistro(log_servico, mapeador, data_dir=data_dir)
 
         validador = RegistroValidador()
 
         bdg_api = BdgClient(base_url= APP_URL_BDG)
-        
+
         sadgeo_api = SadgeoClient(base_url= APP_URL_SADGEO )
-        
+
         registro_servico = RegistroServico(
             repositorio=repo,
             validador=validador,
@@ -47,8 +48,8 @@ class ControllerFactory:
 
         bdg_servico = BdgServico(bdg_api, mapeador)
 
-        return AplicacaoController (            
-            reg_servico = registro_servico, 
+        return AplicacaoController (
+            reg_servico = registro_servico,
             log_servico = log_servico,
             bdg_servico = bdg_servico,
             sadgeo_servico = sadgeo_servico,

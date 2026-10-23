@@ -12,6 +12,7 @@ from sidgeo.domain.registro import Registro
 from sidgeo.view.coordenadas_frame import CoordenadasFrame
 from sidgeo.view.mensagem_visual import MensagemVisual
 from sidgeo.view.registro_visao_mapeador import RegistroMapeadorVisao
+from sidgeo.view.tema import AbaRolavel, ajustar_janela, estilizar_quadro
 
 
 class JanelaCoordenadasBDG(tk.Toplevel):
@@ -31,11 +32,11 @@ class JanelaCoordenadasBDG(tk.Toplevel):
         self.view_mapper = view_mapper
         self.registro_local = registro_local
         self.registro_bdg = registro_bdg
-        self.resultado: Registro | None = None
+        self.resultado: tuple[bool, Registro] | None = None
 
         self.title("Comparação Coordenadas BDG")
-        self.geometry("450x350")
-        self.resizable(False, False)
+        ajustar_janela(self, 1100, 440)
+        self.resizable(True, True)
         self.transient(master)
         self.grab_set()
         self.protocol("WM_DELETE_WINDOW", self.fechar)
@@ -43,15 +44,17 @@ class JanelaCoordenadasBDG(tk.Toplevel):
         self._construir_interface()
 
     def _construir_interface(self) -> None:
-        top_frame = tk.Frame(self)
-        top_frame.pack(fill="both", expand=True, padx=5, pady=2)
+        conteudo = AbaRolavel(self)
+        conteudo.pack(fill="both", expand=True, padx=8, pady=8)
+        top_frame = conteudo.conteudo
         top_frame.columnconfigure(0, weight=3)
         top_frame.columnconfigure(1, weight=2)
 
         self.frm_coord_local = CoordenadasFrame(
             top_frame,
-            "Coordenadas (Local)",
-            False,
+            self.mensagens,
+            titulo="Coordenadas (Local)",
+            com_def_coord=False,
         )
         self.frm_coord_local.grid(
             row=0,
@@ -63,8 +66,9 @@ class JanelaCoordenadasBDG(tk.Toplevel):
 
         self.frm_coord_bdg = CoordenadasFrame(
             top_frame,
-            "Coordenadas BDG",
-            False,
+            self.mensagens,
+            titulo="Coordenadas BDG",
+            com_def_coord=False,
         )
         self.frm_coord_bdg.grid(
             row=0,
@@ -103,6 +107,9 @@ class JanelaCoordenadasBDG(tk.Toplevel):
 
         self.frm_coord_local.disable_all()
         self.frm_coord_bdg.disable_all()
+        estilizar_quadro(self.frm_coord_local)
+        estilizar_quadro(self.frm_coord_bdg)
+        conteudo.ativar_rolagem()
 
     def _popular_coordenadas_local(self) -> None:
         self._popular_frame_coordenadas(
@@ -154,11 +161,13 @@ class JanelaCoordenadasBDG(tk.Toplevel):
         frame.var_ocup_gravimetro.set(view["is_ocup_gravimetro"])
 
     def usar_bdg(self) -> None:
-        self.resultado = self.registro_bdg
+        if self.registro_bdg is None:
+            return
+        self.resultado = (True, self.registro_bdg)
         self.destroy()
 
     def manter_local(self) -> None:
-        self.resultado = self.registro_local
+        self.resultado = (False, self.registro_local)
         self.destroy()
 
     def fechar(self) -> None:

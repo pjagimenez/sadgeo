@@ -46,14 +46,15 @@ class RegistroMapeador:
     def df_para_registros(self, df: pd.DataFrame) -> list[Registro]:
         """Converte do padrão Panda DataFrame para o conjunto do formato interno da aplicação."""
         registros: list[Registro] = []
-        for _, row in df.iterrows():
-            dados = cast(dict[str, Any], row.to_dict())
+        # Colunas opcionais ausentes não devem virar os textos '<NA>', 'nan' ou 'NaT'.
+        for linha in df.to_dict(orient="records"):
+            dados = {str(chave): None if pd.isna(valor) else valor for chave, valor in linha.items()}
             registros.append(self.dict_para_registro(dados))
-    
+
         return registros
 
 
-    def registros_para_df(self, registros: list[Registro]) -> pd.DataFrame:        
+    def registros_para_df(self, registros: list[Registro]) -> pd.DataFrame:
         """Converte o conjunto do formato interno da aplicação para padrão Panda DataFrame."""
         return pd.DataFrame([
             self.registro_para_dict(registro)
@@ -122,10 +123,10 @@ class RegistroMapeador:
             TIPO_FONTE_COORD_DICT,
             origem.get("fonteCoordenada"),
         )
-                           
+
         municipio = cast(dict[str, Any], origem.get("municipio") or {})
         uf = cast(dict[str, Any], municipio.get("uf") or {})
-        
+
         nome_municipio = str(municipio.get("nomeMunicipio", ""))
         sigla_uf = str(uf.get("sigla", ""))
 

@@ -9,6 +9,8 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import tkinter as tk
+from tkinter import ttk
+from typing import Any
 from sidgeo.view.mensagem_visual import MensagemVisual
 
 
@@ -19,31 +21,31 @@ class DatasetFrame(tk.Frame):
     """Botões que agem sobre o DataFrame inteiro."""
 
     def __init__(self,
-        master: tk.Misc,  
+        master: tk.Misc,
         msg: MensagemVisual,
         importar: Callable[[], None] | None = None,
         exportar: Callable[[], None] | None = None,
         zerar: Callable[[], None] | None = None,
         ver: Callable[[], None] | None = None,
         consultar_sadgeo: Callable[[], None] | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         super().__init__(master, **kwargs)
-        
-        self._callbacks  = {"importar": importar, 
-                            "exportar": exportar, 
-                            "zerar": zerar, 
-                            "ver": ver, 
+
+        self._callbacks  = {"importar": importar,
+                            "exportar": exportar,
+                            "zerar": zerar,
+                            "ver": ver,
                             "consultar_sadgeo" : consultar_sadgeo,
         }
         self._build()
 
 
-    def _callback(self, nome: str) -> Callable[[], None]:    
+    def _callback(self, nome: str) -> Callable[[], None]:
         callback = self._callbacks.get(nome)
         return callback if callback is not None else lambda: None
-   
-    
+
+
     def _build(self) -> None:
         # ── 6 colunas: [esp½] [btn] [btn] [btn] [btn] [esp½] ──
         for col in range(7):
@@ -51,33 +53,33 @@ class DatasetFrame(tk.Frame):
             self.columnconfigure(col, weight=1 if col in (0, 6) else 0)
 
         # Botão Importar
-        tk.Button(self, 
-                  text="📥 Importar", 
+        ttk.Button(self,
+                  text="Importar arquivo",
                   command=self._callback("importar")
         ).grid(row=0, column=1, padx=(5, 5), pady=2 )
 
         # Botão Exportar
-        tk.Button(self, 
-                  text="📤 Exportar", 
+        ttk.Button(self,
+                  text="Exportar arquivo",
                   command=self._callback("exportar")
         ).grid(row=0, column=2, padx=(5, 5), pady=2 )
 
         # Botão Zerar
-        tk.Button(self, 
-                  text="⚠️ Zerar Base (Local)", 
-                  fg="red", 
+        ttk.Button(self,
+                  text="Zerar base local",
+                  style="Perigo.TButton",
                   command=self._callback("zerar")
         ).grid(row=0, column=3, padx=(5,5), pady=2 )
 
         # Botão Ver
-        tk.Button(self, 
-                  text="👁️ Ver Dados (Local)", 
+        ttk.Button(self,
+                  text="Ver dados locais",
                   command=self._callback("ver")
         ).grid(row=0, column=4, padx=(5, 5), pady=2 )
-        
+
         # Botão Consulta SADGEO
-        tk.Button(self, 
-                  text="🌐 Consultar SADGEO",  
-                  fg="#00008B",  # dark blue
+        ttk.Button(self,
+                  text="Consultar SADGEO",
+                  style="Primario.TButton",
                   command=self._callback("consultar_sadgeo")
         ).grid(row=0, column=5, padx=(5, 5), pady=2 )

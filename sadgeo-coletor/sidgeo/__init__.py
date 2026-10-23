@@ -1,1 +1,1 @@
-__all__ = ["application","view", "domain", "infra", "util"]
+"""Coletor desktop de dados de campo do SADGEO."""

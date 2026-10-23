@@ -184,7 +184,7 @@ def opcoes_uf():
 # Validação leve (sem normalizar)
 # -------------------------
 def validar_dominios() -> None:
-    def _assert_unique(keys, nome):
+    def _assert_unique(keys: list[str], nome: str) -> None:
         if len(keys) != len(set(keys)):
             dup = [k for k in keys if keys.count(k) > 1]
             raise ValueError(f"Chaves duplicadas em {nome}: {sorted(set(dup))}")

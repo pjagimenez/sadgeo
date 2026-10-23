@@ -18,7 +18,7 @@ _FALSE_SET = {"false", "f", "0", "n", "no", "nao", "não"}
 
 def reversa_codigo_dic(dicionario: dict[str, str], valor_descr: str | None ) -> str | None:
     """Resolve o código a partir da descrição (case-insensitive)."""
-    
+
     if not valor_descr:
         return None
 
@@ -62,7 +62,7 @@ def parse_data(valor: object, formatos: Iterable[str] | None = None) -> datetime
         return None
 
 
-def bool_to_str(val) -> str:
+def bool_to_str(val: object) -> str:
         """ Converte logico em String  S ou N """
         return 'S' if str(val).strip().lower() in ['true', '1', 's'] else 'N'
 
@@ -81,7 +81,7 @@ def str_para_bool(valor: object, default: bool = False) -> bool:
             return False
     return default
 
-def parse_coordinate(value):
+def parse_coordinate(value: object) -> Decimal:
         """
         Converte uma string numérica (com vírgula ou ponto) em Decimal,
         preservando todas as casas decimais originais.

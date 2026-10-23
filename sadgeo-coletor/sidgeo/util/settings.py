@@ -7,10 +7,10 @@ file: /sidgeo/util/settings.py
 
 from __future__ import annotations
 
-APP_VERSAO = "v1.0.260702"
+APP_VERSAO = "v1.0.261023"
 APP_SIGLA = "SIDGEO"
-APP_ALTURA= 650
-APP_LARGURA = 1150
+APP_ALTURA = 680
+APP_LARGURA = 1280
 
 APP_URL_SADGEO = "https://w3.api-sadgeo.ibge.gov.br/api"
 

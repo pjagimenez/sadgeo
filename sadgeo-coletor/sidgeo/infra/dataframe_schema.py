@@ -12,11 +12,11 @@ import pandas as pd
 from sidgeo.domain.registro_metadados import COLUNAS_NOMES
 
 
-def normalizar_dataset(df_origem: pd.DataFrame) -> pd.DataFrame:
+def normalizar_dataset(df_origem: pd.DataFrame | None) -> pd.DataFrame:
     if df_origem is None:
         df_origem = pd.DataFrame(columns=COLUNAS_NOMES)
-    
-    
+
+
     df = df_origem.copy()
 
     df.columns = [
@@ -44,5 +44,4 @@ def normalizar_dataset(df_origem: pd.DataFrame) -> pd.DataFrame:
         ):
             df[coluna] = df[coluna].astype("string").str.strip()
 
-    df.reset_index(drop=True, inplace=True)
-    return df
+    return df.reset_index(drop=True)

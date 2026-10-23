@@ -1,62 +1,24 @@
-#sidgeo.spec
 # -*- mode: python ; coding: utf-8 -*-
+# PyInstaller 6: executar a partir de build.ps1 (Windows) ou python -m PyInstaller sidgeo.spec.
+from pathlib import Path
+from PyInstaller.utils.hooks import collect_data_files
 
-import os
-from PyInstaller.utils.hooks import collect_all, collect_submodules, collect_data_files
-
-
-project_path = os.path.abspath('.')  # ou o caminho absoluto do projeto
-
-block_cipher = None
-
+project_path = Path(SPECPATH)
 a = Analysis(
-    ['app.py'],
-    pathex=[project_path],
+    [str(project_path / 'app.py')],
+    pathex=[str(project_path)],
     binaries=[],
-    datas=[],
-    hiddenimports=[
-        'tkcalendar',
-        'pandas',
-        'charset_normalizer',
-        'babel.numbers',
-        'platformdirs',
-        'jinja2'
-    ],
+    datas=collect_data_files('babel'),
+    hiddenimports=['babel.numbers', 'tkcalendar', 'tables'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
-    noarchive=False
+    excludes=['pandas.tests'],
+    noarchive=False,
 )
-
-# Coleta todos os submódulos de pandas e platformdirs
-a.datas += collect_all('pandas')[1]
-a.datas += collect_all('platformdirs')[1]
-a.datas += collect_all('charset_normalizer')[1]
-a.datas += collect_all('babel')[1]
-
-# Inclui todos os submódulos e dados do pacote sidgeo
-a.hiddenimports += collect_submodules('sidgeo')
-
-# Exclui testes desnecessários
-a.excludes += ['pandas.tests']
-
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
-
+pyz = PYZ(a.pure)
 exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.zipfiles,
-    [],  # ← runtime_hooks (mesmo vazio, precisa estar aqui)
-    a.datas,
-    name='sidgeo',
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
-    console=False  # Altere para True se quiser ver o console
+    pyz, a.scripts, a.binaries, a.datas, [],
+    name='sidgeo', debug=False, bootloader_ignore_signals=False,
+    strip=False, upx=False, console=False,
 )

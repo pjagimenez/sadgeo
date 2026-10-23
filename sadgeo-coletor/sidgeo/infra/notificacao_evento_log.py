@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from types import TracebackType
 
 import logging
 from logging.handlers import RotatingFileHandler
@@ -20,7 +21,7 @@ from sidgeo.util.settings import APP_SIGLA
 
 class NotificadorEventoLog:
     """Notificador simples para logs da aplicação."""
-       
+
     _instancia = None
 
     def __new__(cls):
@@ -70,21 +71,14 @@ class NotificadorEventoLog:
 
 
 
-    def instalar_excepthook(self):
-    
-        def _excepthook(exc_type, exc, tb):
-            self.logger.exception(
-                "Uncaught exception",
-                exc_info=(exc_type, exc, tb),
-            )
-    
-            sys.__excepthook__(
-                exc_type,
-                exc,
-                tb,
-            )
-    
-        sys.excepthook = _excepthook 
+    def registrar_excecao(self, exc_type: type[BaseException], exc: BaseException,
+                         tb: TracebackType | None) -> None:
+        """Registra também exceções dos callbacks Tk (que não usam sys.excepthook)."""
+        self.logger.error("Erro não tratado", exc_info=(exc_type, exc, tb))
+        sys.__excepthook__(exc_type, exc, tb)
+
+    def instalar_excepthook(self) -> None:
+        sys.excepthook = self.registrar_excecao
 
     def info(self, mensagem: str) -> None:
         self.logger.info(mensagem)
@@ -93,7 +87,7 @@ class NotificadorEventoLog:
         self.logger.warning(mensagem)
 
     def error(self, mensagem: str) -> None:
-        self.logger.error(mensagem)   
-        
+        self.logger.error(mensagem)
+
     def exception(self, mensagem: str) -> None:
         self.logger.exception(mensagem)

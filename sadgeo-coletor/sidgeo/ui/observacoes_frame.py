@@ -7,6 +7,7 @@ Created on Wed Feb 26 10:35:12 2025
 
 
 import tkinter as tk
+from typing import Any
 from tkinter import scrolledtext
 
 from sidgeo.util.strings import trim_all
@@ -19,7 +20,7 @@ from sidgeo.util.strings import trim_all
 
 # Classe para o quadro de Observações (exemplo para campos de texto)
 class ObservacoesFrame(tk.LabelFrame):
-    def __init__(self, master=None, **kwargs):
+    def __init__(self, master: tk.Misc | None = None, **kwargs: Any):
         super().__init__(master, text="Observações", padx=10, pady=10, **kwargs)
         self.create_widgets()
 
@@ -39,7 +40,7 @@ class ObservacoesFrame(tk.LabelFrame):
         tk.Label(self, text="Observação:").grid(row=3, column=0, sticky="nw", padx=5)
         self.txt_observacao = scrolledtext.ScrolledText(self, width=60, height=2)
         self.txt_observacao.grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
-        
+
         self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)

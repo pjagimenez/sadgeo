@@ -8,11 +8,12 @@ from __future__ import annotations
 
 import re
 import tkinter as tk
+from typing import Any
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from sidgeo.domain.dominios import (TIPO_CONEXAO_LIST, 
-                                    TIPO_MONUMENTACAO_DICT, 
+from sidgeo.domain.dominios import (TIPO_CONEXAO_LIST,
+                                    TIPO_MONUMENTACAO_DICT,
                                     opcoes_tipo_local,
                                     opcoes_situacao,
                                     opcoes_campanha,
@@ -29,51 +30,51 @@ from sidgeo.util.strings import trim_all, values_with_placeholder, labels_from_o
 
 # Classe para o quadro de Informações Básicas
 class InfoBasicasFrame(tk.LabelFrame):
-   
 
-    def __init__(self, 
-                 master: tk.Tk | tk.Toplevel,
-                 msg: MensagemVisual, 
-                 **kwargs
+
+    def __init__(self,
+                 master: tk.Misc,
+                 msg: MensagemVisual,
+                 **kwargs: Any
     ) -> None:
         super().__init__(master, text="Informações Básicas", padx=10, pady=2, **kwargs)
         self.msg = msg
         self.create_widgets()
-        
 
-    def validar_informante(self, event=None):
+
+    def validar_informante(self, event: tk.Event | None = None):
         valor = self.entry_informante.get().strip()
-    
+
         if valor and not re.fullmatch(r"[A-Za-z0-9._-]+", valor):
             self.msg.warn(
                 "Login inválido. Utilize apenas letras, números, '.', '-' e '_'.",
                 modal=True
             )
-    
+
             self.entry_informante.delete(0, tk.END)
             self.entry_informante.focus_set()
 
 
-    def validar_siape(self,event=None):
+    def validar_siape(self,event: tk.Event | None = None):
         valor = self.entry_siape.get().strip()
-    
+
         if valor and not re.fullmatch(r"\d{6,7}", valor):
             self.msg.warn(
                 "SIAPE inválido. Informe um número com 6 ou 7 dígitos.",
                 modal=True
             )
-    
+
             self.entry_siape.delete(0, tk.END)
             self.entry_siape.focus_set()
 
-    
-    def validar_codigo_estacao(self, entry, nome_campo, obrigatorio=True):            
+
+    def validar_codigo_estacao(self, entry: tk.Entry, nome_campo: str, obrigatorio: bool = True):
         valor = entry.get().strip().upper()
-    
+
         # Atualiza para maiúsculas
         entry.delete(0, tk.END)
         entry.insert(0, valor)
-    
+
         # Campo opcional e vazio
         if not valor:
             if obrigatorio:
@@ -83,10 +84,10 @@ class InfoBasicasFrame(tk.LabelFrame):
                 )
                 entry.focus_set()
             return
-    
+
         padrao_curto = r"^[1-9][A-Z0-9]{0,4}$"
         padrao_longo = r"^8\d{6}$"
-    
+
         if not (
             re.fullmatch(padrao_curto, valor)
             or re.fullmatch(padrao_longo, valor)
@@ -98,19 +99,19 @@ class InfoBasicasFrame(tk.LabelFrame):
                 "iniciando por 8.",
                 modal=True
             )
-    
+
             entry.delete(0, tk.END)
             entry.focus_set()
 
-        
+
     def create_widgets(self):
         # Primeira coluna 0-1
 
         # Estação   lin=0 / Col=0+1
         tk.Label(self, text="Estação:").grid(row=0, column=0, padx=5, pady=2, sticky="e")
         self.entry_estacao = tk.Entry(self, width=20)
-        self.entry_estacao.grid(row=0, column=1, padx=5, pady=2, sticky="w")        
-        self.entry_estacao.bind("<FocusOut>",self.validar_codigo_estacao(self.entry_estacao, "Codigo Estação"), True)
+        self.entry_estacao.grid(row=0, column=1, padx=5, pady=2, sticky="w")
+        self.entry_estacao.bind("<FocusOut>", lambda _e: self.validar_codigo_estacao(self.entry_estacao, "Código Estação"))
 
         # Monumentação    lin=1 / Col=0+1
         tk.Label(self, text="Monumentação:").grid(row=1, column=0, padx=5, pady=2, sticky="e")
@@ -151,7 +152,8 @@ class InfoBasicasFrame(tk.LabelFrame):
         tk.Label(self, text="Conexão:").grid(row=5, column=0, padx=5, pady=2, sticky="e")
         self.entry_conexao = tk.Entry(self, width=20)
         self.entry_conexao.grid(row=5, column=1, padx=5, pady=2, sticky="w")
-        self.entry_conexao.bind("<FocusOut>",self.validar_codigo_estacao(self.entry_conexao, "Estação Conexão"), False)
+        self.entry_conexao.bind("<FocusOut>", lambda _e: self.validar_codigo_estacao(
+            self.entry_conexao, "Estação Conexão", obrigatorio=False))
 
         # Tipo de Conexão   lin=6 / Col=0+1
         tk.Label(self, text="Tipo Conexão:").grid(row=6, column=0, padx=5, pady=2, sticky="e")
@@ -167,7 +169,7 @@ class InfoBasicasFrame(tk.LabelFrame):
         tk.Label(self, text="RN Anterior:").grid(row=7, column=0, padx=5, pady=2, sticky="e")
         self.entry_rn_anterior = tk.Entry(self, width=20)
         self.entry_rn_anterior.grid(row=7, column=1, padx=5, pady=2, sticky="w")
-        
+
         # Informante    lin=8 / Col 0-1
         tk.Label(self, text="Informante (login):").grid(row=8, column=0, padx=5, pady=2, sticky="e")
         self.entry_informante = tk.Entry(self, width=20)
@@ -178,7 +180,7 @@ class InfoBasicasFrame(tk.LabelFrame):
         tk.Label(self, text="Informante (SIAPE):").grid(row=9, column=0, padx=5, pady=2, sticky="e")
         self.entry_siape = tk.Entry(self, width=20)
         self.entry_siape.grid(row=9, column=1, padx=5, pady=2, sticky="w")
-        self.entry_siape.bind("<FocusOut>", self.validar_siape)      
+        self.entry_siape.bind("<FocusOut>", self.validar_siape)
 
         # --------------------------------------
         # Segunda coluna 2-3
@@ -241,7 +243,7 @@ class InfoBasicasFrame(tk.LabelFrame):
              width=20,
         )
         self.combo_uf.grid(row=8, column=3, padx=5, pady=2, sticky="w")
- 
+
         # --------------------------------------
         # Campos ocultos (seq/status)  -- Parte inferior desse quadro col 0-1, 2-3
         self.seq_var = tk.StringVar(self)
@@ -251,7 +253,7 @@ class InfoBasicasFrame(tk.LabelFrame):
         tk.Label(self, text="Seq/Id:").grid(row=10, column=0, padx=5, pady=2, sticky="e")
         self.lbl_seqid = tk.Label(self, textvariable=self.seq_var, anchor="w")
         self.lbl_seqid.grid(row=10, column=1, padx=5, pady=2, sticky="w")
-        
+
         # Label de Status VRF (somente exibição)
         tk.Label(self, text="Situação:").grid(row=10, column=2, padx=5, pady=2, sticky="e")
         self.status_vrf_text = tk.StringVar(self, value=STATUS_MAP[""])
@@ -259,22 +261,22 @@ class InfoBasicasFrame(tk.LabelFrame):
         self.lbl_status_vrf.grid(row=10, column=3, padx=5, pady=2, sticky="w")
 
         # Atualiza label quando status_vrf_var mudar
-        self.status_vrf_var.trace_add("write", lambda *_: self._update_status_vrf())
+        self.status_vrf_var.trace_add("write", self._update_status_vrf)
 
         self.set_default_value()
 
-    def _update_status_vrf(self):
+    def _update_status_vrf(self, *_args: str) -> None:
         val = self.status_vrf_var.get()
         self.status_vrf_text.set(STATUS_MAP.get(val, "Início"))
 
-    def obter_key_combo(self, combo):
+    def obter_key_combo(self, combo: ttk.Combobox) -> str:
         conteudo = combo.get()
         if conteudo == "Selecione..." or not conteudo.strip():
             return ""
         return conteudo.split(" - ")[0]  # retorna "COD"
 
-    def get_data(self):
-        data = {
+    def get_data(self) -> dict[str, Any]:
+        data: dict[str, Any] = {
             "cod_estacao": self.entry_estacao.get(),
             "monumentacao": self.obter_key_combo(self.combo_monumentacao),
             "tipo_local": self.obter_key_combo(self.combo_tipo_local),

@@ -4,19 +4,24 @@ file: /sidgeo/ui/mensagem_visual.py
 @created: 25-02-2025 pjag
 @updated: 03-07-2026 pjag Refatoração MVC, GRASP, PEP8 pythonic
 """
-import tkinter as tk
+from typing import Protocol
 
 from sidgeo.infra.notificacao_evento_log import NotificadorEventoLog
 
 
+class JanelaMensagens(Protocol):
+    def show_confirm_modal(self, pergunta: str, cor: str = "black") -> bool: ...
+    def show_modal(self, mensagem: str, cor: str = "black") -> None: ...
+
+
 class MensagemVisual:
     """Centraliza logs e UI feedback (modais)."""
-    
+
     def __init__(self, logger: NotificadorEventoLog) -> None:
         self._logger = logger
-        self._app: tk.Tk | None = None  # será plugado depois
+        self._app: JanelaMensagens | None = None
 
-    def attach(self, app: tk.Tk) -> None:
+    def attach(self, app: JanelaMensagens) -> None:
         """Associa a raiz Tk para modais."""
         self._app = app
 
@@ -42,7 +47,7 @@ class MensagemVisual:
             return self._app.show_confirm_modal(pergunta, cor=cor)
         # fallback sem UI (útil para testes headless)
         self._logger.info(f"[CONFIRM_MODAL] {pergunta}")
-        return True
+        return False
 
     # Internos
     def _show_modal(self, mensagem: str, cor: str) -> None:

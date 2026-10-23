@@ -7,7 +7,8 @@ file: /sidgeo/infra/persistencia_hdf.py
 
 from __future__ import annotations
 
-from datetime import datetime
+import os
+import tempfile
 from pathlib import Path
 
 import pandas as pd
@@ -27,21 +28,23 @@ class HdfDataStore:
         self.filename = Path(filename)
 
     def carregar(self) -> pd.DataFrame:
-        try:
-            df = pd.read_hdf(self.filename, key=APP_HDFSTORE_KEY)
-            return normalizar_dataset(df)
-
-        except (FileNotFoundError, KeyError):
+        if not self.filename.exists():
             df_vazio = pd.DataFrame(columns=COLUNAS_NOMES)
             self.salvar(df_vazio)
             return df_vazio
-
+        try:
+            # Versões anteriores gravavam o DataFrame vazio sem criar a chave 'dados'.
+            with pd.HDFStore(self.filename, mode="r") as store:
+                if not store.keys():
+                    return pd.DataFrame(columns=COLUNAS_NOMES)
+            df = pd.read_hdf(self.filename, key=APP_HDFSTORE_KEY)
+            if not isinstance(df, pd.DataFrame):
+                raise ValueError("A chave de dados não contém uma tabela de registros.")
+            return normalizar_dataset(df)
         except Exception as erro:
-            self._fazer_backup_corrompido()
-            df_vazio = pd.DataFrame(columns=COLUNAS_NOMES)
-            self.salvar(df_vazio)
             raise RuntimeError(
-                f"Erro ao carregar HDF5 '{self.filename}': {erro}"
+                f"Erro ao carregar HDF5 '{self.filename}': {erro}. "
+                "O arquivo original foi preservado; nenhuma base vazia o substituiu."
             ) from erro
 
     def salvar(self, df: pd.DataFrame) -> None:
@@ -52,25 +55,26 @@ class HdfDataStore:
 
         df_hdf = self._preparar_para_hdf(df_local)
 
+        temporario: Path | None = None
         try:
+            # O arquivo anterior só é substituído depois da gravação completa.
+            fd, nome = tempfile.mkstemp(prefix="sidgeo-", suffix=".h5", dir=self.filename.parent)
+            os.close(fd)
+            temporario = Path(nome)
             df_hdf.to_hdf(
-                self.filename,
+                temporario,
                 key=APP_HDFSTORE_KEY,
                 mode="w",
-                format="table",
+                format="fixed" if df_hdf.empty else "table",
             )
+            os.replace(temporario, self.filename)
         except Exception as erro:
             raise RuntimeError(
                 f"Erro ao salvar HDF5 '{self.filename}': {erro}"
             ) from erro
-
-    def _fazer_backup_corrompido(self) -> None:
-        if not self.filename.exists():
-            return
-
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        backup = self.filename.with_suffix(f".corrupt-{timestamp}.h5")
-        self.filename.rename(backup)
+        finally:
+            if temporario is not None:
+                temporario.unlink(missing_ok=True)
 
     @staticmethod
     def _preparar_para_hdf(df: pd.DataFrame) -> pd.DataFrame:

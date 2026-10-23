@@ -51,7 +51,7 @@ def valor_para_widget(
             return valor
 
         try:
-            return pd.to_datetime(valor)
+            return pd.Timestamp(valor)
         except (TypeError, ValueError):
             return None
 

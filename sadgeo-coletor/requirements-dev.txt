@@ -1,0 +1,6 @@
+pytest>=8,<10
+pylint>=3,<5
+pyright>=1.1.400,<2
+pandas-stubs>=2.2,<3.1
+types-requests
+pyinstaller>=6.10,<7

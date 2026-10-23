@@ -1,0 +1,13 @@
+.venv/
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+logs/
+*.h5
+*.h5.*
+.sidgeo-dependencies.sha256
+/resultado-build.txt

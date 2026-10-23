@@ -42,7 +42,8 @@ class CsvSerializer:
                 quotechar='"',
                 encoding=encoding,
                 index_col=False,
-                on_bad_lines="skip",
+                dtype=str,
+                on_bad_lines="error",
                 keep_default_na=False,
                 na_values=[],
             )

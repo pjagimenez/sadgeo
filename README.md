@@ -4,6 +4,10 @@
 
 Portal React + Material UI + TypeScript, API REST JSON Spring Boot 3.5 e persistência Oracle. O build gera **um único JAR**, com API e interface no mesmo endereço. JDK 17, Maven 3.9+ e Node.js 22.12+ (ou 24 LTS) com npm são necessários para compilar. Para executar o JAR pronto, basta Java.
 
+## Coletor desktop SIDGEO
+
+O aplicativo Python de coleta de campo está em [`sadgeo-coletor`](sadgeo-coletor/README.MD), separado do portal Java/React. Na pasta do coletor, use `./build.ps1` para testar e gerar o executável Windows, ou `./testes.ps1` para rodar apenas as verificações. O README do módulo descreve dependências, logs e a interface para telas de 1366 × 768.
+
 ## 1. Executar sem Oracle (demonstração)
 
 Na raiz do repositório:

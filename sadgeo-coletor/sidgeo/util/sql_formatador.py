@@ -8,7 +8,7 @@ file: /sidgeo/util/strings.py
 from __future__ import annotations
 
 
-def tratar_texto_sql(texto):
+def tratar_texto_sql(texto: object) -> str:
     """Prepara um campo de texto para ser usado com segurança em comandos SQL."""
     if texto is None or str(texto).strip() == '':
         return "' '" # Retorna uma string com espaço entre aspas simples

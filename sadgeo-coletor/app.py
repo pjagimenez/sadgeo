@@ -1,34 +1,40 @@
-# -*- coding: utf-8 -*-
-"""
-file: /sidgeo/ui/sadgeo_formulario_busca.py
-@created: 25-02-2025 pjag Criaçaõ do sistema com edição centrada em CSV local
-@updated: 09-09-2025 pjag Mudança para usar HF5 base interna local
-@updated: 16-10-2025 pjag Inclusão de busca SADGEO
-@updated: 03-07-2026 pjag Refatoração MVC, GRASP, PEP8 pythonic
-"""
-
+"""Entrada do coletor desktop SIDGEO e verificação do aplicativo empacotado."""
 from __future__ import annotations
 
-# ─── Imports “do projeto” ─────────────────
+import argparse
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
 from sidgeo.view.aplicativo_tela import AplicativoVisual
-from sidgeo.application.controller_fabrica import  ControllerFactory
+from sidgeo.application.controller_fabrica import ControllerFactory
 from sidgeo.infra.notificacao_evento_log import NotificadorEventoLog
 
-def main() -> None:   
 
-    # 2) Dependências 
-    notificacao_app = NotificadorEventoLog()
-    notificacao_app.instalar_excepthook()
-        
-    controle_app = ControllerFactory.criar(log_app= notificacao_app)
-
-    # 3) UI
-    app = AplicativoVisual(
-        controle_app=controle_app,
-        notificacao_app=notificacao_app
-    )
+def executar(data_dir: Path | None = None, smoke_test: bool = False) -> None:
+    notificacao = NotificadorEventoLog()
+    notificacao.instalar_excepthook()
+    controle = ControllerFactory.criar(notificacao, data_dir=data_dir)
+    app = AplicativoVisual(controle_app=controle, notificacao_app=notificacao)
+    if smoke_test:
+        # Exercita a criação real dos widgets e a persistência com dados temporários.
+        app.update_idletasks()
+        controle.finalizar_persistencia()
+        app.after(300, app.destroy)
     app.mainloop()
-    
+    notificacao.info("Teste de inicialização concluído." if smoke_test else "Aplicação encerrada.")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="SIDGEO — Coletor de campo")
+    parser.add_argument("--smoke-test", action="store_true",
+                        help="abre e fecha o aplicativo usando uma base temporária, sem consultar APIs")
+    args = parser.parse_args()
+    if args.smoke_test:
+        with TemporaryDirectory(prefix="sidgeo-teste-") as pasta:
+            executar(Path(pasta), smoke_test=True)
+    else:
+        executar()
+
 
 if __name__ == "__main__":
     main()

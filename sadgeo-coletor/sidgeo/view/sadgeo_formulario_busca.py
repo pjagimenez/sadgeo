@@ -14,6 +14,7 @@ from typing import Literal
 from sidgeo.domain.registro import Registro
 from sidgeo.view.mensagem_visual import MensagemVisual
 from sidgeo.application.aplicacao_controller import AplicacaoController
+from sidgeo.view.tema import ajustar_janela
 
 
 Anchor = Literal[
@@ -42,8 +43,8 @@ class JanelaBuscaSadgeo(tk.Toplevel):
         self.resultado: Registro | None = None
 
         self.title("Importar via SADGEO")
-        self.geometry("700x450")
-        self.resizable(False, False)
+        ajustar_janela(self, 800, 480)
+        self.resizable(True, True)
         self.transient(master)
         self.grab_set()
 
@@ -78,15 +79,24 @@ class JanelaBuscaSadgeo(tk.Toplevel):
             "uf",
         )
 
+        tabela = ttk.Frame(self)
+        tabela.pack(expand=True, fill="both", padx=10, pady=4)
+        tabela.rowconfigure(0, weight=1)
+        tabela.columnconfigure(0, weight=1)
         self.tree = ttk.Treeview(
-            self,
+            tabela,
             columns=colunas,
             show="headings",
             height=14,
         )
 
         self._configurar_colunas()
-        self.tree.pack(expand=True, fill="both", padx=10, pady=(0, 2))
+        self.tree.grid(row=0, column=0, sticky="nsew")
+        vertical = ttk.Scrollbar(tabela, orient="vertical", command=self.tree.yview)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
+        horizontal = ttk.Scrollbar(tabela, orient="horizontal", command=self.tree.xview)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
+        vertical.grid(row=0, column=1, sticky="ns")
+        horizontal.grid(row=1, column=0, sticky="ew")
+        self.tree.configure(yscrollcommand=vertical.set, xscrollcommand=horizontal.set)
         self.tree.bind("<<TreeviewSelect>>", self.on_select)
 
         frame_bottom = tk.Frame(self)
@@ -97,6 +107,7 @@ class JanelaBuscaSadgeo(tk.Toplevel):
             text="Selecione um registro para ver detalhes.",
             anchor="w",
             justify="left",
+            wraplength=700,
         )
         self.label_detalhes.pack(fill="x")
 
@@ -182,10 +193,11 @@ class JanelaBuscaSadgeo(tk.Toplevel):
             text="Selecione um registro para ver detalhes."
         )
 
-        for registro in registros:
+        for indice, registro in enumerate(registros):
             self.tree.insert(
                 "",
                 "end",
+                iid=str(indice),
                 values=(
                     registro.seq,
                     registro.campanha,
@@ -202,21 +214,9 @@ class JanelaBuscaSadgeo(tk.Toplevel):
         if not selection:
             return
 
-        values = self.tree.item(selection[0]).get("values", [])
-
-        if not values:
-            return
-
-        seq_selecionado = str(values[0])
-
-        self.registro_selecionado = next(
-            (
-                registro
-                for registro in self.registros
-                if str(registro.seq) == seq_selecionado
-            ),
-            None,
-        )
+        # Seq pode estar vazio/repetido ou ter zeros iniciais; identifica a linha selecionada.
+        indice = int(selection[0])
+        self.registro_selecionado = self.registros[indice] if indice < len(self.registros) else None
 
         if not self.registro_selecionado:
             self.btn_selecionar.config(state="disabled")
@@ -258,6 +258,6 @@ class JanelaBuscaSadgeo(tk.Toplevel):
 
         if isinstance(valor, (date, datetime)):
             return valor.strftime("%d/%m/%Y")
-       
+
         texto = str(valor).strip()
         return texto if texto not in ("None", "NaT", "nan") else ""

@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import tkinter as tk
 from tkinter import ttk
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, cast
+from datetime import datetime
+from sidgeo.view.tema import AbaRolavel, aplicar_tema, ajustar_janela, estilizar_quadro, AZUL
 
 
 from sidgeo.view.info_basicas_frame import InfoBasicasFrame
@@ -17,7 +19,7 @@ from sidgeo.view.observacoes_frame import ObservacoesFrame
 from sidgeo.view.registro_frame import RegistroFrame
 from sidgeo.view.dataset_frame import DatasetFrame
 from sidgeo.view.sadgeo_formulario_busca import JanelaBuscaSadgeo
-from sidgeo.view.bdg_formulario_busca import JanelaCoordenadasBDG 
+from sidgeo.view.bdg_formulario_busca import JanelaCoordenadasBDG
 from sidgeo.view.registro_visao_mapeador import RegistroMapeadorVisao
 
 from sidgeo.view.dialogo_visual import DialogoVisual
@@ -37,26 +39,38 @@ from sidgeo.view.mensagem_visual import MensagemVisual
 class AplicativoVisual(tk.Tk):
     """Janela principal do SIDGEO (Controller da UI)."""
 
+    info_basicas: InfoBasicasFrame
+    coordenadas: CoordenadasFrame
+    observacoes: ObservacoesFrame
+
     def __init__(
         self,
         controle_app: AplicacaoController,
         notificacao_app: NotificadorEventoLog,
     ) -> None:
         super().__init__()
-        
+
         self.controle_app = controle_app
         self.msg = MensagemVisual(notificacao_app)
-        self.mapper_view = RegistroMapeadorVisao()           
+        self.msg.attach(self)
+        self.report_callback_exception = notificacao_app.registrar_excecao
+        aplicar_tema(self)
+        self.mapper_view = RegistroMapeadorVisao()
         self.dialogo = DialogoVisual()
         self.dialogo.attach(self)
-        
-        self.titulo=f"Coletor {APP_SIGLA} - {APP_VERSAO}",
-        
-        self.title(self.titulo)
-        self.geometry(f"{APP_LARGURA}x{APP_ALTURA}")
 
-        lbl_titulo = tk.Label(self, text=self.titulo, font=("Arial", 14, "bold"))
-        lbl_titulo.pack(pady=2)
+        self.titulo = f"Coletor {APP_SIGLA} - {APP_VERSAO}"
+
+        self.title(self.titulo)
+        ajustar_janela(self, APP_LARGURA, APP_ALTURA)
+        self.minsize(min(1000, self.winfo_screenwidth() - 40),
+                     min(560, self.winfo_screenheight() - 100))
+        cabecalho = tk.Frame(self, background=AZUL, padx=18, pady=10)
+        cabecalho.pack(fill="x")
+        tk.Label(cabecalho, text="SIDGEO  |  Coletor de campo", background=AZUL,
+                 foreground="white", font=("TkDefaultFont", 15, "bold")).pack(anchor="w")
+        tk.Label(cabecalho, text="Estações geodésicas · preparação e revisão dos registros",
+                 background=AZUL, foreground="#d6e5f0").pack(anchor="w")
 
         self._criar_widgets()
         self.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -67,54 +81,44 @@ class AplicativoVisual(tk.Tk):
     def _criar_widgets(self) -> None:
         self.msg.info("APP:_criar_widgets -> Montagem da tela iniciada.")
 
-        top_frame = tk.Frame(self)
-        top_frame.pack(fill="both", expand=True, padx=5, pady=2)
-        top_frame.columnconfigure(0, weight=3)
-        top_frame.columnconfigure(1, weight=2)
-
-        self.info_basicas = InfoBasicasFrame(top_frame, self.msg)
-        self.info_basicas.grid(row=0, column=0, sticky="nsew", padx=5, pady=2)
-
-        self.coordenadas = CoordenadasFrame(top_frame, self.msg)
-        self.coordenadas.grid(row=0, column=1, sticky="nsew", padx=5, pady=2)
-
-        # ----- FRAME do MEIO ------------------------
-        mid_frame = tk.Frame(self)
-        mid_frame.pack(fill="both", expand=True, padx=5, pady=2)
-        #mid_frame.columnconfigure(0, weight=7)
-        #mid_frame.columnconfigure(1, weight=3)
-
-        self.observacoes = ObservacoesFrame(mid_frame, self.msg)
-        self.observacoes.grid(row=0, column=0, sticky="nsew", padx=5, pady=2)
-
+        # Rodapé reservado antes do corpo: as ações continuam visíveis ao redimensionar.
+        self.status_texto = tk.StringVar(self, value="Base local")
+        ttk.Label(self, textvariable=self.status_texto, padding=(14, 4)).pack(side="bottom", fill="x")
+        self.ds_frame = DatasetFrame(
+            self, self.msg, importar=self.janela_importar, exportar=self.janela_exportar,
+            zerar=self.zerar_base, ver=self.exibir_dados,
+            consultar_sadgeo=self.janela_importar_sadgeo,
+        )
+        self.ds_frame.pack(side="bottom", fill="x", padx=10, pady=6)
+        corpo = ttk.Frame(self, padding=10)
+        corpo.pack(fill="both", expand=True)
+        corpo.columnconfigure(0, weight=1)
+        corpo.columnconfigure(1, weight=0, minsize=310)
+        corpo.rowconfigure(0, weight=1)
+        self.abas = ttk.Notebook(corpo)
+        self.abas.grid(row=0, column=0, sticky="nsew", padx=(0, 10))
+        for titulo, classe, atributo in (
+            ("Identificação e campanha", InfoBasicasFrame, "info_basicas"),
+            ("Coordenadas", CoordenadasFrame, "coordenadas"),
+            ("Descrição e acesso", ObservacoesFrame, "observacoes"),
+        ):
+            aba = AbaRolavel(self.abas)
+            self.abas.add(aba, text=titulo)
+            quadro = classe(aba.conteudo, self.msg)
+            estilizar_quadro(quadro)
+            quadro.pack(fill="both", expand=True, padx=8, pady=8)
+            setattr(self, atributo, quadro)
+            aba.ativar_rolagem()
         self.reg_frame = RegistroFrame(
-            mid_frame, self.msg,
-            salvar=self.acao_salvar,
-            excluir=self.acao_excluir,
-            limpar=self.acao_limpar,
-            buscar=self.acao_buscar,
+            corpo, self.msg, salvar=self.acao_salvar, excluir=self.acao_excluir,
+            limpar=self.acao_limpar, buscar=self.acao_buscar,
             comparar=self.acao_comparar_coord_bdg,
         )
-        self.reg_frame.grid(row=0, column=1, sticky="nsew", padx=5, pady=2)
-
-        mid_frame.columnconfigure(0, weight=3)
-        mid_frame.columnconfigure(1, weight=2)
-
-        # ----- FRAME do RODAPE ------------------------
-
-        self.ds_frame = DatasetFrame(
-            self, self.msg,
-            importar=self.janela_importar,
-            exportar=self.janela_exportar,
-            zerar=self.zerar_base,
-            ver=self.exibir_dados,
-            consSadgeo=self.janela_importar_sadgeo,
-        )
-        self.ds_frame.pack(side="bottom", fill="x", pady=2)
+        self.reg_frame.grid(row=0, column=1, sticky="nsew")
 
         self.atualiza_listbox()
         self.msg.info("APP:_criar_widgets -> Montagem da tela finalizada.")
-        
+
 
     # ───────────────────────────── helpers ─────────────────────────────
     def _coletar_dados_do_form(self) -> Registro:
@@ -128,24 +132,24 @@ class AplicativoVisual(tk.Tk):
         return reg
 
     def _cod_selecionado(self) -> Optional[str]:
-        sel = self.reg_frame.lb.curselection()
+        sel = cast(tuple[int, ...], self.reg_frame.lb.curselection())  # pyright: ignore[reportUnknownMemberType]
         if not sel:
             self.msg.warn("Nenhum registro selecionado.")
             return None
-        linha = self.reg_frame.lb.get(sel[0])
+        linha = cast(str, self.reg_frame.lb.get(sel[0]))  # pyright: ignore[reportUnknownMemberType]
         return (linha.split("|", 1)[0].strip() if linha else "") or None
 
     def validar_dados_pre_salvar(self) -> None:
         conexao = self.info_basicas.entry_conexao.get().strip()
-        tipo_conexao = self.info_basicas.combo_tipo_conexao.get().strip()
-    
+        tipo_conexao = self.info_basicas.get_data().get("tipo_conexao")
+
         if bool(conexao) != bool(tipo_conexao):
-    
+
             if not conexao:
                 self.info_basicas.entry_conexao.focus_set()
             else:
                 self.info_basicas.combo_tipo_conexao.focus_set()
-    
+
             raise ValidacaoErro(
                 "Conexão e Tipo de Conexão devem ser informados em conjunto."
             )
@@ -155,15 +159,15 @@ class AplicativoVisual(tk.Tk):
     def acao_salvar(self) -> None:
         try:
             self.msg.info("App:acao_salvar -> preparando salvamento")
-            
+
             self.validar_dados_pre_salvar()
             reg = self._coletar_dados_do_form()
-            
-            self.controle_app.salvar_registro(reg)  
-            
+
+            self.controle_app.salvar_registro(reg)
+
             self.atualiza_listbox()
             self.acao_limpar()
-            
+
             self.msg.info("App:acao_salvar -> Registro salvo com sucesso.")
 
         except ValidacaoErro as e:
@@ -201,35 +205,34 @@ class AplicativoVisual(tk.Tk):
             return
         self._preencher_formulario(reg)
         self.msg.info(f"Registro '{cod}' carregado.")
-    
-    
+
+
     def acao_comparar_coord_bdg(self) -> None:
         self.msg.info("App:acao_buscar -> executar")
-    
+
         cod = self.info_basicas.entry_estacao.get().strip()
-    
+
         if not cod:
             self.msg.warn("Necessário preencher Código Estação.", True )
             return
-    
+
         resultado = self.janela_importar_coordenadas_bdg(cod)
-    
+
         if resultado is None:
             self.msg.info("Operação cancelada.")
             return
-    
+
         atualiz, reg = resultado
-    
-        if atualiz:    
+
+        if atualiz:
             self._preencher_coordenadas(reg)
-            self.acao_salvar()
-            self.msg.info( "Coordenadas atualizadas com dados do BDG.")
-    
-        else:    
+            self.msg.info("Coordenadas do BDG aplicadas ao formulário. Clique em Salvar para confirmar.", modal=True)
+
+        else:
             self.msg.info("Mantidas as coordenadas locais.")
-    
-        
-        
+
+
+
     def acao_limpar(self) -> None:
         self._limpar_formulario()
 
@@ -238,7 +241,7 @@ class AplicativoVisual(tk.Tk):
         self.msg.info("App:exibir_dados -> abrir viewer")
         top = tk.Toplevel(self)
         top.title("Registros SIDGEO")
-        top.geometry("1000x600")
+        ajustar_janela(top, 1100, 600)
 
         wrapper = tk.Frame(top)
         wrapper.pack(fill="both", expand=True)
@@ -246,8 +249,8 @@ class AplicativoVisual(tk.Tk):
         tree = ttk.Treeview(wrapper, show="headings")
         tree.grid(row=0, column=0, sticky="nsew")
 
-        vsb = ttk.Scrollbar(wrapper, orient="vertical", command=tree.yview)
-        hsb = ttk.Scrollbar(wrapper, orient="horizontal", command=tree.xview)
+        vsb = ttk.Scrollbar(wrapper, orient="vertical", command=tree.yview)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
+        hsb = ttk.Scrollbar(wrapper, orient="horizontal", command=tree.xview)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
         vsb.grid(row=0, column=1, sticky="ns")
         hsb.grid(row=1, column=0, sticky="ew")
 
@@ -260,14 +263,19 @@ class AplicativoVisual(tk.Tk):
             tree.heading(col, text=col)
             tree.column(col, width=max(80, len(col) * 10), stretch=False)
 
-        for reg in self.controle_app.listar_registro():
-            row = self.mapper_view.registro_para_dict_view(reg)
+        for reg in self.controle_app.listar_registros():
+            row = self.mapper_view.mapeador.registro_para_dict(reg)
             tree.insert("", "end", values=[row.get(c, "") for c in COLUNAS_NOMES])
 
     def on_close(self) -> None:
         self.msg.info("App -> encerrando.")
-        if self.msg.confirm("Deseja sair salvando os dados?"):
-            self.controle_app.finalizarPersistencia()  # salve dataset/estado
+        if not self.msg.confirm("Deseja encerrar? Alterações do formulário não salvas serão descartadas."):
+            return
+        try:
+            self.controle_app.finalizar_persistencia()
+        except Exception as erro:
+            self.msg.error(f"Não foi possível salvar a base local: {erro}")
+            return
         self.destroy()
 
     def _limpar_formulario(self) -> None:
@@ -275,40 +283,40 @@ class AplicativoVisual(tk.Tk):
         self.info_basicas.limpar()
         self.coordenadas.limpar()
         self.observacoes.limpar()
-    
-    
+
+
     def _preencher_coordenadas(self, reg: Registro) -> None:
-        
+
         view = self.mapper_view.registro_para_dict_view(reg)
         coord = self.coordenadas
-    
+
         # Latitude
         coord.combo_lat_sinal.set(view["lat_sinal"])
-    
+
         coord.txt_lat_grau.delete(0, "end")
         coord.txt_lat_grau.insert(0, view["lat_grau"])
-    
+
         coord.txt_lat_min.delete(0, "end")
         coord.txt_lat_min.insert(0, view["lat_min"])
-    
+
         coord.txt_lat_seg.delete(0, "end")
         coord.txt_lat_seg.insert(0, view["lat_seg"])
-    
+
         # Longitude
         coord.combo_lon_sinal.set(view["lon_sinal"])
-    
+
         coord.txt_lon_grau.delete(0, "end")
         coord.txt_lon_grau.insert(0, view["lon_grau"])
-    
+
         coord.txt_lon_min.delete(0, "end")
         coord.txt_lon_min.insert(0, view["lon_min"])
-    
+
         coord.txt_lon_seg.delete(0, "end")
         coord.txt_lon_seg.insert(0, view["lon_seg"])
-    
+
         # Fonte
         coord.combo_tipo_fonte.set(view["tipo_fonte_coord"])
-    
+
         # Flags
         coord.var_atualizar_coord.set(view["is_atualizar_coord"])
         coord.var_ocup_gps.set(view["is_ocup_gps"])
@@ -392,55 +400,58 @@ class AplicativoVisual(tk.Tk):
     def zerar_base(self) -> None:
         self.msg.info("Zerando base local…")
         if self.msg.confirm("ATENÇÃO!\nIsso apagará TODOS os registros.\nDeseja continuar?", cor="red"):
-            self.controle_app.zerar_base()
+            self.controle_app.zerar_base_registro()
+            self._limpar_formulario()
             self.atualiza_listbox()
             self.msg.info("Base zerada.", modal=True)
 
     def janela_importar(self) -> None:
-        
+
         escolha = self.dialogo.escolher_arquivo_importacao()
-        
+
         if escolha is None:
             return
-        
+
         path, fmt = escolha
-        
+
         try:
             n = self.controle_app.importar(path, fmt)
             self.msg.info(f"Importação concluída de {path} ({n} registros).")
             self.atualiza_listbox()
         except Exception as e:
             self.msg.error(f"Falha na importação: {e}", modal=True)
+        finally:
+            self.atualiza_listbox()
 
     def janela_exportar(self) -> None:
-        
+
         escolha = self.dialogo.escolher_arquivo_exportacao()
-        
+
         if escolha is None:
             return
-        
+
         path, fmt = escolha
-        
+
         try:
             self.controle_app.exportar(path, fmt)
             self.msg.info(f"Exportado em {path}")
         except Exception as e:
             self.msg.error(f"Falha ao exportar: {e}", modal=True)
 
-        
+
     def atualiza_listbox(self) -> None:
-        
+
         self.msg.info("Atualizando lista de estações…")
         self.reg_frame.lb.delete(0, tk.END)
-    
-        for reg in self.controle_app.listar_registro():
+
+        for reg in self.controle_app.listar_registros():
             v = self.mapper_view.registro_para_dict_view(reg)
-    
+
             cod = v.get("cod_estacao", "")[:10]
-    
+
             # Extrai parte antes do hífen e remove espaços
             campanha = v.get("campanha", "").split("-")[0].strip()
-    
+
             # Formata a data para DD/MM/YYYY
             data_raw = v.get("data_levantamento", "")
             data = ""
@@ -448,56 +459,56 @@ class AplicativoVisual(tk.Tk):
                 try:
                     if isinstance(data_raw, str) and len(data_raw) >= 10:
                         data = f"{data_raw[8:10]}/{data_raw[5:7]}/{data_raw[0:4]}"
-                    elif hasattr(data_raw, "strftime"):
+                    elif isinstance(data_raw, datetime):
                         data = data_raw.strftime("%d/%m/%Y")
                 except Exception:
                     data = ""
-    
+
             # Trata o campo seq: se for None ou 'null', mostra vazio
             seq = v.get("seq")
             seq_str = "" if seq in (None, "null") else str(seq)
             seq_str = seq_str.ljust(5)
-    
+
             # Monta a string com largura fixa
             texto = f"{cod:<8} | {campanha:<5} | {data:<10} | {seq_str:<7}"
             self.reg_frame.lb.insert(tk.END, texto)
-    
-    
-    def janela_importar_coordenadas_bdg( self, cod_estacao: str,):    
+        self.status_texto.set(f"Base local · {self.reg_frame.lb.size()} registro(s)    |    {APP_VERSAO}")
+
+
+    def janela_importar_coordenadas_bdg( self, cod_estacao: str,):
         try:
             reg_bdg = self.controle_app.buscar_bdg(
                 cod_estacao
             )
-    
+
         except IntegracaoErro as erro:
             self.msg.error(
                 str(erro),
                 modal=True,
             )
             return None
-    
-        reg_local = self.controle_app.buscar_registro(
-            cod_estacao
-        )
-    
+
+        # Compara com o formulário em edição, inclusive uma estação ainda não salva.
+        reg_local = self._coletar_dados_do_form()
+
         dialogo = JanelaCoordenadasBDG(
             self,
             mensagens=self.msg,
-            view_mapper=self.mapper,
+            view_mapper=self.mapper_view,
             registro_local=reg_local,
             registro_bdg=reg_bdg,
         )
-    
+
         return dialogo.obter_resultado()
- 
+
     def janela_importar_sadgeo(self) -> None:
-        
+
         dialogo = JanelaBuscaSadgeo(
             self,
             mensagens=self.msg,
             controller=self.controle_app,
         )
-              
+
         reg_sadgeo = dialogo.obter_resultado()
         if reg_sadgeo is None:
             self.msg.warn("Nenhum registro selecionado.",  True)
@@ -509,44 +520,44 @@ class AplicativoVisual(tk.Tk):
             return
         self.msg.info("Importação via SADGEO concluída.")
         self.atualiza_listbox()
-    
-    
+
+
     def show_confirm_modal(self, pergunta: str, cor: str = "black") -> bool:
         modal = tk.Toplevel(self)
         modal.title("Confirmação")
         modal.transient(self)
         modal.grab_set()
         modal.geometry("+%d+%d" % (self.winfo_rootx()+60, self.winfo_rooty()+60))
-    
+
         tk.Label(modal, text=pergunta, fg=cor, wraplength=300).pack(padx=20, pady=2)
-    
+
         resultado = {"resposta": False}
-    
+
         def confirmar():
             resultado["resposta"] = True
             modal.destroy()
-    
+
         def cancelar():
             resultado["resposta"] = False
             modal.destroy()
-    
+
         btns = tk.Frame(modal)
         btns.pack(pady=2)
         tk.Button(btns, text="Sim", command=confirmar).pack(side="left", padx=2)
         tk.Button(btns, text="Não", command=cancelar).pack(side="left", padx=2)
-    
+
         self.wait_window(modal)
         return resultado["resposta"]
-    
-    
+
+
     def show_modal(self, mensagem: str, cor: str = "black") -> None:
         modal = tk.Toplevel(self)
         modal.title("Mensagem")
         modal.transient(self)
         modal.grab_set()
         modal.geometry("+%d+%d" % (self.winfo_rootx()+60, self.winfo_rooty()+60))
-    
+
         tk.Label(modal, text=mensagem, fg=cor, wraplength=300).pack(padx=20, pady=2)
         tk.Button(modal, text="OK", command=modal.destroy).pack(pady=2)
-    
+
         self.wait_window(modal)

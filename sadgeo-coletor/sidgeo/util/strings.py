@@ -7,13 +7,13 @@ file: /sidgeo/util/strings.py
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from pathlib import Path
 
 from sidgeo.util.settings import PLACEHOLDER
 
 try:
-    from charset_normalizer import from_path as _charset_from_path
+    from charset_normalizer import from_path as _charset_from_path  # pyright: ignore[reportUnknownVariableType]
 except ImportError:
     _charset_from_path = None
 
@@ -31,7 +31,7 @@ def detectar_encoding(filepath: str | Path) -> str:
     return resultado.encoding if resultado else "utf-8"
 
 
-def trim_all(dados: dict[str, object]) -> dict[str, object]:
+def trim_all(dados: Mapping[str, object]) -> dict[str, object]:
     """Aplica strip em strings de um dict e converte string vazia para None."""
     saida: dict[str, object] = {}
 

@@ -72,8 +72,8 @@ class RegistroServico:
         for registro in registros:
             try:
                 self.validador.validar(registro)
-                if self.repositorio.inserir(registro):
-                    ok += 1
+                self.repositorio.salvar(registro)
+                ok += 1
             except ValidacaoErro as erro:
                 erros.append(
                     f"Estação {registro.cod_estacao}: "

@@ -8,6 +8,9 @@ file: /sidgeo/infra/repositorio_registro.py
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
+from sidgeo.domain.registro_mapeador import RegistroMapeador
+from sidgeo.infra.notificacao_evento_log import NotificadorEventoLog
 
 import pandas as pd
 import platformdirs
@@ -25,11 +28,12 @@ from sidgeo.util.settings import APP_SIGLA
 class RepositorioRegistro:
     """Repositório local de registros SIDGeo."""
 
-    def __init__(self, log_servico, mapeador) -> None:
+    def __init__(self, log_servico: NotificadorEventoLog, mapeador: RegistroMapeador,
+                 data_dir: Path | None = None) -> None:
         self.mapeador = mapeador
         self.notificador = log_servico
 
-        data_dir = Path(
+        data_dir = data_dir or Path(
             platformdirs.user_data_dir(
                 appname=APP_SIGLA,
                 appauthor=False,
@@ -50,8 +54,13 @@ class RepositorioRegistro:
 
     def salvar(self, registro: Registro) -> None:
         registro_dict = self.mapeador.registro_para_dict(registro)
-        self._persistir_registro_memoria(registro_dict)
-        self.hdf_store.salvar(self.dataset)
+        anterior = self.dataset.copy(deep=True)
+        try:
+            self._persistir_registro_memoria(registro_dict)
+            self.hdf_store.salvar(self.dataset)
+        except Exception:
+            self.dataset = anterior
+            raise
 
     def inserir(self, registro: Registro) -> bool:
         total_antes = len(self.dataset)
@@ -64,15 +73,16 @@ class RepositorioRegistro:
 
         total_antes = len(self.dataset)
 
-        self.dataset = self.dataset[
+        novo_dataset = self.dataset[
             self.dataset[COLUNA_CHAVE_LOGICA].astype("string").str.strip()
             != codigo.strip()
         ].copy()
 
-        excluiu = len(self.dataset) < total_antes
+        excluiu = len(novo_dataset) < total_antes
 
         if excluiu:
-            self.hdf_store.salvar(self.dataset)
+            self.hdf_store.salvar(novo_dataset)
+            self.dataset = novo_dataset
 
         return excluiu
 
@@ -114,10 +124,11 @@ class RepositorioRegistro:
             raise ValueError(f"Formato não suportado: {formato}")
 
     def zerar_base(self) -> None:
-        self.dataset = pd.DataFrame(columns=COLUNAS_NOMES)
-        self.hdf_store.salvar(self.dataset)
+        vazio = pd.DataFrame(columns=COLUNAS_NOMES)
+        self.hdf_store.salvar(vazio)
+        self.dataset = vazio
 
-    def _persistir_registro_memoria(self, registro: dict[str, object]) -> None:
+    def _persistir_registro_memoria(self, registro: dict[str, Any]) -> None:
         codigo = str(registro.get(COLUNA_CHAVE_LOGICA, "") or "").strip()
 
         if not codigo:
@@ -140,10 +151,8 @@ class RepositorioRegistro:
             self.notificador.info(f"Registro da estação '{codigo}' atualizado.")
         else:
             novo = pd.DataFrame([registro])
-            self.dataset = pd.concat(
-                [self.dataset, novo],
-                ignore_index=True,
-            )
+            self.dataset = novo if self.dataset.empty else pd.concat(
+                [self.dataset, novo], ignore_index=True)
             self.notificador.info(f"Registro da estação '{codigo}' incluído.")
 
         self._ordenar_por_codigo()
@@ -157,9 +166,6 @@ class RepositorioRegistro:
 
     def _ordenar_por_codigo(self) -> None:
         if COLUNA_CHAVE_LOGICA in self.dataset.columns:
-            self.dataset.sort_values(
-                by=COLUNA_CHAVE_LOGICA,
-                inplace=True,
-                kind="mergesort",
-            )
-            self.dataset.reset_index(drop=True, inplace=True)
+            self.dataset = self.dataset.sort_values(
+                by=COLUNA_CHAVE_LOGICA, kind="mergesort",
+            ).reset_index(drop=True)

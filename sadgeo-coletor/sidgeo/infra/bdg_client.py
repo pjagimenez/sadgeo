@@ -52,7 +52,7 @@ class BdgClient:
             ) from erro
 
         except requests.HTTPError as erro:
-            status = erro.response.status_code if erro.response else "desconhecido"
+            status = erro.response.status_code if erro.response is not None else "desconhecido"
             raise IntegracaoErro(
                 f"Erro HTTP {status} ao consultar BDG para estação {codigo}."
             ) from erro
