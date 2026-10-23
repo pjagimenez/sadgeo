@@ -1,0 +1,14 @@
+[MASTER]
+ignore=venv
+ignore-paths=
+    .*sidgeo[\\/ ]extras[\\/ ].*
+   
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    too-many-instance-attributes,
+    too-many-arguments,
+    too-many-positional-arguments

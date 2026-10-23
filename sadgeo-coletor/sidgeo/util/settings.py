@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+file: /sidgeo/util/settings.py
+@created: 24-03-2025 pjag
+@updated: 16-10-2025 pjag
+"""
+
+from __future__ import annotations
+
+APP_VERSAO = "v1.0.260702"
+APP_SIGLA = "SIDGEO"
+APP_ALTURA= 650
+APP_LARGURA = 1150
+
+APP_URL_SADGEO = "https://w3.api-sadgeo.ibge.gov.br/api"
+
+APP_URL_BDG = "http://w3.servicoscged.ibge.gov.br/api/v1/bdg"
+
+PLACEHOLDER = "Selecione..."
+
+APP_HDFSTORE_KEY = "dados"

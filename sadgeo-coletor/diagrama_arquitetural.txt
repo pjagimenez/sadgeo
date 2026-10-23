@@ -1,0 +1,269 @@
+app.py
+
+  |
+
+  |-- configura logger
+
+  |-- cria Notificador
+
+  |-- cria MensagemVisual
+
+  |-- cria DialogoVisual
+
+  |
+
+  |-- cria RegistroMapeador
+
+  |-- cria RegistroValidador
+
+  |-- cria RepositorioRegistro
+
+  |-- cria RegistroServico
+
+  |
+
+  |-- cria SadgeoClient
+
+  |-- cria BdgClient
+
+  |
+
+  |-- cria SadgeoServico
+
+  |-- cria BdgServico
+
+  |
+
+  |-- cria RegistroMapeadorVisao
+
+  |-- cria RegistroController
+
+  |
+
+  └── cria Aplicativo / MainWindow
+
+        |
+
+        |-- InfoBasicasFrame
+
+        |-- CoordenadasFrame
+
+        |-- ObservacoesFrame
+
+        |-- RegistroFrame
+
+        |-- DatasetFrame
+
+        |
+
+        ├── Ação Salvar
+
+        |     |
+
+        |     └── RegistroController.acao_salvar()
+
+        |           |
+
+        |           |-- MainWindow.coletar_registro()
+
+        |           |-- RegistroFabrica.criar()
+
+        |           |-- RegistroServico.salvar()
+
+        |           |     |
+
+        |           |     |-- RegistroValidador.validar()
+
+        |           |     └── RepositorioRegistro.salvar()
+
+        |           |           └── HdfDataStore.salvar()
+
+        |           |
+
+        |           |-- MainWindow.atualizar_listbox()
+
+        |           └── MainWindow.limpar_formulario()
+
+        |
+
+        ├── Ação Buscar
+
+        |     |
+
+        |     └── RegistroController.acao_buscar()
+
+        |           |
+
+        |           |-- MainWindow.obter_codigo_selecionado()
+
+        |           |-- RegistroServico.buscar()
+
+        |           |     └── RepositorioRegistro.buscar_por_codigo()
+
+        |           |
+
+        |           └── MainWindow.preencher_formulario()
+
+        |
+
+        ├── Ação Excluir
+
+        |     |
+
+        |     └── RegistroController.acao_excluir()
+
+        |           |
+
+        |           |-- MainWindow.coletar_registro()
+
+        |           |-- MensagemVisual.confirm()
+
+        |           |-- RegistroServico.excluir()
+
+        |           |     └── RepositorioRegistro.excluir()
+
+        |           |
+
+        |           └── MainWindow.atualizar_listbox()
+
+        |
+
+        ├── Importar CSV/JSON
+
+        |     |
+
+        |     └── RegistroController.janela_importar()
+
+        |           |
+
+        |           |-- DialogoVisual.escolher_arquivo_importacao()
+
+        |           |-- RegistroServico.importar()
+
+        |           |     |
+
+        |           |     |-- RepositorioRegistro.importar()
+
+        |           |     |     |-- CsvSerializer.importar()
+
+        |           |     |     └── JsonSerializer.importar()
+
+        |           |     |
+
+        |           |     |-- RegistroValidador.validar()
+
+        |           |     └── RepositorioRegistro.inserir()
+
+        |           |
+
+        |           └── MainWindow.atualizar_listbox()
+
+        |
+
+        ├── Exportar CSV/JSON
+
+        |     |
+
+        |     └── RegistroController.janela_exportar()
+
+        |           |
+
+        |           |-- DialogoVisual.escolher_arquivo_exportacao()
+
+        |           └── RegistroServico.exportar()
+
+        |                 └── RepositorioRegistro.exportar()
+
+        |                       |-- CsvSerializer.exportar()
+
+        |                       └── JsonSerializer.exportar()
+
+        |
+
+        ├── Consultar SADGEO
+
+        |     |
+
+        |     └── RegistroController.janela_importar_sadgeo()
+
+        |           |
+
+        |           |-- MainWindow.abrir_janela_sadgeo()
+
+        |           |     └── JanelaBuscaSadgeo
+
+        |           |           |
+
+        |           |           |-- buscar_callback(codigo)
+
+        |           |           |     └── SadgeoServico.buscar_por_estacao()
+
+        |           |           |           |-- SadgeoClient.filtrar_por_estacao()
+
+        |           |           |           └── RegistroMapeador.dict_sadgeo_para_registro()
+
+        |           |           |
+
+        |           |           └── retorna Registro selecionado
+
+        |           |
+
+        |           |-- RegistroServico.salvar()
+
+        |           └── MainWindow.atualizar_listbox()
+
+        |
+
+        ├── Comparar Coordenadas BDG
+
+        |     |
+
+        |     └── RegistroController.acao_comparar_coord_bdg()
+
+        |           |
+
+        |           |-- MainWindow.obter_codigo_estacao()
+
+        |           |-- RegistroServico.buscar()
+
+        |           |-- BdgServico.buscar_registro_por_estacao()
+
+        |           |     |-- BdgClient.filtrar_por_estacao()
+
+        |           |     └── RegistroMapeador.dict_bdg_para_registro()
+
+        |           |
+
+        |           |-- MainWindow.abrir_comparacao_bdg()
+
+        |           |     └── JanelaCoordenadasBDG
+
+        |           |           └── retorna Manter Local ou Usar BDG
+
+        |           |
+
+        |           |-- MainWindow.preencher_coordenadas()
+
+        |           └── RegistroServico.salvar()
+
+        |
+
+        └── Encerrar
+
+              |
+
+              └── RegistroController.on_close()
+
+                    |
+
+                    |-- MensagemVisual.confirm()
+
+                    |-- RegistroServico.finalizar_persistencia()
+
+                    |     └── RepositorioRegistro.encerrar()
+
+                    |           └── HdfDataStore.salvar()
+
+                    |
+
+                    └── MainWindow.destroy()

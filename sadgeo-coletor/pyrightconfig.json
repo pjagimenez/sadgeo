@@ -1,0 +1,10 @@
+{
+  "include": ["sidgeo"],
+  "exclude": [
+        "**/__pycache__",
+        "**/.venv",
+        "sidgeo/extras",
+        "sidgeo/imagem"
+    ],
+    "typeCheckingMode": "strict"
+}

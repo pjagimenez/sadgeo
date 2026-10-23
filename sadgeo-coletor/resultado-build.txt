@@ -1,0 +1,808 @@
+Importando sidgeo.application
+Importando sidgeo.application.aplicacao_controller
+Importando sidgeo.application.bdg_servico
+Importando sidgeo.application.controller_fabrica
+Importando sidgeo.application.registro_servico
+Importando sidgeo.application.sadgeo_servico
+Importando sidgeo.application.validacao_servico
+Importando sidgeo.domain
+Importando sidgeo.domain.dominios
+Importando sidgeo.domain.erros
+Importando sidgeo.domain.registro
+Importando sidgeo.domain.registro_fabrica
+Importando sidgeo.domain.registro_mapeador
+Importando sidgeo.domain.registro_metadados
+Importando sidgeo.domain.registro_validador
+Importando sidgeo.infra
+Importando sidgeo.infra.bdg_client
+Importando sidgeo.infra.csv_serializer
+Importando sidgeo.infra.dataframe_schema
+Importando sidgeo.infra.erros_integracao
+Importando sidgeo.infra.json_serializer
+Importando sidgeo.infra.notificacao_evento_log
+Importando sidgeo.infra.persistencia_hdf
+Importando sidgeo.infra.repositorio_registro
+Importando sidgeo.infra.sadgeo_client
+Importando sidgeo.infra.sqlplus_runner
+Importando sidgeo.util
+Importando sidgeo.util.dominios
+Importando sidgeo.util.geofuncoes
+Importando sidgeo.util.parsing
+Importando sidgeo.util.settings
+Importando sidgeo.util.sql_formatador
+Importando sidgeo.util.strings
+Importando sidgeo.view
+Importando sidgeo.view.aplicativo_tela
+Importando sidgeo.view.bdg_formulario_busca
+Importando sidgeo.view.coordenadas_frame
+Importando sidgeo.view.dataset_frame
+Importando sidgeo.view.dialogo_visual
+Importando sidgeo.view.info_basicas_frame
+Importando sidgeo.view.mensagem_visual
+Importando sidgeo.view.observacoes_frame
+Importando sidgeo.view.registro_frame
+Importando sidgeo.view.registro_visao_mapeador
+Importando sidgeo.view.sadgeo_formulario_busca
+Importando sidgeo.view.widgets
+Todos os imports OK
+************* Module sidgeo.util.parsing
+sidgeo\util\parsing.py:92:19: E0602: Undefined variable 'Decimal' (undefined-variable)
+sidgeo\util\parsing.py:93:15: E0602: Undefined variable 'InvalidOperation' (undefined-variable)
+sidgeo\util\parsing.py:94:19: E0602: Undefined variable 'Decimal' (undefined-variable)
+************* Module sidgeo.view.aplicativo_tela
+sidgeo\view\aplicativo_tela.py:406:8: E0633: Attempting to unpack a non-sequence defined at line 56 of sidgeo.view.dialogo_visual (unpacking-non-sequence)
+sidgeo\view\aplicativo_tela.py:422:8: E0633: Attempting to unpack a non-sequence defined at line 123 of sidgeo.view.dialogo_visual (unpacking-non-sequence)
+
+------------------------------------------------------------------
+Your code has been rated at 9.88/10 (previous run: 9.95/10, -0.07)
+
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\__init__.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\__init__.py:1:12 - error: "application" is specified in __all__ but is not present in module (reportUnsupportedDunderAll)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\__init__.py:1:26 - error: "view" is specified in __all__ but is not present in module (reportUnsupportedDunderAll)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\__init__.py:1:34 - error: "domain" is specified in __all__ but is not present in module (reportUnsupportedDunderAll)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\__init__.py:1:44 - error: "infra" is specified in __all__ but is not present in module (reportUnsupportedDunderAll)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\__init__.py:1:53 - error: "util" is specified in __all__ but is not present in module (reportUnsupportedDunderAll)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\dataframe_schema.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\dataframe_schema.py:16:8 - error: Condition will always evaluate to False since the types "DataFrame" and "None" have no overlap (reportUnnecessaryComparison)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:75:25 - error: Type of parameter "exc_type" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:75:25 - error: Type annotation is missing for parameter "exc_type" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:75:35 - error: Type of parameter "exc" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:75:35 - error: Type annotation is missing for parameter "exc" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:75:40 - error: Type of parameter "tb" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:75:40 - error: Type annotation is missing for parameter "tb" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:78:26 - error: Argument type is partially unknown
+    Argument corresponds to parameter "exc_info" in function "exception"
+    Argument type is "tuple[Unknown, Unknown, Unknown]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:82:17 - error: Argument type is unknown
+    Argument corresponds to parameter "exctype" in function "__excepthook__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:83:17 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "__excepthook__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\notificacao_evento_log.py:84:17 - error: Argument type is unknown
+    Argument corresponds to parameter "traceback" in function "__excepthook__" (reportUnknownArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\persistencia_hdf.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\persistencia_hdf.py:32:39 - error: Argument of type "DataFrame | Series[Any]" cannot be assigned to parameter "df_origem" of type "DataFrame" in function "normalizar_dataset"
+    Type "DataFrame | Series[Any]" is not assignable to type "DataFrame"
+      "Series[Any]" is not assignable to "DataFrame" (reportArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:28:24 - error: Type of parameter "log_servico" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:28:24 - error: Type annotation is missing for parameter "log_servico" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:28:37 - error: Type of parameter "mapeador" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:28:37 - error: Type annotation is missing for parameter "mapeador" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:52:9 - error: Type of "registro_dict" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:52:25 - error: Type of "registro_para_dict" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:53:42 - error: Argument type is unknown
+    Argument corresponds to parameter "registro" in function "_persistir_registro_memoria" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:88:9 - error: Type of "registros" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:88:21 - error: Type of "df_para_registros" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:89:16 - error: Return type, "Unknown | None", is partially unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:92:16 - error: Type of "df_para_registros" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:92:16 - error: Return type is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:104:16 - error: Type of "df_para_registros" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:104:16 - error: Return type is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:124:13 - error: Type of "warn" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:139:21 - error: Argument of type "object" cannot be assigned to parameter "value" of type "ScalarOrNA" in function "__setitem__"
+    Type "object" is not assignable to type "ScalarOrNA"
+      "object" is not assignable to "str"
+      "object" is not assignable to "bytes"
+      "object" is not assignable to "date"
+      "object" is not assignable to "datetime"
+      "object" is not assignable to "timedelta"
+      "object" is not assignable to "datetime64[date | int | None]"
+      "object" is not assignable to "timedelta64[timedelta | int | None]" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:140:13 - error: Type of "info" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra\repositorio_registro.py:147:13 - error: Type of "info" is unknown (reportUnknownMemberType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:187:24 - error: Type of parameter "keys" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:187:24 - error: Type annotation is missing for parameter "keys" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:187:30 - error: Type of parameter "nome" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:187:30 - error: Type annotation is missing for parameter "nome" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:188:16 - error: Argument type is unknown
+    Argument corresponds to parameter "obj" in function "len" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:188:29 - error: Argument type is partially unknown
+    Argument corresponds to parameter "obj" in function "len"
+    Argument type is "set[Unknown]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:188:33 - error: Argument type is unknown
+    Argument corresponds to parameter "iterable" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:189:13 - error: Type of "dup" is partially unknown
+    Type of "dup" is "list[Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:189:26 - error: Type of "k" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:189:39 - error: Type of "count" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:190:69 - error: Argument type is partially unknown
+    Argument corresponds to parameter "iterable" in function "sorted"
+    Argument type is "set[Unknown]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\dominios.py:190:73 - error: Argument type is partially unknown
+    Argument corresponds to parameter "iterable" in function "__init__"
+    Argument type is "list[Unknown]" (reportUnknownArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:65:17 - error: Type of parameter "val" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:65:17 - error: Type annotation is missing for parameter "val" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:67:27 - error: Argument type is unknown
+    Argument corresponds to parameter "object" in function "__new__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:84:5 - error: Return type is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:84:22 - error: Type of parameter "value" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:84:22 - error: Type annotation is missing for parameter "value" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:90:17 - error: Argument type is unknown
+    Argument corresponds to parameter "object" in function "__new__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:92:20 - error: "Decimal" is not defined (reportUndefinedVariable)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:92:20 - error: Return type is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:93:16 - error: "InvalidOperation" is not defined (reportUndefinedVariable)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:94:20 - error: "Decimal" is not defined (reportUndefinedVariable)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\parsing.py:94:20 - error: Return type is unknown (reportUnknownVariableType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\sql_formatador.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\sql_formatador.py:11:22 - error: Type of parameter "texto" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\sql_formatador.py:11:22 - error: Type annotation is missing for parameter "texto" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\sql_formatador.py:13:29 - error: Argument type is unknown
+    Argument corresponds to parameter "object" in function "__new__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\sql_formatador.py:15:17 - error: Argument type is unknown
+    Argument corresponds to parameter "object" in function "__new__" (reportUnknownArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\strings.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util\strings.py:16:49 - error: Type of "_charset_from_path" is partially unknown
+    Type of "_charset_from_path" is "(path: str | bytes | PathLike[Unknown], steps: int = 5, chunk_size: int = 512, threshold: float = 0.2, cp_isolation: list[str] | None = None, cp_exclusion: list[str] | None = None, preemptive_behaviour: bool = True, explain: bool = False, language_threshold: float = 0.1, enable_fallback: bool = True) -> CharsetMatches" (reportUnknownVariableType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:55:9 - error: No overloads for "wm_title" match the provided arguments (reportCallIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:55:20 - error: Argument of type "tuple[LiteralString]" cannot be assigned to parameter "string" of type "str" in function "wm_title"
+    "tuple[LiteralString]" is not assignable to "str" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:58:42 - error: Argument of type "tuple[LiteralString]" cannot be assigned to parameter "text" of type "float | str" in function "__init__"
+    Type "tuple[LiteralString]" is not assignable to type "float | str"
+      "tuple[LiteralString]" is not assignable to "float"
+      "tuple[LiteralString]" is not assignable to "str" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:75:46 - error: Argument of type "Frame" cannot be assigned to parameter "master" of type "Tk | Toplevel" in function "__init__"
+    Type "Frame" is not assignable to type "Tk | Toplevel"
+      "Frame" is not assignable to "Tk"
+      "Frame" is not assignable to "Toplevel" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:78:45 - error: Argument of type "Frame" cannot be assigned to parameter "master" of type "Tk | Toplevel" in function "__init__"
+    Type "Frame" is not assignable to type "Tk | Toplevel"
+      "Frame" is not assignable to "Tk"
+      "Frame" is not assignable to "Toplevel" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:87:45 - error: Argument of type "Frame" cannot be assigned to parameter "master" of type "Tk | Toplevel" in function "__init__"
+    Type "Frame" is not assignable to type "Tk | Toplevel"
+      "Frame" is not assignable to "Tk"
+      "Frame" is not assignable to "Toplevel" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:91:13 - error: Argument of type "Frame" cannot be assigned to parameter "master" of type "Tk | Toplevel" in function "__init__"
+    Type "Frame" is not assignable to type "Tk | Toplevel"
+      "Frame" is not assignable to "Tk"
+      "Frame" is not assignable to "Toplevel" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:124:22 - error: Argument type is partially unknown
+    Argument corresponds to parameter "m" in function "update"
+    Argument type is "dict[str, str | Unknown | bool]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:131:9 - error: Type of "sel" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:131:15 - error: Type of "curselection" is partially unknown
+    Type of "curselection" is "() -> Unknown" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:135:9 - error: Type of "linha" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:135:17 - error: Type of "get" is partially unknown
+    Type of "get" is "(first: str | int, last: str | int | None = None) -> Unknown" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:135:39 - error: Argument type is unknown
+    Argument corresponds to parameter "first" in function "get" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:136:16 - error: Return type, "Unknown | None", is partially unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:136:17 - error: Type of "split" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:136:17 - error: Type of "strip" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:249:65 - error: Type of "yview" is partially unknown
+    Type of "yview" is "Overload[() -> tuple[float, float], (*args: Unknown) -> None]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:249:65 - error: Argument type is partially unknown
+    Argument corresponds to parameter "command" in function "__init__"
+    Argument type is "Overload[() -> tuple[float, float], (*args: Unknown) -> None]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:250:67 - error: Type of "xview" is partially unknown
+    Type of "xview" is "Overload[() -> tuple[float, float], (*args: Unknown) -> None]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:250:67 - error: Argument type is partially unknown
+    Argument corresponds to parameter "command" in function "__init__"
+    Argument type is "Overload[() -> tuple[float, float], (*args: Unknown) -> None]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:263:13 - error: Type of "reg" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:263:20 - error: Type of "listar_registro" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:263:38 - error: Cannot access attribute "listar_registro" for class "AplicacaoController"
+    Attribute "listar_registro" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:264:13 - error: Type of "row" is partially unknown
+    Type of "row" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:264:19 - error: Type of "registro_para_dict_view" is partially unknown
+    Type of "registro_para_dict_view" is "(reg: Registro) -> dict[Unknown, Unknown]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:264:60 - error: Argument type is unknown
+    Argument corresponds to parameter "reg" in function "registro_para_dict_view" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:265:44 - error: Type of "get" is partially unknown
+    Type of "get" is "Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:270:13 - error: Type of "finalizarPersistencia" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:270:31 - error: Cannot access attribute "finalizarPersistencia" for class "AplicacaoController"
+    Attribute "finalizarPersistencia" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:282:9 - error: Type of "view" is partially unknown
+    Type of "view" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:282:16 - error: Type of "registro_para_dict_view" is partially unknown
+    Type of "registro_para_dict_view" is "(reg: Registro) -> dict[Unknown, Unknown]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:289:38 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:292:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:295:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:301:38 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:304:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:307:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:313:39 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:314:32 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:315:33 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:316:39 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:324:9 - error: Type of "view" is partially unknown
+    Type of "view" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:324:16 - error: Type of "registro_para_dict_view" is partially unknown
+    Type of "registro_para_dict_view" is "(reg: Registro) -> dict[Unknown, Unknown]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:333:36 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:337:40 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:340:36 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:343:40 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:347:39 - error: Type of "set_date" is partially unknown
+    Type of "set_date" is "(date: Unknown) -> None" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:347:75 - error: Argument type is unknown
+    Argument corresponds to parameter "date" in function "set_date" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:348:39 - error: Type of "set_date" is partially unknown
+    Type of "set_date" is "(date: Unknown) -> None" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:348:70 - error: Argument type is unknown
+    Argument corresponds to parameter "date" in function "set_date" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:359:55 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:361:24 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:362:31 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:366:75 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:367:74 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:368:74 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:371:75 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:372:74 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:373:74 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:377:39 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:378:32 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:379:33 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:380:39 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:390:38 - error: Argument type is unknown
+    Argument corresponds to parameter "chars" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:395:13 - error: Type of "zerar_base" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:395:31 - error: Cannot access attribute "zerar_base" for class "AplicacaoController"
+    Attribute "zerar_base" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:436:13 - error: Type of "reg" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:436:20 - error: Type of "listar_registro" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:436:38 - error: Cannot access attribute "listar_registro" for class "AplicacaoController"
+    Attribute "listar_registro" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:437:13 - error: Type of "v" is partially unknown
+    Type of "v" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:437:17 - error: Type of "registro_para_dict_view" is partially unknown
+    Type of "registro_para_dict_view" is "(reg: Registro) -> dict[Unknown, Unknown]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:437:58 - error: Argument type is unknown
+    Argument corresponds to parameter "reg" in function "registro_para_dict_view" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:439:13 - error: Type of "cod" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:439:19 - error: Type of "get" is partially unknown
+    Type of "get" is "Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:442:13 - error: Type of "campanha" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:442:24 - error: Type of "get" is partially unknown
+    Type of "get" is "Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:442:24 - error: Type of "split" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:442:24 - error: Type of "strip" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:445:13 - error: Type of "data_raw" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:445:24 - error: Type of "get" is partially unknown
+    Type of "get" is "Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:451:34 - error: Argument type is partially unknown
+    Argument corresponds to parameter "obj" in function "hasattr"
+    Argument type is "Unknown | str" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:452:25 - error: Type of "data" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:452:32 - error: Type of "strftime" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:452:41 - error: Cannot access attribute "strftime" for class "str"
+    Attribute "strftime" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:457:13 - error: Type of "seq" is partially unknown
+    Type of "seq" is "Unknown | None" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:457:19 - error: Type of "get" is partially unknown
+    Type of "get" is "Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:458:60 - error: Argument type is unknown
+    Argument corresponds to parameter "object" in function "__new__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:486:25 - error: Type of "mapper" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:486:25 - error: Argument type is unknown
+    Argument corresponds to parameter "view_mapper" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:486:30 - error: Cannot access attribute "mapper" for class "AplicativoVisual*"
+    Attribute "mapper" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\aplicativo_tela.py:487:28 - error: Argument of type "Registro | None" cannot be assigned to parameter "registro_local" of type "Registro" in function "__init__"
+    Type "Registro | None" is not assignable to type "Registro"
+      "None" is not assignable to "Registro" (reportArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:52:13 - error: Argument of type "Frame" cannot be assigned to parameter "master" of type "Tk | Toplevel" in function "__init__"
+    Type "Frame" is not assignable to type "Tk | Toplevel"
+      "Frame" is not assignable to "Tk"
+      "Frame" is not assignable to "Toplevel" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:53:13 - error: Argument of type "Literal['Coordenadas (Local)']" cannot be assigned to parameter "msg" of type "MensagemVisual" in function "__init__"
+    "Literal['Coordenadas (Local)']" is not assignable to "MensagemVisual" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:54:13 - error: Argument of type "Literal[False]" cannot be assigned to parameter "titulo" of type "str" in function "__init__"
+    "Literal[False]" is not assignable to "str" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:65:13 - error: Argument of type "Frame" cannot be assigned to parameter "master" of type "Tk | Toplevel" in function "__init__"
+    Type "Frame" is not assignable to type "Tk | Toplevel"
+      "Frame" is not assignable to "Tk"
+      "Frame" is not assignable to "Toplevel" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:66:13 - error: Argument of type "Literal['Coordenadas BDG']" cannot be assigned to parameter "msg" of type "MensagemVisual" in function "__init__"
+    "Literal['Coordenadas BDG']" is not assignable to "MensagemVisual" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:67:13 - error: Argument of type "Literal[False]" cannot be assigned to parameter "titulo" of type "str" in function "__init__"
+    "Literal[False]" is not assignable to "str" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:132:9 - error: Type of "view" is partially unknown
+    Type of "view" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:132:16 - error: Type of "registro_para_dict_view" is partially unknown
+    Type of "registro_para_dict_view" is "(reg: Registro) -> dict[Unknown, Unknown]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:136:38 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:138:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:140:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:144:38 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:146:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:148:37 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "insert" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:151:39 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:152:32 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:153:33 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:154:39 - error: Argument type is unknown
+    Argument corresponds to parameter "value" in function "set" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\bdg_formulario_busca.py:170:16 - error: Type "Registro | None" is not assignable to return type "tuple[bool, Registro] | None"
+    Type "Registro | None" is not assignable to type "tuple[bool, Registro] | None"
+      Type "Registro" is not assignable to type "tuple[bool, Registro] | None"
+        "Registro" is not assignable to "tuple[bool, Registro]"
+        "Registro" is not assignable to "None" (reportReturnType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:25:20 - error: Type of parameter "kwargs" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:25:20 - error: Type annotation is missing for parameter "kwargs" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "cnf" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "background" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "bd" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "bg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "border" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "borderwidth" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "class_" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "colormap" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "container" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "cursor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "fg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "font" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "foreground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "height" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightbackground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightcolor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightthickness" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "labelanchor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "labelwidget" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "name" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "relief" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "takefocus" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "visual" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:27:66 - error: Argument type is unknown
+    Argument corresponds to parameter "width" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:86:9 - error: Return type, "Unknown | Literal['']", is partially unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:86:32 - error: Type of parameter "combo" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:86:32 - error: Type annotation is missing for parameter "combo" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:87:9 - error: Type of "conteudo" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:87:20 - error: Type of "get" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:88:46 - error: Type of "strip" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:90:16 - error: Type of "split" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:90:16 - error: Return type is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:199:13 - error: No overloads for "configure" match the provided arguments
+    Argument types: (Literal['disabled']) (reportCallIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:225:13 - error: No overloads for "configure" match the provided arguments
+    Argument types: (Literal['normal']) (reportCallIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:232:9 - error: Return type, "dict[str, str | Unknown | bool]", is partially unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:233:16 - error: Return type, "dict[str, str | Unknown | bool]", is partially unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\coordenadas_frame.py:242:33 - error: Type of "_obter_key_combo" is partially unknown
+    Type of "_obter_key_combo" is "(combo: Unknown) -> (Unknown | Literal[''])" (reportUnknownMemberType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:29:11 - error: Type of parameter "kwargs" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:29:11 - error: Type annotation is missing for parameter "kwargs" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "cnf" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "background" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "bd" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "bg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "border" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "borderwidth" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "class_" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "colormap" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "container" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "cursor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "height" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightbackground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightcolor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightthickness" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "name" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "padx" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "pady" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "relief" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "takefocus" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "visual" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\dataset_frame.py:31:36 - error: Argument type is unknown
+    Argument corresponds to parameter "width" in function "__init__" (reportUnknownArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:12:6 - error: Stub file not found for "tkcalendar" (reportMissingTypeStubs)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:37:20 - error: Type of parameter "kwargs" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:37:20 - error: Type annotation is missing for parameter "kwargs" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "cnf" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "background" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "bd" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "bg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "border" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "borderwidth" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "class_" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "colormap" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "container" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "cursor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "fg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "font" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "foreground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "height" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightbackground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightcolor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightthickness" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "labelanchor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "labelwidget" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "name" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "relief" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "takefocus" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "visual" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:39:81 - error: Argument type is unknown
+    Argument corresponds to parameter "width" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:44:34 - error: Type of parameter "event" is partially unknown
+    Parameter type is "Unknown | None" (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:44:34 - error: Type annotation is missing for parameter "event" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:57:28 - error: Type of parameter "event" is partially unknown
+    Parameter type is "Unknown | None" (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:57:28 - error: Type annotation is missing for parameter "event" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:70:38 - error: Type of parameter "entry" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:70:38 - error: Type annotation is missing for parameter "entry" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:70:45 - error: Type of parameter "nome_campo" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:70:45 - error: Type annotation is missing for parameter "nome_campo" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:70:57 - error: Type annotation is missing for parameter "obrigatorio" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:71:9 - error: Type of "valor" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:71:17 - error: Type of "get" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:71:17 - error: Type of "strip" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:71:17 - error: Type of "upper" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:74:9 - error: Type of "delete" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:75:9 - error: Type of "insert" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:84:17 - error: Type of "focus_set" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:91:40 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "fullmatch" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:92:43 - error: Argument type is unknown
+    Argument corresponds to parameter "string" in function "fullmatch" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:102:13 - error: Type of "delete" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:103:13 - error: Type of "focus_set" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:113:46 - error: Type of "validar_codigo_estacao" is partially unknown
+    Type of "validar_codigo_estacao" is "(entry: Unknown, nome_campo: Unknown, obrigatorio: bool = True) -> None" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:154:46 - error: Type of "validar_codigo_estacao" is partially unknown
+    Type of "validar_codigo_estacao" is "(entry: Unknown, nome_campo: Unknown, obrigatorio: bool = True) -> None" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:175:49 - error: Type of "validar_informante" is partially unknown
+    Type of "validar_informante" is "(event: Unknown | None = None) -> None" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:175:49 - error: Argument type is partially unknown
+    Argument corresponds to parameter "func" in function "bind"
+    Argument type is "(event: Unknown | None = None) -> None" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:181:45 - error: Type of "validar_siape" is partially unknown
+    Type of "validar_siape" is "(event: Unknown | None = None) -> None" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:181:45 - error: Argument type is partially unknown
+    Argument corresponds to parameter "func" in function "bind"
+    Argument type is "(event: Unknown | None = None) -> None" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:201:9 - error: Type of "grid" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:208:9 - error: Type of "grid" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:262:48 - error: Argument type is partially unknown
+    Argument corresponds to parameter "callback" in function "trace_add"
+    Argument type is "(*_: Unknown) -> None" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:262:56 - error: Type of parameter "_" is partially unknown (reportUnknownLambdaType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:270:9 - error: Return type, "Unknown | Literal['']", is partially unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:270:31 - error: Type of parameter "combo" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:270:31 - error: Type annotation is missing for parameter "combo" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:271:9 - error: Type of "conteudo" is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:271:20 - error: Type of "get" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:272:46 - error: Type of "strip" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:274:16 - error: Type of "split" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:274:16 - error: Return type is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:277:9 - error: Type of "data" is partially unknown
+    Type of "data" is "dict[str, str | Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:279:29 - error: Type of "obter_key_combo" is partially unknown
+    Type of "obter_key_combo" is "(combo: Unknown) -> (Unknown | Literal[''])" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:280:27 - error: Type of "obter_key_combo" is partially unknown
+    Type of "obter_key_combo" is "(combo: Unknown) -> (Unknown | Literal[''])" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:282:25 - error: Type of "obter_key_combo" is partially unknown
+    Type of "obter_key_combo" is "(combo: Unknown) -> (Unknown | Literal[''])" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:286:25 - error: Type of "obter_key_combo" is partially unknown
+    Type of "obter_key_combo" is "(combo: Unknown) -> (Unknown | Literal[''])" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:287:34 - error: Type of "get" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:288:29 - error: Type of "get" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:298:19 - error: Type of "obter_key_combo" is partially unknown
+    Type of "obter_key_combo" is "(combo: Unknown) -> (Unknown | Literal[''])" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:300:25 - error: Argument of type "dict[str, str | Unknown]" cannot be assigned to parameter "dados" of type "dict[str, object]" in function "trim_all"
+    "dict[str, str | Unknown]" is not assignable to "dict[str, object]"
+      Type parameter "_VT@dict" is invariant, but "str | Unknown" is not the same as "object"
+      Consider switching from "dict" to "Mapping" which is covariant in the value type (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:320:9 - error: Type of "delete" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\info_basicas_frame.py:321:9 - error: Type of "delete" is unknown (reportUnknownMemberType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\mensagem_visual.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\mensagem_visual.py:42:20 - error: Type of "show_confirm_modal" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\mensagem_visual.py:42:20 - error: Return type is unknown (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\mensagem_visual.py:42:30 - error: Cannot access attribute "show_confirm_modal" for class "Tk"
+    Attribute "show_confirm_modal" is unknown (reportAttributeAccessIssue)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\mensagem_visual.py:50:13 - error: Type of "show_modal" is unknown (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\mensagem_visual.py:50:23 - error: Cannot access attribute "show_modal" for class "Tk"
+    Attribute "show_modal" is unknown (reportAttributeAccessIssue)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:24:20 - error: Type of parameter "kwargs" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:24:20 - error: Type annotation is missing for parameter "kwargs" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "cnf" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "background" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "bd" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "bg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "border" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "borderwidth" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "class_" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "colormap" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "container" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "cursor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "fg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "font" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "foreground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "height" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightbackground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightcolor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightthickness" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "labelanchor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "labelwidget" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "name" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "relief" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "takefocus" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "visual" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:26:73 - error: Argument type is unknown
+    Argument corresponds to parameter "width" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\observacoes_frame.py:59:25 - error: Argument of type "dict[str, str]" cannot be assigned to parameter "dados" of type "dict[str, object]" in function "trim_all"
+    "dict[str, str]" is not assignable to "dict[str, object]"
+      Type parameter "_VT@dict" is invariant, but "str" is not the same as "object"
+      Consider switching from "dict" to "Mapping" which is covariant in the value type (reportArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:27:20 - error: Type of parameter "kwargs" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:27:20 - error: Type annotation is missing for parameter "kwargs" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "cnf" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "background" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "bd" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "bg" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "border" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "borderwidth" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "class_" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "colormap" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "container" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "cursor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "height" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightbackground" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightcolor" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "highlightthickness" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "name" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "padx" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "pady" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "relief" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "takefocus" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "visual" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:29:36 - error: Argument type is unknown
+    Argument corresponds to parameter "width" in function "__init__" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:53:64 - error: Type of "yview" is partially unknown
+    Type of "yview" is "Overload[() -> tuple[float, float], (*args: Unknown) -> None]" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_frame.py:53:64 - error: Argument type is partially unknown
+    Argument corresponds to parameter "command" in function "__init__"
+    Argument type is "Overload[() -> tuple[float, float], (*args: Unknown) -> None]" (reportUnknownArgumentType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:35 - error: Type of parameter "valor" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:35 - error: Type annotation is missing for parameter "valor" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:42 - error: Type of parameter "tipo_valor" is unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:42 - error: Type annotation is missing for parameter "tipo_valor" (reportMissingParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:54 - error: Type of parameter "combo_dict" is partially unknown
+    Parameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:67 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:31:74 - error: Expression of type "None" cannot be assigned to parameter of type "dict[Unknown, Unknown]"
+    "None" is not assignable to "dict[Unknown, Unknown]" (reportArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:33:64 - error: Argument type is unknown
+    Argument corresponds to parameter "tipo" in function "valor_para_widget" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:33:77 - error: Argument type is partially unknown
+    Argument corresponds to parameter "combo_dict" in function "obter_valor_completo"
+    Argument type is "dict[Unknown, Unknown]" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:35:43 - error: Argument type is unknown
+    Argument corresponds to parameter "tipo" in function "valor_para_widget" (reportUnknownArgumentType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:38:9 - error: Return type, "dict[Unknown, Unknown]", is partially unknown (reportUnknownParameterType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:38:57 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:41:9 - error: Type of "view" is partially unknown
+    Type of "view" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:41:15 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:44:31 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:45:32 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:47:30 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:49:31 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:50:28 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:52:27 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:55:24 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:58:31 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:59:28 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:62:22 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:68:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:71:23 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:78:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:79:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:80:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:83:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:84:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:85:29 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:87:36 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:90:38 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:91:38 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:92:38 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:93:38 - error: Type of "valor_para_exibicao" is partially unknown
+    Type of "valor_para_exibicao" is "(valor: Unknown, tipo_valor: Unknown, combo_dict: dict[Unknown, Unknown] = None, completo: bool = False) -> (str | Any)" (reportUnknownMemberType)
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\registro_visao_mapeador.py:99:16 - error: Return type, "dict[Unknown, Unknown]", is partially unknown (reportUnknownVariableType)
+d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\widgets.py
+  d:\IBGE\Projetos\gitProjetos\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view\widgets.py:54:20 - error: Return type is unknown (reportUnknownVariableType)
+409 errors, 0 warnings, 0 informations

@@ -1,0 +1,103 @@
+ O volume na unidade D ‚ Usu rios
+ O N£mero de S‚rie do Volume ‚ A075-186A
+
+\\SADGEO\fontes\sistema\sadgeo-coletor
+
+04/07/2026  00:13    <DIR>          .
+04/07/2026  00:13    <DIR>          ..
+03/07/2026  23:59             2.997 app.py
+16/10/2025  10:50                83 build.bat
+02/09/2025  08:56             1.356 DEBUGME.txt
+19/09/2025  09:54               137 pyproject.toml
+12/09/2025  09:57             2.390 README.MD
+16/10/2025  10:47                87 requirements.txt
+03/07/2026  23:42    <DIR>          sidgeo
+15/04/2026  12:08             1.505 sidgeo.spec
+               8 arquivo(s)          8.555 bytes
+
+\\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo
+
+03/07/2026  23:42    <DIR>          .
+03/07/2026  23:42    <DIR>          ..
+04/07/2026  00:03    <DIR>          application
+03/07/2026  23:22    <DIR>          domain
+02/07/2026  10:56    <DIR>          extras
+24/10/2025  09:35    <DIR>          imagem
+03/07/2026  11:03    <DIR>          infra
+03/07/2026  17:02    <DIR>          util
+04/07/2026  00:12    <DIR>          view
+15/09/2025  15:54                43 __init__.py
+               1 arquivo(s)             43 bytes
+
+\\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\application
+
+04/07/2026  00:03    <DIR>          .
+04/07/2026  00:03    <DIR>          ..
+03/07/2026  22:43               892 bdg_servico.py
+03/07/2026  19:53               646 notificacao.py
+03/07/2026  17:36            10.544 registro_controller.py
+03/07/2026  10:52             2.658 registro_servico.py
+04/07/2026  00:03             1.303 sadgeo_servico.py
+03/07/2026  23:38                27 validacao_servico.py
+               6 arquivo(s)         16.070 bytes
+
+\\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\domain
+
+03/07/2026  23:22    <DIR>          .
+03/07/2026  23:22    <DIR>          ..
+03/07/2026  16:30             7.011 dominios.py
+03/07/2026  09:27               717 erros.py
+02/07/2026  15:55             1.188 registro.py
+03/07/2026  09:45             4.102 registro_fabrica.py
+03/07/2026  16:48             6.282 registro_mapeador.py
+03/07/2026  23:22             1.757 registro_metadados.py
+03/07/2026  09:48               994 registro_validador.py
+03/07/2026  09:32               769 __init__.py
+               8 arquivo(s)         22.820 bytes
+
+\\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\infra
+
+03/07/2026  11:03    <DIR>          .
+03/07/2026  11:03    <DIR>          ..
+03/07/2026  10:57             2.091 bdg_client.py
+03/07/2026  10:42             2.360 csv_serializer.py
+03/07/2026  10:49             1.205 dataframe_schema.py
+03/07/2026  10:56               204 erros_integracao.py
+03/07/2026  10:45             1.067 json_serializer.py
+03/07/2026  10:48             3.220 persistencia_hdf.py
+03/07/2026  10:51             5.668 repositorio_registro.py
+03/07/2026  11:00             2.134 sadgeo_client.py
+03/07/2026  11:03             2.499 sqlplus_runner.py
+25/09/2025  09:52               315 __init__.py
+              10 arquivo(s)         20.763 bytes
+
+\\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\util
+
+03/07/2026  17:02    <DIR>          .
+03/07/2026  17:02    <DIR>          ..
+03/07/2026  16:46             3.547 geofuncoes.py
+03/07/2026  11:49             3.555 parsing.py
+03/07/2026  16:21               433 settings.py
+03/07/2026  16:37               599 sql_formatador.py
+03/07/2026  16:35             2.267 strings.py
+25/09/2025  09:53               911 __init__.py
+               6 arquivo(s)         11.312 bytes
+			   
+\\SADGEO\fontes\sistema\sadgeo-coletor\sidgeo\view
+
+04/07/2026  00:12    <DIR>          .
+04/07/2026  00:12    <DIR>          ..
+03/07/2026  23:44             5.410 bdg_formulario_busca.py
+03/07/2026  22:48            11.023 coordenadas_frame.py
+03/07/2026  23:21             2.788 dataset_frame.py
+03/07/2026  23:24             4.090 dialogo_visual.py
+03/07/2026  23:28            13.942 info_basicas_frame.py
+03/07/2026  17:29            20.086 main_window.py
+03/07/2026  23:29             1.789 mensagem_visual.py
+03/07/2026  23:32             2.514 observacoes_frame.py
+03/07/2026  23:34             2.792 registro_frame.py
+03/07/2026  17:08             4.866 registro_visao_mapeador.py
+04/07/2026  00:12             7.739 sadgeo_formulario_busca.py
+03/07/2026  17:02             1.748 widgets.py
+03/07/2026  23:43                12 __init__.py
+              13 arquivo(s)         78.799 bytes

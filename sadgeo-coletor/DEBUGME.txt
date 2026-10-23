@@ -1,0 +1,26 @@
+Para depurar seu código com o Spyder 5 em Python 3.12, siga estes passos:
+
+Abrir o Script no Spyder:
+Certifique-se de que seu arquivo Python (por exemplo, sidgeo.py) esteja aberto no editor do Spyder.
+
+Definir Breakpoints:
+No editor, clique na margem à esquerda dos números de linha para definir breakpoints onde você deseja que a execução pare. Você verá um ponto vermelho indicando o breakpoint.
+
+Iniciar o Modo de Depuração:
+
+Clique no ícone de "Debug file" (um inseto ou similar) na barra de ferramentas,
+Ou vá até o menu Run e selecione Debug.
+Isso iniciará o script em modo de depuração.
+Utilizar o Console de Depuração:
+Quando o breakpoint for atingido, o Spyder abrirá um console de depuração (geralmente baseado no pdb). Nele, você pode usar comandos como:
+
+n (next): para executar a próxima linha.
+s (step): para entrar em funções.
+c (continue): para continuar a execução até o próximo breakpoint.
+p variavel: para imprimir o valor de uma variável.
+Entre outros comandos do pdb.
+Inspecionar Variáveis:
+O Spyder exibe a pilha de chamadas e as variáveis atuais no painel "Variable Explorer". Isso facilita a visualização dos valores durante a depuração.
+
+Interromper a Depuração:
+Quando terminar, você pode interromper a depuração clicando no botão de "Stop" ou fechando o console.

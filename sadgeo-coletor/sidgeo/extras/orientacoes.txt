@@ -1,0 +1,9 @@
+Para efetivar Homologações Estações GPS
+
+1. Carregar o arquivo SIDGEO.CSV no Aplicativo SIDGEO e verificar se está ok.
+2. Executar rotina python etapa1, depois inspecionar no BD se incluiu no bdg_valida.t_sadgeo
+3. Executar rotina python etapa2, depois inspecionar no BD se no T_SADGEO tem dados SIR
+4. Executar rotina python etapa3, depois inspecionar no BD se incluiu no bdg_valida.t_estacao
+5. Executar rotina python etapa4, depois inspecionar nos servidores de imagem a imagem copiada
+6. Aguardar até rodar a rotina de hora cheia de publicação e ver se gerou REG atualizado
+  

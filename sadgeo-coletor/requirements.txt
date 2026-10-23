@@ -1,0 +1,8 @@
+charset_normalizer
+tkcalendar
+pandas
+platformdirs
+babel
+jinja2
+requests
+tables
