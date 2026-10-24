@@ -116,3 +116,37 @@ def test_tls_diferenciado_de_falha_generica(tipo, caplog):
         cliente.filtrar_por_estacao('3677J')
     assert 'GET https://exemplo/api/' in caplog.text
     assert 'TLS/certificado' in caplog.text
+
+
+def test_payload_bdg_informado_pelo_usuario():
+    # Campos e formatos do retorno real de 3677J; sem textos descritivos/localização.
+    dados = [{
+        'codigoEstacao': '3677J', 'tipoEstacao': 'R', 'tema': 'RN', 'nomeEstacao': '3677J',
+        'dataVisita': '03/12/2018', 'situacao': 'BOM', 'tipoLocal': 'PT',
+        'latitude': -8.7003722222, 'longitude': -35.155475,
+        'latitudeGMS': ' 08º 42\' 01,34"  S', 'longitudeGMS': ' 35º 09\' 19,71" W',
+        'fonteCoordenada': 'GPS Navegação', 'dataMedicaoCoordenada': '03/12/2018',
+        'dataCalculoCoordenada': '', 'sistemaReferenciaCoordenada': 'SIRGAS2000',
+        'municipio': {'nomeMunicipio': 'Rio Formoso', 'geocodigo': '2611903',
+                      'uf': {'sigla': 'PE', 'nomeUF': 'Pernambuco'}},
+    }]
+    with api_local('/api/v1/bdg/estacoes?codigoEstacao=3677J', dados) as (host, _):
+        from datetime import datetime
+        from sidgeo.domain.coordenadas import coordenadas_decimais
+        cliente = BdgClient(host + '/api/v1/bdg')
+        cliente._session.trust_env = False
+        registro = BdgServico(cliente, RegistroMapeador()).buscar_registro_por_estacao('3677J')
+    assert coordenadas_decimais(registro) == pytest.approx((-8.7003722222, -35.155475), abs=1e-9)
+    assert registro.data_coordenada == datetime(2018, 12, 3)
+    assert registro.tipo_fonte_coord == '26'
+    assert registro.uf == 'PE' and registro.municipio == 'Rio Formoso'
+
+
+def test_data_medicao_coordenada_independe_da_visita_e_do_calculo():
+    from datetime import datetime
+    registro = RegistroMapeador().dict_bdg_para_registro({
+        **BDG_ESTACAO, 'dataVisita': '01/01/2020', 'dataCalculoCoordenada': '01/02/2020',
+        'dataMedicaoCoordenada': '03/12/2018', 'dataCoordenada': '01/03/2020',
+    })
+    assert registro.data_coordenada == datetime(2018, 12, 3)
+    assert registro.data_levantamento == datetime(2020, 1, 1)

@@ -147,7 +147,8 @@ class RegistroMapeador:
             "rn_anterior": origem.get("codigoEstacaoMaterializada") or "",
             "campanha": origem.get("tema") or "",
             "data_levantamento": origem.get("dataVisita"),
-            "data_coordenada": origem.get("dataCoordenada") or origem.get("dataCoordenadas"),
+            "data_coordenada": (origem.get("dataMedicaoCoordenada")
+                                or origem.get("dataCoordenada") or origem.get("dataCoordenadas")),
             "data_critica": "",
             "projeto": "",
             "nue": "",

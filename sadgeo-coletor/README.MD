@@ -116,7 +116,7 @@ SADGEO GET https://w3.api-sadgeo.ibge.gov.br/api/itemsadgeo/filtrar/estacao/3677
 BDG GET http://w3.servicoscged.ibge.gov.br/api/v1/bdg/estacoes?codigoEstacao=3677J
 ```
 
-A correção **v1.1.1** troca a rota incorreta `/estacao/<codigo>` do BDG por `/estacoes` com o parâmetro `codigoEstacao`. A URL do SADGEO foi preservada. O cliente BDG aceita coleção de estações, página com `content` ou objeto de estação e seleciona o código solicitado; retorno vazio significa ausência de dados. Respostas ambíguas ou malformadas são reportadas. HTTP 404 é reportado como erro de rota/requisição, não como consulta vazia.
+A correção **v1.1.1** troca a rota incorreta `/estacao/<codigo>` do BDG por `/estacoes` com o parâmetro `codigoEstacao`. A URL do SADGEO foi preservada. O campo `dataMedicaoCoordenada` do BDG alimenta a data da coordenada, independentemente da data da visita ou do cálculo. Os formatos GMS com grau `º`, espaços e segundos com vírgula do retorno de `3677J` foram verificados. O cliente BDG aceita coleção de estações, página com `content` ou objeto de estação e seleciona o código solicitado; retorno vazio significa ausência de dados. Respostas ambíguas ou malformadas são reportadas. HTTP 404 é reportado como erro de rota/requisição, não como consulta vazia.
 
 O `sidgeo.log` registra a URL solicitada, URL final após redirecionamentos e status HTTP. Falhas de certificado TLS, timeout, conexão/DNS/proxy e leitura de JSON têm diagnóstico específico e detalhes da exceção no log. Os corpos das respostas e as senhas não são registrados. No Windows, o caminho padrão é `%LOCALAPPDATA%\SIDGEO\Logs\sidgeo.log`; confirme o caminho efetivo com o comando da seção anterior.
 
@@ -141,7 +141,7 @@ Se os downloads e as consultas funcionam normalmente, essas variáveis não prec
 
 ## Validação desta alteração
 
-Foram executados **81 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
+Foram executados **83 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
 
 O empacotamento PyInstaller 6 e o teste `--smoke-test` foram validados em Linux/Python 3.12. A geração e a execução do **`.exe` Windows** devem ser validadas no Windows com `build.ps1`; esta sessão não dispõe desse sistema operacional. Os scripts usam comandos compatíveis com Windows PowerShell 5.1.
 
