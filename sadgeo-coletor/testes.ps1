@@ -13,6 +13,7 @@ try {
         Start-Transcript -Path (Join-Path $PSScriptRoot 'logs\resultado-testes.txt') -Force | Out-Null
         $transcriptStarted = $true
     }
+    & "$PSScriptRoot\scripts\test_python_tools.ps1"
     if (-not $Python) {
         $Python = if (Test-Path '.venv\Scripts\python.exe') { '.venv\Scripts\python.exe' } else { 'python' }
     }

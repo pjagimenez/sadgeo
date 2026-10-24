@@ -30,6 +30,17 @@ Se o Python não estiver no PATH, informe o executável para criar o ambiente:
 .\build.ps1 -Python 'C:\Desenvolvimento\Python312\python.exe'
 ```
 
+Quando há mais de um `python.exe` no PATH, o script seleciona **um único executável real**, na ordem do PATH, e ignora os atalhos `Microsoft\WindowsApps\python*.exe`. O caminho selecionado aparece no console e no relatório do build. Caminhos com espaços são aceitos com aspas.
+
+Exemplo para uma instalação já existente em `Program Files`:
+
+```powershell
+.\build.ps1 -Python 'C:\Program Files\Python311\python.exe'
+```
+
+Se aparecer uma mensagem com **dois caminhos de Python concatenados**, atualize os scripts do coletor. O parâmetro `-Python` com o caminho completo acima também contorna esse erro em versões anteriores. Se houver somente um alias da Microsoft Store, o script solicita um Python real e não inicia o instalador da Store.
+
+
 O script cria `.venv`, instala dependências quando os arquivos `requirements*.txt` mudam, verifica imports, Pylint, Pyright e testes automatizados, gera **`dist\sidgeo.exe`** e executa um teste de inicialização do próprio executável com uma base temporária. Qualquer falha interrompe o processo. Não é necessário ativar o `venv` nem ter permissão administrativa.
 
 Nas execuções seguintes, a instalação é dispensada se os requisitos não mudaram. Para reinstalar as dependências ou abrir a aplicação ao terminar:
@@ -70,6 +81,8 @@ A entrada atual é **`app.py`** e o empacotamento oficial usa **`sidgeo.spec`**,
 # Sem uma sessão gráfica (omite explicitamente os testes de tela):
 .\testes.ps1 -SkipGui
 ```
+
+Antes de executar o Python, `testes.ps1` roda nove testes PowerShell isolados para a seleção do executável (várias instalações, aliases WindowsApps, caminho com espaços e caminho inexistente). Para rodar somente essa verificação, use `./scripts/test_python_tools.ps1`; ela não requer Python, Pester ou rede.
 
 O teste completo exige sessão gráfica e cobre abertura e dimensionamento em 1366 × 768, abas, edição, listagem, exclusão com confirmação, importação/exportação, diálogos de arquivo, comparação BDG e encerramento. Também verifica reabertura do HDF5, zeros à esquerda e preservação da base quando uma gravação falha. Os testes usam dados sintéticos e diretórios temporários, sem acessar a base de trabalho ou as APIs institucionais.
 
@@ -141,7 +154,7 @@ Se os downloads e as consultas funcionam normalmente, essas variáveis não prec
 
 ## Validação desta alteração
 
-Foram executados **83 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
+Foram executados **83 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados. A seleção automática do Python foi coberta por nove testes PowerShell adicionais.
 
 O empacotamento PyInstaller 6 e o teste `--smoke-test` foram validados em Linux/Python 3.12. A geração e a execução do **`.exe` Windows** devem ser validadas no Windows com `build.ps1`; esta sessão não dispõe desse sistema operacional. Os scripts usam comandos compatíveis com Windows PowerShell 5.1.
 

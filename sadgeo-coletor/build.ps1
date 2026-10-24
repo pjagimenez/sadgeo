@@ -13,9 +13,11 @@ try {
     $transcriptStarted = $true
     if (-not (Test-Path '.venv\Scripts\python.exe')) {
         $bootstrapPython = Resolve-Python $Python
+        Write-Host "Python selecionado para criar .venv: $bootstrapPython"
         Invoke-Python $bootstrapPython @('-m', 'venv', '.venv')
     }
     $pythonExe = (Resolve-Path '.venv\Scripts\python.exe').Path
+    Write-Host "Python do ambiente: $pythonExe"
     Invoke-Python $pythonExe @('--version')
     $hashInput = ((Get-FileHash 'requirements.txt', 'requirements-dev.txt' -Algorithm SHA256).Hash -join ':')
     $marker = Join-Path $PSScriptRoot '.venv\.sidgeo-dependencies.sha256'
