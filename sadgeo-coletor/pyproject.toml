@@ -4,5 +4,5 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sidgeo"
-version = "1.1.20261023"
+version = "1.1.1.20261023"
 requires-python = ">=3.11"

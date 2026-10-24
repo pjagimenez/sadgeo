@@ -1,6 +1,6 @@
 # SIDGEO — Coletor de campo
 
-Aplicativo desktop Python/Tkinter para preparar e revisar registros de estações geodésicas. Versão **v1.1.261023**, independente da versão do portal `sadgeoweb`.
+Aplicativo desktop Python/Tkinter para preparar e revisar registros de estações geodésicas. Versão **v1.1.1.261023**, independente da versão do portal `sadgeoweb`.
 
 A tela segue a paleta e a organização do [DynAdjustWeb](https://github.com/pjagimenez/DynAdjustWeb): cabeçalho verde escuro, painéis claros, botões compactos e destaque para a ação principal. Na resolução **1366 × 768**, a janela reserva espaço para a barra de tarefas. Os campos estão em quatro abas, com rolagem quando necessário:
 
@@ -102,7 +102,27 @@ A base é salva após cada alteração e não fica dentro do executável. Faça 
 
 ## Integrações e certificados
 
-As URLs BDG/SADGEO estão em `sidgeo/util/settings.py`; os contratos das APIs reais precisam ser validados na rede institucional. Os testes automatizados não enviam dados a esses serviços.
+As URLs-base BDG/SADGEO estão em `sidgeo/util/settings.py`:
+
+```python
+APP_URL_SADGEO = "https://w3.api-sadgeo.ibge.gov.br/api"
+APP_URL_BDG = "http://w3.servicoscged.ibge.gov.br/api/v1/bdg"
+```
+
+Configure somente a base nesse arquivo. O cliente acrescenta a rota e o código da estação. Para `3677J`, as requisições são:
+
+```text
+SADGEO GET https://w3.api-sadgeo.ibge.gov.br/api/itemsadgeo/filtrar/estacao/3677J
+BDG GET http://w3.servicoscged.ibge.gov.br/api/v1/bdg/estacoes?codigoEstacao=3677J
+```
+
+A correção **v1.1.1** troca a rota incorreta `/estacao/<codigo>` do BDG por `/estacoes` com o parâmetro `codigoEstacao`. A URL do SADGEO foi preservada. O cliente BDG aceita coleção de estações, página com `content` ou objeto de estação e seleciona o código solicitado; retorno vazio significa ausência de dados. Respostas ambíguas ou malformadas são reportadas. HTTP 404 é reportado como erro de rota/requisição, não como consulta vazia.
+
+O `sidgeo.log` registra a URL solicitada, URL final após redirecionamentos e status HTTP. Falhas de certificado TLS, timeout, conexão/DNS/proxy e leitura de JSON têm diagnóstico específico e detalhes da exceção no log. Os corpos das respostas e as senhas não são registrados. No Windows, o caminho padrão é `%LOCALAPPDATA%\SIDGEO\Logs\sidgeo.log`; confirme o caminho efetivo com o comando da seção anterior.
+
+Após alterar configurações ou atualizar os clientes, reinicie o kernel do Spyder. Para o `.exe`, gere novamente com `build.ps1`. O navegador e o Python podem usar cadeias de confiança diferentes; o funcionamento no navegador não comprova a confiança do certificado pelo Python.
+
+As rotas foram verificadas em testes HTTP locais, sem enviar dados às APIs institucionais. O acesso externo desta sessão às URLs institucionais foi bloqueado pelo proxy HTTP, portanto a consulta real deve ser validada na rede da instituição.
 
 Se houver uma autoridade certificadora interna, configure o certificado PEM aprovado para cada ferramenta, sem desativar a validação HTTPS:
 
@@ -121,7 +141,7 @@ Se os downloads e as consultas funcionam normalmente, essas variáveis não prec
 
 ## Validação desta alteração
 
-Foram executados **62 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
+Foram executados **81 testes**, incluindo a interface em display virtual de 1366 × 768 e com fontes ampliadas, além da análise estrita do Pyright (zero erros/avisos), Pylint nas categorias de erro e verificação de imports. `testes.ps1` foi executado com PowerShell 7.4; a sintaxe dos scripts, argumentos com espaços e interrupção por código de erro também foram verificados.
 
 O empacotamento PyInstaller 6 e o teste `--smoke-test` foram validados em Linux/Python 3.12. A geração e a execução do **`.exe` Windows** devem ser validadas no Windows com `build.ps1`; esta sessão não dispõe desse sistema operacional. Os scripts usam comandos compatíveis com Windows PowerShell 5.1.
 
